@@ -1,0 +1,24 @@
+{
+  "name": "Runera 2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter @runera/web --filter @runera/api dev",
+    "dev:web": "pnpm --filter @runera/web dev",
+    "dev:api": "pnpm --filter @runera/api dev",
+    "build": "pnpm --recursive build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.18.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module"
+}
