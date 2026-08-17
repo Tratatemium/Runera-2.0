@@ -1,0 +1,462 @@
+# =================================================================================================
+# VARIABLES - Update these with your actual values
+# =================================================================================================
+
+@port = 3000
+
+@baseUrl = http://localhost:{{port}}
+
+# @baseUrl = https://runners-api-lac.vercel.app
+
+@v1apiUrl = http://localhost:{{port}}/api/v1
+
+# @v1apiUrl = https://runners-api-lac.vercel.app/api/v1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjODllOTM2NS01NGMyLTQxN2YtYmQ5Ny1jNzM3NDFkYmNiNjkiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoiZmFzdGZlZXQiLCJlbWFpbCI6InJ1bm5lckBleGFtcGxlLmNvbSIsImFjY2Vzc1Rva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzcwMjA0NzIxLCJleHAiOjE3NzAyMDgzMjEsImlzcyI6InJ1bm5lcnMtYXBpIn0.2xBIzb1HM38C-KiY7fUDJg0rmfNVW8bZZ2lhFCHXeUE
+# =================================================================================================
+# GENERAL / SERVER
+# =================================================================================================
+
+### Health check
+GET {{baseUrl}}/health
+
+
+# =================================================================================================
+# AUTH ROUTES (/auth)
+# =================================================================================================
+
+# -------------------------------------------------------------------------------------------------
+# POST /auth/signup - Register new user
+# -------------------------------------------------------------------------------------------------
+
+### Signup - Valid user
+POST {{v1apiUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "fastfeet",
+  "password": "StrongPassword!123",
+  "email": "runner@example.com"
+}
+
+### Signup - Duplicate user (should fail)
+POST {{v1apiUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "fastfeet",
+  "password": "StrongPassword!123",
+  "email": "runner@example.com"
+}
+
+### Signup - Invalid email format
+POST {{v1apiUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "StrongPassword!123",
+  "email": "invalid@@email.com"
+}
+
+### Signup - Missing fields
+POST {{v1apiUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "testuser"
+}
+
+### Signup - Weak password
+POST {{v1apiUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "password": "weak",
+  "email": "test@example.com"
+}
+
+# -------------------------------------------------------------------------------------------------
+# POST /auth/login - User login
+# -------------------------------------------------------------------------------------------------
+
+### Login - Valid credentials (username + password)
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "fastfeet",
+  "password": "StrongPassword!123"
+}
+
+### Login - Valid credentials (email + password)
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "runner@example.com",
+  "password": "StrongPassword!123"
+}
+
+### Login - Both username and email
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "fastfeet",
+  "email": "runner@example.com",
+  "password": "StrongPassword!123"
+}
+
+### Login - Wrong password
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "fastfeet",
+  "password": "WrongPassword!456"
+}
+
+### Login - Non-existent user
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "nonexistent",
+  "password": "StrongPassword!123"
+}
+
+### Login - Missing credentials
+POST {{v1apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "password": "StrongPassword!123"
+}
+
+# -------------------------------------------------------------------------------------------------
+# POST /auth/logout-all - Invalidate all user tokens
+# -------------------------------------------------------------------------------------------------
+
+### Logout all sessions (requires auth)
+POST {{v1apiUrl}}/auth/logout-all
+Authorization: Bearer {{token}}
+
+
+# =================================================================================================
+# USER ROUTES (/users)
+# =================================================================================================
+
+# -------------------------------------------------------------------------------------------------
+# GET /users/me - Get current user info
+# -------------------------------------------------------------------------------------------------
+
+### Get current user - Valid token
+GET {{v1apiUrl}}/users/me
+Authorization: Bearer {{token}}
+
+### Get current user - No authorization header
+GET {{v1apiUrl}}/users/me
+
+### Get current user - Invalid token format
+GET {{v1apiUrl}}/users/me
+Authorization: Bearer invalid_token
+
+### Get current user - Malformed header
+GET {{v1apiUrl}}/users/me
+Authorization: NotBearer {{token}}
+
+### Get current user - Expired token
+GET {{v1apiUrl}}/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWRkYjkxMS01NDlmLTRiNTktOGRlMy00MTQwMmJmNDc4OWYiLCJpYXQiOjE3Njk2OTI0MjIsImV4cCI6MTc2OTY5NjAyMiwiaXNzIjoicnVubmVycy1hcGkifQ.VEZshrrnMb0qMrsDWvXcGQZiqPmH4_n2YqjrwIBQq-w
+
+# -------------------------------------------------------------------------------------------------
+# PATCH /users/me/profile - Update user profile
+# -------------------------------------------------------------------------------------------------
+
+### Update profile - Valid data
+PATCH {{v1apiUrl}}/users/me/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "profile": {
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "dateOfBirth": "1985-03-10",
+    "heightCm": 165,
+    "weightKg": 60
+  }
+}
+
+### Update profile - Partial update
+PATCH {{v1apiUrl}}/users/me/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "profile": {
+    "firstName": "Bob"
+  }
+}
+
+### Update profile - Invalid data type
+PATCH {{v1apiUrl}}/users/me/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "profile": {
+    "heightCm": "not a number"
+  }
+}
+
+### Update profile - No auth token
+PATCH {{v1apiUrl}}/users/me/profile
+Content-Type: application/json
+
+{
+  "profile": {
+    "firstName": "Test"
+  }
+}
+
+# -------------------------------------------------------------------------------------------------
+# PATCH /users/me/account - Update account settings (password, email, username)
+# -------------------------------------------------------------------------------------------------
+
+### Update account - Change password
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "StrongPassword!123",
+  "newPassword": "NewStrongPassword!456"
+}
+
+### Update account - Change email
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "StrongPassword!123",
+  "newEmail": "newemail@example.com"
+}
+
+### Update account - Change username
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "StrongPassword!123",
+  "newUsername": "speedyrunner"
+}
+
+### Update account - Wrong current password
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "WrongPassword!123",
+  "newPassword": "NewPassword!456"
+}
+
+### Update account - Missing current password
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "newPassword": "NewPassword!456"
+}
+
+### Update account - Invalid new email
+PATCH {{v1apiUrl}}/users/me/account
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currentPassword": "StrongPassword!123",
+  "newEmail": "invalid@@email"
+}
+
+
+# =================================================================================================
+# RUNS ROUTES (/runs)
+# =================================================================================================
+
+# -------------------------------------------------------------------------------------------------
+# POST /users/me/runs - Create new run (requires auth)
+# -------------------------------------------------------------------------------------------------
+
+### Create run - Valid data
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-01-19T12:25:44.822Z",
+  "durationSec": 457,
+  "distanceMeters": 1574
+}
+
+### Create run - No authorization
+POST {{v1apiUrl}}/users/me/runs
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-01-19T12:25:44.822Z",
+  "durationSec": 457,
+  "distanceMeters": 1574
+}
+
+### Create run - Empty body
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Create run - Missing required field (duration)
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-01-11T14:45:44.822Z",
+  "distanceMeters": 1727
+}
+
+### Create run - Invalid userId format
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "not-a-valid-uuid",
+  "startTime": "2026-01-11T14:45:44.822Z",
+  "durationSec": 1550,
+  "distanceMeters": 1727
+}
+
+### Create run - Invalid date format
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-31-11T14:45:44.822Z",
+  "durationSec": 1550,
+  "distanceMeters": 1727
+}
+
+### Create run - Date as number instead of string
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": 123456,
+  "durationSec": 1550,
+  "distanceMeters": 1727
+}
+
+### Create run - Negative duration
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-01-11T14:45:44.822Z",
+  "durationSec": -100,
+  "distanceMeters": 1727
+}
+
+### Create run - Invalid distance value
+POST {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "1d9a8400-07cd-466a-9d13-843a544a5b09",
+  "startTime": "2026-01-11T14:45:44.822Z",
+  "durationSec": 1727,
+  "distanceMeters": "not-a-number"
+}
+
+# -------------------------------------------------------------------------------------------------
+# GET /runs/:id - Get run by ID
+# -------------------------------------------------------------------------------------------------
+
+### Get run - Valid ID #1
+GET {{v1apiUrl}}/runs/860b3e0f-43a3-46e0-a19b-20b7d57f2678
+
+### Get run - Valid ID #2
+GET {{v1apiUrl}}/runs/0a08a75c-e72d-4b7b-bf77-be9bd105b68d
+
+### Get run - Non-existent ID
+GET {{v1apiUrl}}/runs/0a08a83c-e72d-4b7b-bf77-bc9bd225b68d
+
+### Get run - Invalid UUID format
+GET {{v1apiUrl}}/runs/not-a-valid-uuid
+
+### Get run - Malformed UUID
+GET {{v1apiUrl}}/runs/000000zdg000000000000000000
+
+# -------------------------------------------------------------------------------------------------
+# GET /users/me/runs - Get current user's runs (requires auth)
+# -------------------------------------------------------------------------------------------------
+
+### Get my runs - Valid token
+GET {{v1apiUrl}}/users/me/runs
+Authorization: Bearer {{token}}
+
+### Get my runs - No authorization
+GET {{v1apiUrl}}/users/me/runs
+
+### Get my runs - Invalid token
+GET {{v1apiUrl}}/users/me/runs
+Authorization: Bearer invalid_token_here
+
+# -------------------------------------------------------------------------------------------------
+# DELETE /runs/:id - Delete a run by ID (requires auth and ownership)
+# -------------------------------------------------------------------------------------------------
+
+### Delete run - Valid deletion (user owns the run)
+# Note: Use a run ID that belongs to the authenticated user
+DELETE {{v1apiUrl}}/runs/dc9822e7-72d6-4cc8-b6da-c1c5208d6109
+Authorization: Bearer {{token}}
+
+### Delete run - No authorization header
+DELETE {{v1apiUrl}}/runs/dc9822e7-72d6-4cc8-b6da-c1c5208d6109
+
+### Delete run - Invalid token
+DELETE {{v1apiUrl}}/runs/dc9822e7-72d6-4cc8-b6da-c1c5208d6109
+Authorization: Bearer invalid_token
+
+### Delete run - User doesn't own the run (403 Forbidden)
+# Note: This should be a run ID owned by a different user
+DELETE {{v1apiUrl}}/runs/3ee8d777-5fa6-43fe-924e-fd403e3e4073
+Authorization: Bearer {{token}}
+
+### Delete run - Non-existent ID (404)
+DELETE {{v1apiUrl}}/runs/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{token}}
+
+### Delete run - Invalid UUID format (400)
+DELETE {{v1apiUrl}}/runs/not-a-valid-uuid
+Authorization: Bearer {{token}}
+
+### Delete run - Malformed UUID (400)
+DELETE {{v1apiUrl}}/runs/000000zdg000000000000000000
+Authorization: Bearer {{token}}
