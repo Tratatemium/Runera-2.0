@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 /* ================================================================================================= */
 /*  SUB-SCHEMAS                                                                                      */
@@ -142,19 +142,28 @@ const UserSchema = new mongoose.Schema(
 /*  Not leaking sensitive data to JSON                                                               */
 /* ================================================================================================= */
 
-UserSchema.set("toJSON", {
-  transform: (_doc, ret) => {
-    delete ret._id;
-    delete ret.credentials;
-    delete ret.auth;
-    delete ret.__v;
+const transformUser = (_: unknown, ret: Record<string, unknown>) => {
+  const result = ret as {
+    _id?: unknown;
+    __v?: unknown;
+    credentials?: unknown;
+    auth?: unknown;
+    profile?: unknown;
+  };
+  delete result._id;
+  delete result.__v;
+  delete result.credentials;
+  delete result.auth;
 
-    if (!ret.profile) {
-      ret.profile = {};
-    }
-
-    return ret;
+  if (!result.profile) {
+    result.profile = {};
   }
+
+  return result;
+};
+
+UserSchema.set("toJSON", {
+  transform: transformUser,
 });
 
 /* ================================================================================================= */
@@ -171,4 +180,4 @@ UserSchema.index({ "account.email": 1 }, { unique: true });
 /*  EXPORTS                                                                                         */
 /* ================================================================================================= */
 
-module.exports = mongoose.model("User", UserSchema);
+export default mongoose.model("User", UserSchema);

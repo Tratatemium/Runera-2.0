@@ -1,4 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
+const transformRun = (_: unknown, ret: Record<string, unknown>) => {
+  const result = ret as { _id?: unknown; __v?: unknown };
+  delete result._id;
+  delete result.__v;
+  return result;
+};
 
 const RunSchema = new mongoose.Schema(
   {
@@ -39,18 +46,10 @@ const RunSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
-      transform: (_, ret) => {
-        delete ret._id;
-        delete ret.__v;
-        return ret;
-      },
+      transform: transformRun,
     },
     toObject: {
-      transform: (_, ret) => {
-        delete ret._id;
-        delete ret.__v;
-        return ret;
-      },
+      transform: transformRun,
     },
   },
 );
@@ -59,4 +58,4 @@ RunSchema.index({ runId: 1 }, { unique: true });
 // Optional compound index for user + startTime queries
 RunSchema.index({ userId: 1, startTime: -1 });
 
-module.exports = mongoose.model("Run", RunSchema);
+export default mongoose.model("Run", RunSchema);
