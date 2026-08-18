@@ -1,4 +1,4 @@
-const { setServerStartTime } = require("./utils/server.utils.js");
+import { setServerStartTime } from "./utils/server.utils.ts'";
 
 setServerStartTime();
 
@@ -10,8 +10,8 @@ try {
   process.exit(1);
 }
 
-const app = require("./app");
-const { connectDB } = require("./utils/db.utils.js");
+import app from "./app.js";
+import { connectDB } from "./utils/db.utils.js";
 
 const startServer = async () => {
   try {
