@@ -64,10 +64,10 @@ app.get("/favicon.ico", (req, res) => {
 /*  ROUTER IMPORTS                                                                                   */
 /* ================================================================================================= */
 
-const healthRouter = require("./routers/health.router.js");
-const authRouter = require("./routers/auth.router.js");
-const usersRouter = require("./routers/users.router.js");
-const runsRouter = require("./routers/runs.router.js");
+import healthRouter from "./routers/health.router.js";
+import authRouter from "./routers/auth.router.js";
+import usersRouter from "./routers/users.router.js";
+import runsRouter from "./routers/runs.router.js";
 
 /* ================================================================================================= */
 /*  API ROUTERS (VERSIONED)                                                                          */
@@ -86,7 +86,7 @@ app.use("/api/v1", v1Router);
 /*  ERROR HANDLERS                                                                                   */
 /* ================================================================================================= */
 
-const { apiErrorHandler } = require("./middleware/error.middleware.js");
+import { apiErrorHandler } from "./middleware/error.middleware.js";
 
 app.use(apiErrorHandler);
 
