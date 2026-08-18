@@ -1,7 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose, { Mongoose } from "mongoose";
 
-let cached = global._mongo;
-if (!cached) cached = global._mongo = { conn: null, promise: null };
+type MongoCache = { conn: Mongoose | null; promise: Promise<Mongoose> | null };
+
+declare global {
+  var _mongo: MongoCache | undefined;
+}
+
+let cached: MongoCache =
+  global._mongo ?? (global._mongo = { conn: null, promise: null });
 
 const connectDB = async (uri = process.env.MONGO_URI) => {
   if (!uri) throw new Error("MongoDB URI not provided");
@@ -32,7 +38,7 @@ const connectDB = async (uri = process.env.MONGO_URI) => {
 };
 
 const checkDBConnection = () => {
-  const states = {
+  const states: Record<number, string> = {
     0: "disconnected",
     1: "connected",
     2: "connecting",
@@ -54,9 +60,4 @@ const clearDB = async () => {
   }
 };
 
-module.exports = {
-  connectDB,
-  checkDBConnection,
-  closeDB,
-  clearDB,
-};
+export { connectDB, checkDBConnection, closeDB, clearDB };

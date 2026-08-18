@@ -1,4 +1,4 @@
-import { setServerStartTime } from "./utils/server.utils.ts'";
+import { setServerStartTime } from "./utils/server.utils.js";
 
 setServerStartTime();
 
@@ -6,7 +6,10 @@ let PORT;
 try {
   ({ PORT } = require("./config/env.config"));
 } catch (err) {
-  console.error("Configuration error:", err.message);
+  console.error(
+    "Configuration error:",
+    err instanceof Error ? err.message : "unknown error",
+  );
   process.exit(1);
 }
 
