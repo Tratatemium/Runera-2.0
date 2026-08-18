@@ -39,4 +39,4 @@ const verifyToken = (token) => {
   return decoded;
 };
 
-module.exports = { createToken, verifyToken };
+export { createToken, verifyToken };

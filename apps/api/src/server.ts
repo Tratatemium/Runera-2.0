@@ -1,8 +1,10 @@
+import app from "./app.js";
 import { setServerStartTime } from "./utils/server.utils.js";
+import { connectDB } from "./utils/db.utils.js";
 
 setServerStartTime();
 
-let PORT;
+let PORT: string;
 try {
   ({ PORT } = require("./config/env.config"));
 } catch (err) {
@@ -13,10 +15,7 @@ try {
   process.exit(1);
 }
 
-import app from "./app.js";
-import { connectDB } from "./utils/db.utils.js";
-
-const startServer = async () => {
+async function startServer() {
   try {
     await connectDB();
 
@@ -27,6 +26,6 @@ const startServer = async () => {
     console.error("Startup error:", err);
     process.exit(1);
   }
-};
+}
 
 startServer();

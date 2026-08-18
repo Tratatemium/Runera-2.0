@@ -1,14 +1,8 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 
-/**
- * Ensure a required environment variable is present.
- * @param {string} key
- * @param {string} purpose
- * @returns {string}
- */
-const requireEnv = (key, purpose) => {
+function requireEnv(key: string, purpose: string) {
   const value = process.env[key];
   if (!value) {
     throw new Error(
@@ -16,13 +10,9 @@ const requireEnv = (key, purpose) => {
     );
   }
   return value;
-};
+}
 
-/**
- * Get and validate PORT environment variable
- * @returns {number}
- */
-const getPort = () => {
+function getPort() {
   const portValue = requireEnv("PORT", "to run express API");
   const port = Number(portValue);
   const isValidPort = Number.isInteger(port) && port >= 0 && port < 65536;
@@ -32,14 +22,10 @@ const getPort = () => {
     );
   }
   return port;
-};
+}
 
 const MONGO_URI = requireEnv("MONGO_URI", "to connect to MongoDB");
 const TOKEN_KEY = requireEnv("TOKEN_KEY", "to sign and verify JWTs");
 const PORT = getPort();
 
-module.exports = {
-  MONGO_URI,
-  TOKEN_KEY,
-  PORT,
-};
+export { MONGO_URI, TOKEN_KEY, PORT };

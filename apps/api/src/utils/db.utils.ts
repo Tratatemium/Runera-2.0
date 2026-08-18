@@ -9,7 +9,7 @@ declare global {
 let cached: MongoCache =
   global._mongo ?? (global._mongo = { conn: null, promise: null });
 
-const connectDB = async (uri = process.env.MONGO_URI) => {
+async function connectDB(uri = process.env.MONGO_URI) {
   if (!uri) throw new Error("MongoDB URI not provided");
 
   if (cached.conn) return cached.conn;
@@ -35,9 +35,9 @@ const connectDB = async (uri = process.env.MONGO_URI) => {
 
   console.log("Connected to database (Mongoose).");
   return cached.conn;
-};
+}
 
-const checkDBConnection = () => {
+async function checkDBConnection() {
   const states: Record<number, string> = {
     0: "disconnected",
     1: "connected",
@@ -45,19 +45,19 @@ const checkDBConnection = () => {
     3: "disconnecting",
   };
   return states[mongoose.connection.readyState];
-};
+}
 
-const closeDB = async () => {
+async function closeDB() {
   await mongoose.connection.close();
   cached.conn = null;
   cached.promise = null;
-};
+}
 
-const clearDB = async () => {
+async function clearDB() {
   const collections = mongoose.connection.collections;
   for (const key of Object.keys(collections)) {
     await collections[key].deleteMany({});
   }
-};
+}
 
 export { connectDB, checkDBConnection, closeDB, clearDB };

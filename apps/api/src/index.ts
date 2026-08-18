@@ -1,4 +1,4 @@
-import type { RequestHandler } from "express";
+import type { Request, Response } from "express";
 
 import app from "./app.js";
 import { connectDB } from "./utils/db.utils.js";
@@ -21,9 +21,9 @@ const initializeDB = async () => {
   }
 };
 
-const handler: RequestHandler = async (req, res) => {
+async function handler(req: Request, res: Response) {
   await initializeDB();
   app(req, res);
-};
+}
 
 export default handler;
