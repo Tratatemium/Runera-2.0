@@ -1,41 +1,51 @@
-const validators = require("./validators.js");
+import type { Request, Response, NextFunction } from "express";
 
-const validateUUID = (param = "id") => {
-  return (req, res, next) => {
-    validators.validateUUID(req.params[param]);
+import * as validators from "./validators.js";
+
+function validateUUID(param = "id") {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const value = req.params[param];
+    validators.validateUUID(Array.isArray(value) ? value[0] : value);
     next();
   };
-};
+}
 
 const profileFields = [
   {
     key: "firstName",
     input: null,
-    validate: (input) => validators.validateName(input, "firstName"),
+    validate: (input: unknown) => validators.validateName(input, "firstName"),
   },
   {
     key: "lastName",
     input: null,
-    validate: (input) => validators.validateName(input, "lastName"),
+    validate: (input: unknown) => validators.validateName(input, "lastName"),
   },
   {
     key: "dateOfBirth",
     input: null,
-    validate: (input) => validators.validateISO(input, "dateOfBirth", "date"),
+    validate: (input: unknown) =>
+      validators.validateISO(input, "dateOfBirth", "date"),
   },
   {
     key: "heightCm",
     input: null,
-    validate: (input) => validators.validatePositiveNumber(input, "heightCm"),
+    validate: (input: unknown) =>
+      validators.validatePositiveNumber(input, "heightCm"),
   },
   {
     key: "weightKg",
     input: null,
-    validate: (input) => validators.validatePositiveNumber(input, "weightKg"),
+    validate: (input: unknown) =>
+      validators.validatePositiveNumber(input, "weightKg"),
   },
 ];
 
-const validateProfileUpdate = (req, res, next) => {
+function validateProfileUpdate(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   validators.validateJsonContentType(req);
   const profile = req.body.profile;
 
@@ -58,9 +68,13 @@ const validateProfileUpdate = (req, res, next) => {
     .forEach((field) => field.validate(field.input));
 
   next();
-};
+}
 
-const validateAccountUpdate = (req, res, next) => {
+function validateAccountUpdate(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   validators.validateJsonContentType(req);
 
   const { currentPassword, newPassword, newEmail, newUsername } = req.body;
@@ -101,14 +115,10 @@ const validateAccountUpdate = (req, res, next) => {
   req.fieldToUpdate = fieldToUpdate.key;
 
   next();
-};
+}
 
 /* ================================================================================================= */
 /*  EXPORTS                                                                                          */
 /* ================================================================================================= */
 
-module.exports = {
-  validateUUID,
-  validateProfileUpdate,
-  validateAccountUpdate,
-};
+export { validateUUID, validateProfileUpdate, validateAccountUpdate };

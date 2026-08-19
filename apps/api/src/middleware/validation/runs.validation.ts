@@ -78,7 +78,7 @@ const runFields = [
 ];
 
 function validateRun({
-  mode = "require_all",
+  mode = "require_some",
 }: {
   mode?: "require_all" | "require_some";
 }) {
