@@ -1,5 +1,6 @@
-const Run = require("../models/runs.models.js");
-const { randomUUID } = require("crypto");
+import { randomUUID } from "crypto";
+
+import Run from "../models/runs.models.js";
 
 const addNewRun = async (newRun) => {
   const newRunId = randomUUID();

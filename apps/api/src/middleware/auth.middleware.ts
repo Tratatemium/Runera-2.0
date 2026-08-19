@@ -1,5 +1,5 @@
-const { verifyToken } = require("../utils/jwt.utils.js");
-const userRepo = require("../repositories/users.repository.js");
+import { verifyToken } from "../utils/jwt.utils.js";
+import userRepo = require("../repositories/users.repository.js");
 const { AuthError } = require("../errors/errors.js");
 
 const checkTokenVersion = async (tokenData) => {
@@ -30,4 +30,4 @@ const checkAuth = async (req, res, next) => {
   next();
 };
 
-module.exports = { checkAuth };
+export { checkAuth };
