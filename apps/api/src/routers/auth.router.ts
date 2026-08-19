@@ -1,9 +1,10 @@
-const express = require("express");
-const authRouter = express.Router();
+import express from "express";
 
-const validation = require("../middleware/validation/auth.validation.js");
-const authMiddleware = require("../middleware/auth.middleware.js");
-const authController = require("../controllers/auth.controller.js");
+import validation from "../middleware/validation/auth.validation.js";
+import authMiddleware from "../middleware/auth.middleware.js";
+import authController from "../controllers/auth.controller.js";
+
+const authRouter = express.Router();
 
 authRouter.post(
   "/signup",
@@ -25,7 +26,7 @@ authRouter.post(
   authController.logoutAll,
 );
 
-module.exports = authRouter;
+export default authRouter;
 
 // IDEA: POST /auth/password-reset
 // {

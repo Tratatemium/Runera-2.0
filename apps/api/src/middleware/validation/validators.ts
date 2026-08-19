@@ -1,33 +1,53 @@
-const { ValidationError } = require("../../errors/errors");
+import type { Request } from "express";
+
+import { ValidationError } from "../../errors/errors.js";
 
 /* ================================================================================================= */
 /*  HELPER FUNCTIONS                                                                                 */
 /* ================================================================================================= */
 
-const throwValidationError = ({ message, field = undefined, status }) => {
-  throw new ValidationError(message, status, field);
-};
+interface ValidationErrorType {
+  message: string;
+  status?: number;
+  field?: string;
+}
+
+function throwValidationError({
+  message,
+  field = undefined,
+  status = 400,
+}: ValidationErrorType) {
+  throw new ValidationError(message, status, field ?? "");
+}
 
 /* ================================================================================================= */
 /*  VALIDATE FUNCTIONS                                                                               */
 /* ================================================================================================= */
 
-const validateJsonContentType = (req) => {
+function validateJsonContentType(req: Request) {
   if (!req.is("json")) {
     throwValidationError({
       message: "Content-Type must be json.",
       status: 415,
     });
   }
-};
+}
 
-const assertRequestFields = ({
+interface assertRequestFieldsType {
+  object: Record<string, unknown>;
+  objectName?: string;
+  requiredFields: string[];
+  allowedFields: string[];
+  mode?: "require_all" | "require_some";
+}
+
+function assertRequestFields({
   object,
   objectName = "Request body",
   requiredFields,
   allowedFields,
   mode = "require_all",
-}) => {
+}: assertRequestFieldsType) {
   if (!["require_all", "require_some"].includes(mode)) {
     throw new Error(`Invalid validation mode: ${mode}.`);
   }
@@ -54,7 +74,7 @@ const assertRequestFields = ({
     }
   }
 
-  const hasValue = (field) => object[field] != null;
+  const hasValue = (field: string) => object[field] != null;
 
   if (mode === "require_all") {
     const missingFields = requiredFields.filter((field) => !hasValue(field));
@@ -75,18 +95,18 @@ const assertRequestFields = ({
     }
     return;
   }
-};
+}
 
-const assertString = (str, strName) => {
+function assertString(str: unknown, strName: string) {
   if (typeof str !== "string") {
     throwValidationError({
       message: `${strName} must be a string.`,
       field: strName,
     });
   }
-};
+}
 
-const validateUUID = (ID, IDname = "ID") => {
+function validateUUID(ID: string, IDname = "ID") {
   const uuidRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   const isUUID = uuidRegex.test(ID);
@@ -96,11 +116,15 @@ const validateUUID = (ID, IDname = "ID") => {
       field: IDname,
     });
   }
-};
+}
 
-const validateISO = (value, name, mode = "datetime") => {
+function validateISO(value: unknown, fieldName: string, mode = "datetime") {
   if (typeof value !== "string") {
-    throwValidationError({ message: `${name} must be a string.`, field: name });
+    throwValidationError({
+      message: `${fieldName} must be a string.`,
+      field: fieldName,
+    });
+    return;
   }
 
   // -------------------
@@ -111,22 +135,22 @@ const validateISO = (value, name, mode = "datetime") => {
     if (!dateRegex.test(value)) {
       throwValidationError({
         message: `${name} must be a valid ISO 8601 date (YYYY-MM-DD).`,
-        field: name,
+        field: fieldName,
       });
     }
 
     const date = new Date(`${value}T00:00:00Z`);
     if (!Number.isFinite(date.getTime())) {
       throwValidationError({
-        message: `${name} must be a valid calendar date.`,
-        field: name,
+        message: `${fieldName} must be a valid calendar date.`,
+        field: fieldName,
       });
     }
 
     if (date.toISOString().slice(0, 10) !== value) {
       throwValidationError({
-        message: `${name} must be a real calendar date.`,
-        field: name,
+        message: `${fieldName} must be a real calendar date.`,
+        field: fieldName,
       });
     }
 
@@ -140,16 +164,16 @@ const validateISO = (value, name, mode = "datetime") => {
     const datetimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/;
     if (!datetimeRegex.test(value)) {
       throwValidationError({
-        message: `${name} must be a valid ISO 8601 timestamp with timezone (UTC).`,
-        field: name,
+        message: `${fieldName} must be a valid ISO 8601 timestamp with timezone (UTC).`,
+        field: fieldName,
       });
     }
 
     const date = new Date(value);
     if (!Number.isFinite(date.getTime())) {
       throwValidationError({
-        message: `${name} must be a valid ISO 8601 timestamp.`,
-        field: name,
+        message: `${fieldName} must be a valid ISO 8601 timestamp.`,
+        field: fieldName,
       });
     }
 
@@ -171,8 +195,8 @@ const validateISO = (value, name, mode = "datetime") => {
 
     if (!isValid) {
       throwValidationError({
-        message: `${name} must be a real calendar date and time.`,
-        field: name,
+        message: `${fieldName} must be a real calendar date and time.`,
+        field: fieldName,
       });
     }
 
@@ -185,24 +209,26 @@ const validateISO = (value, name, mode = "datetime") => {
   throw new Error(
     `Invalid mode "${mode}" in validateISO. Must be "date" or "datetime".`,
   );
-};
+}
 
-const validatePositiveNumber = (number, numberName) => {
-  if (isNaN(number) || number <= 0 || typeof number !== "number") {
+function validatePositiveNumber(value: unknown, fieldName: string) {
+  if (typeof value !== "number" || !isFinite(value) || value <= 0) {
     throwValidationError({
-      message: `${numberName} must be a positive number.`,
-      field: numberName,
+      message: `${fieldName} must be a positive number.`,
+      field: fieldName,
     });
   }
-};
+}
 
-const validateUsername = (username) => {
+function validateUsername(username: unknown) {
   if (typeof username !== "string") {
     throwValidationError({
       message: "Username must be a string.",
       field: "username",
     });
+    return;
   }
+
   if (username.length < 4 || username.length > 20) {
     throwValidationError({
       message: "Username must be between 4 and 20 characters long.",
@@ -216,14 +242,15 @@ const validateUsername = (username) => {
       field: "username",
     });
   }
-};
+}
 
-const validateEmail = (email) => {
+function validateEmail(email: unknown) {
   if (typeof email !== "string") {
     throwValidationError({
       message: "Email must be a string.",
       field: "email",
     });
+    return;
   }
   if (email.length > 254) {
     throwValidationError({
@@ -244,14 +271,15 @@ const validateEmail = (email) => {
       field: "email",
     });
   }
-};
+}
 
-const validatePassword = (password) => {
+function validatePassword(password: unknown) {
   if (typeof password !== "string") {
     throwValidationError({
       message: "Password must be a string.",
       field: "password",
     });
+    return;
   }
   const length = password.length;
   if (length < 8) {
@@ -266,14 +294,16 @@ const validatePassword = (password) => {
       field: "password",
     });
   }
-};
+}
 
-const validateName = (name, fieldName) => {
-  if (typeof name !== "string")
+function validateName(name: unknown, fieldName: string) {
+  if (typeof name !== "string") {
     throwValidationError({
       message: `${fieldName} must be a string.`,
       field: fieldName,
     });
+    return;
+  }
 
   const trimmed = name.trim();
   if (trimmed.length === 0) {
@@ -296,18 +326,32 @@ const validateName = (name, fieldName) => {
       field: fieldName,
     });
   }
-};
+}
 
-const validatePerceivedEffort = (perceivedEffort) => {
+function validatePerceivedEffort(perceivedEffort: unknown) {
+  if (typeof perceivedEffort !== "number") {
+    throwValidationError({
+      message: "perceivedEffort must be a number.",
+      field: "perceivedEffort",
+    });
+    return;
+  }
   if (perceivedEffort < 1 || perceivedEffort > 10) {
     throwValidationError({
       message: "PerceivedEffort must be between 1 and 10",
       field: "perceivedEffort",
     });
   }
-};
+}
 
-const validateWeather = (weather) => {
+function validateWeather(weather: unknown) {
+  if (typeof weather !== "string") {
+    throwValidationError({
+      message: "Weather must be a string.",
+      field: "weather",
+    });
+    return;
+  }
   const weatherEnum = [
     "sunny",
     "partly_cloudy",
@@ -324,13 +368,13 @@ const validateWeather = (weather) => {
       field: "weather",
     });
   }
-};
+}
 
 /* ================================================================================================= */
 /*  EXPORTS                                                                                          */
 /* ================================================================================================= */
 
-module.exports = {
+export {
   throwValidationError,
   validateJsonContentType,
   assertRequestFields,

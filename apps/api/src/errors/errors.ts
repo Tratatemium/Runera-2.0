@@ -1,5 +1,7 @@
 class ApiError extends Error {
-  constructor(message, status = 500) {
+  status: number;
+
+  constructor(message: string, status = 500) {
     super(message);
     this.name = "ApiError";
     this.status = status;
@@ -8,7 +10,9 @@ class ApiError extends Error {
 }
 
 class ValidationError extends ApiError {
-  constructor(message, status, field) {
+  field: string;
+
+  constructor(message: string, status: number, field: string) {
     super(message || "Invalid input.", status || 400);
     this.name = "ValidationError";
     this.field = field;
@@ -17,7 +21,7 @@ class ValidationError extends ApiError {
 }
 
 class LoginError extends ApiError {
-  constructor(message) {
+  constructor(message: string) {
     super(message || "Invalid credentials.", 401);
     this.name = "LoginError";
     Object.setPrototypeOf(this, LoginError.prototype);
@@ -25,7 +29,7 @@ class LoginError extends ApiError {
 }
 
 class AuthError extends ApiError {
-  constructor(message) {
+  constructor(message: string) {
     super(message || "Authentication failed.", 401);
     this.name = "AuthError";
     Object.setPrototypeOf(this, AuthError.prototype);
@@ -33,7 +37,7 @@ class AuthError extends ApiError {
 }
 
 class GuardError extends ApiError {
-  constructor(message) {
+  constructor(message: string) {
     super(message || "You are not allowed to perform this action.", 403);
     this.name = "GuardError";
     Object.setPrototypeOf(this, GuardError.prototype);
@@ -41,14 +45,14 @@ class GuardError extends ApiError {
 }
 
 class NotFoundError extends ApiError {
-  constructor(message) {
+  constructor(message: string) {
     super(message || "Not found.", 404);
     this.name = "NotFoundError";
     Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }
 
-module.exports = {
+export {
   ApiError,
   ValidationError,
   LoginError,
