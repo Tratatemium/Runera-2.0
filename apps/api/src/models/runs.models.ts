@@ -7,7 +7,31 @@ const transformRun = (_: unknown, ret: Record<string, unknown>) => {
   return result;
 };
 
-const RunSchema = new mongoose.Schema(
+interface DBRun {
+  runId: string;
+  userId: string;
+  startTime: Date;
+  date: Date;
+  durationSec: number;
+  distanceMeters: number;
+  paceSecPerKm: number;
+  title?: string;
+  notes?: string;
+  perceivedEffort?: number;
+  weather?:
+    | "sunny"
+    | "partly_cloudy"
+    | "cloudy"
+    | "rain"
+    | "snow"
+    | "windy"
+    | "hot"
+    | "cold";
+  _id: string;
+  __v: number;
+}
+
+const RunSchema = new mongoose.Schema<DBRun>(
   {
     runId: { type: String, required: true },
     userId: { type: String, required: true },
@@ -59,3 +83,5 @@ RunSchema.index({ runId: 1 }, { unique: true });
 RunSchema.index({ userId: 1, startTime: -1 });
 
 export default mongoose.model("Run", RunSchema);
+
+export type { DBRun };

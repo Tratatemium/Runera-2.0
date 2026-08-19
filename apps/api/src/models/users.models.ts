@@ -4,7 +4,14 @@ import mongoose from "mongoose";
 /*  SUB-SCHEMAS                                                                                      */
 /* ================================================================================================= */
 
-const PasswordMetadataSchema = new mongoose.Schema(
+interface DBPasswordMetadata {
+  algorithm?: string;
+  updatedAt?: Date;
+  failedLoginAttempts?: number;
+  lockUntil?: Date;
+}
+
+const PasswordMetadataSchema = new mongoose.Schema<DBPasswordMetadata>(
   {
     algorithm: {
       type: String,
@@ -27,7 +34,12 @@ const PasswordMetadataSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const CredentialsSchema = new mongoose.Schema(
+interface DBCredentials {
+  passwordHash: string;
+  passwordMetadata: DBPasswordMetadata;
+}
+
+const CredentialsSchema = new mongoose.Schema<DBCredentials>(
   {
     passwordHash: {
       type: String,
@@ -41,7 +53,11 @@ const CredentialsSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const AuthSchema = new mongoose.Schema(
+interface DBAuth {
+  accessTokenVersion: number;
+}
+
+const AuthSchema = new mongoose.Schema<DBAuth>(
   {
     accessTokenVersion: {
       type: Number,
@@ -52,7 +68,13 @@ const AuthSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const AccountSchema = new mongoose.Schema(
+interface DBAccount {
+  username: string;
+  email: string;
+  lastLogin?: Date;
+}
+
+const AccountSchema = new mongoose.Schema<DBAccount>(
   {
     username: {
       type: String,
@@ -72,7 +94,15 @@ const AccountSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const ProfileSchema = new mongoose.Schema(
+interface DBProfile {
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: Date;
+  heightCm?: number;
+  weightKg?: number;
+}
+
+const ProfileSchema = new mongoose.Schema<DBProfile>(
   {
     firstName: {
       type: String,
@@ -101,7 +131,18 @@ const ProfileSchema = new mongoose.Schema(
 /*  MAIN USER SCHEMA                                                                                 */
 /* ================================================================================================= */
 
-const UserSchema = new mongoose.Schema(
+interface DBUser {
+  userId: string;
+  role: "user" | "admin";
+  credentials: DBCredentials;
+  auth: DBAuth;
+  account: DBAccount;
+  profile: DBProfile;
+  _id: string;
+  __v: number;
+}
+
+const UserSchema = new mongoose.Schema<DBUser>(
   {
     userId: {
       type: String,
@@ -142,24 +183,39 @@ const UserSchema = new mongoose.Schema(
 /*  Not leaking sensitive data to JSON                                                               */
 /* ================================================================================================= */
 
-const transformUser = (_: unknown, ret: Record<string, unknown>) => {
-  const result = ret as {
-    _id?: unknown;
-    __v?: unknown;
-    credentials?: unknown;
-    auth?: unknown;
-    profile?: unknown;
-  };
-  delete result._id;
-  delete result.__v;
-  delete result.credentials;
-  delete result.auth;
+// const transformUser = (_: unknown, ret: Record<string, unknown>) => {
+//   const result = ret as {
+//     _id?: unknown;
+//     __v?: unknown;
+//     credentials?: unknown;
+//     auth?: unknown;
+//     profile?: unknown;
+//   };
+//   delete result._id;
+//   delete result.__v;
+//   delete result.credentials;
+//   delete result.auth;
 
-  if (!result.profile) {
-    result.profile = {};
+//   if (!result.profile) {
+//     result.profile = {};
+//   }
+
+//   return result;
+// };
+
+import type { UserResponse } from "../../../../packages/shared/types/users/users.responses.js";
+
+const transformUser = (_: unknown, ret: DBUser) => {
+  delete ret._id;
+  delete ret.__v;
+  delete ret.credentials;
+  delete ret.auth;
+
+  if (!ret.profile) {
+    ret.profile = {};
   }
 
-  return result;
+  return ret;
 };
 
 UserSchema.set("toJSON", {
@@ -181,3 +237,12 @@ UserSchema.index({ "account.email": 1 }, { unique: true });
 /* ================================================================================================= */
 
 export default mongoose.model("User", UserSchema);
+
+export type {
+  DBUser,
+  DBProfile,
+  DBAccount,
+  DBAuth,
+  DBCredentials,
+  DBPasswordMetadata,
+};
