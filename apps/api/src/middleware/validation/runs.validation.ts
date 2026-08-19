@@ -1,17 +1,21 @@
-const validators = require("./validators.js");
+import type { Request, Response, NextFunction } from "express";
+import type { RunRequest } from "@runera/shared";
 
-const validateUUID = (param = "id") => {
-  return (req, res, next) => {
-    validators.validateUUID(req.params[param]);
+import * as validators from "./validators.js";
+
+function validateUUID(param = "id") {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const value = req.params[param];
+    validators.validateUUID(Array.isArray(value) ? value[0] : value);
     next();
   };
-};
+}
 
 const runFields = [
   {
     key: "startTime",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       validators.assertString(input, "startTime");
       const trimmed = input.trim();
       validators.validateISO(trimmed, "startTime", "datetime");
@@ -21,7 +25,7 @@ const runFields = [
   {
     key: "durationSec",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       const normalized = Number(String(input).trim());
       validators.validatePositiveNumber(normalized, "durationSec");
       return normalized;
@@ -30,7 +34,7 @@ const runFields = [
   {
     key: "distanceMeters",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       const normalized = Number(String(input).trim());
       validators.validatePositiveNumber(normalized, "distanceMeters");
       return normalized;
@@ -39,7 +43,7 @@ const runFields = [
   {
     key: "title",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       validators.assertString(input, "title");
       return input;
     },
@@ -47,7 +51,7 @@ const runFields = [
   {
     key: "notes",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       validators.assertString(input, "notes");
       return input;
     },
@@ -55,7 +59,7 @@ const runFields = [
   {
     key: "perceivedEffort",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       const normalized = Number(String(input).trim());
       validators.validatePositiveNumber(normalized, "perceivedEffort");
       validators.validatePerceivedEffort(normalized);
@@ -65,7 +69,7 @@ const runFields = [
   {
     key: "weather",
     input: null,
-    validate: (input) => {
+    validate: (input: unknown) => {
       validators.assertString(input, "weather");
       validators.validateWeather(input);
       return input;
@@ -73,8 +77,12 @@ const runFields = [
   },
 ];
 
-const validateRun = ({ mode = "require_all" }) => {
-  return (req, res, next) => {
+function validateRun({
+  mode = "require_all",
+}: {
+  mode?: "require_all" | "require_some";
+}) {
+  return (req: Request, res: Response, next: NextFunction) => {
     validators.validateJsonContentType(req);
 
     validators.assertRequestFields({
@@ -102,11 +110,11 @@ const validateRun = ({ mode = "require_all" }) => {
       boundRunFields
         .filter((field) => field.input != null)
         .map((field) => [field.key, field.validate(field.input)]),
-    );
+    ) as unknown as RunRequest;
 
     req.runData = runData;
     next();
   };
-};
+}
 
-module.exports = { validateUUID, validateRun };
+export { validateUUID, validateRun };

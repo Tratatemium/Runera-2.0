@@ -1,6 +1,12 @@
-const validators = require("./validators.js");
+import type { Request, Response, NextFunction } from "express";
 
-const validateRegisterRequest = (req, res, next) => {
+import * as validators from "./validators.js";
+
+function validateRegisterRequest(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   validators.validateJsonContentType(req);
 
   validators.assertRequestFields({
@@ -17,9 +23,9 @@ const validateRegisterRequest = (req, res, next) => {
   validators.validatePassword(password);
 
   next();
-};
+}
 
-const validateLoginRequest = (req, res, next) => {
+function validateLoginRequest(req: Request, res: Response, next: NextFunction) {
   validators.validateJsonContentType(req);
 
   if (req.body.password == null) {
@@ -49,9 +55,6 @@ const validateLoginRequest = (req, res, next) => {
   validators.validatePassword(password);
 
   next();
-};
+}
 
-module.exports = {
-  validateRegisterRequest,
-  validateLoginRequest,
-};
+export { validateRegisterRequest, validateLoginRequest };

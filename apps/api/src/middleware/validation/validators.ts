@@ -36,8 +36,8 @@ function validateJsonContentType(req: Request) {
 interface assertRequestFieldsType {
   object: Record<string, unknown>;
   objectName?: string;
-  requiredFields: string[];
-  allowedFields: string[];
+  requiredFields?: string[];
+  allowedFields?: string[];
   mode?: "require_all" | "require_some";
 }
 
@@ -97,11 +97,14 @@ function assertRequestFields({
   }
 }
 
-function assertString(str: unknown, strName: string) {
-  if (typeof str !== "string") {
+function assertString(
+  value: unknown,
+  fieldName: string,
+): asserts value is string {
+  if (typeof value !== "string") {
     throwValidationError({
-      message: `${strName} must be a string.`,
-      field: strName,
+      message: `${fieldName} must be a string.`,
+      field: fieldName,
     });
   }
 }
@@ -119,13 +122,7 @@ function validateUUID(ID: string, IDname = "ID") {
 }
 
 function validateISO(value: unknown, fieldName: string, mode = "datetime") {
-  if (typeof value !== "string") {
-    throwValidationError({
-      message: `${fieldName} must be a string.`,
-      field: fieldName,
-    });
-    return;
-  }
+  assertString(value, fieldName);
 
   // -------------------
   // DATE-ONLY MODE
@@ -221,13 +218,7 @@ function validatePositiveNumber(value: unknown, fieldName: string) {
 }
 
 function validateUsername(username: unknown) {
-  if (typeof username !== "string") {
-    throwValidationError({
-      message: "Username must be a string.",
-      field: "username",
-    });
-    return;
-  }
+  assertString(username, "username");
 
   if (username.length < 4 || username.length > 20) {
     throwValidationError({
@@ -245,13 +236,8 @@ function validateUsername(username: unknown) {
 }
 
 function validateEmail(email: unknown) {
-  if (typeof email !== "string") {
-    throwValidationError({
-      message: "Email must be a string.",
-      field: "email",
-    });
-    return;
-  }
+  assertString(email, "email");
+
   if (email.length > 254) {
     throwValidationError({
       message: "Email must not be longer than 254 characters.",
@@ -274,13 +260,8 @@ function validateEmail(email: unknown) {
 }
 
 function validatePassword(password: unknown) {
-  if (typeof password !== "string") {
-    throwValidationError({
-      message: "Password must be a string.",
-      field: "password",
-    });
-    return;
-  }
+  assertString(password, "password");
+
   const length = password.length;
   if (length < 8) {
     throwValidationError({
@@ -297,13 +278,7 @@ function validatePassword(password: unknown) {
 }
 
 function validateName(name: unknown, fieldName: string) {
-  if (typeof name !== "string") {
-    throwValidationError({
-      message: `${fieldName} must be a string.`,
-      field: fieldName,
-    });
-    return;
-  }
+  assertString(name, fieldName);
 
   const trimmed = name.trim();
   if (trimmed.length === 0) {
@@ -345,13 +320,8 @@ function validatePerceivedEffort(perceivedEffort: unknown) {
 }
 
 function validateWeather(weather: unknown) {
-  if (typeof weather !== "string") {
-    throwValidationError({
-      message: "Weather must be a string.",
-      field: "weather",
-    });
-    return;
-  }
+  assertString(weather, "weather");
+
   const weatherEnum = [
     "sunny",
     "partly_cloudy",
