@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
 
-const transformRun = (_: unknown, ret: Record<string, unknown>) => {
-  const result = ret as { _id?: unknown; __v?: unknown };
-  delete result._id;
-  delete result.__v;
-  return result;
-};
-
 interface DBRun {
   runId: string;
   userId: string;
@@ -29,6 +22,11 @@ interface DBRun {
     | "cold";
   _id: string;
   __v: number;
+}
+
+function transformRun(_: unknown, ret: DBRun) {
+  const { _id, __v, ...run } = ret;
+  return run;
 }
 
 const RunSchema = new mongoose.Schema<DBRun>(

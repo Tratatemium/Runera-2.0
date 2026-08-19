@@ -183,40 +183,11 @@ const UserSchema = new mongoose.Schema<DBUser>(
 /*  Not leaking sensitive data to JSON                                                               */
 /* ================================================================================================= */
 
-// const transformUser = (_: unknown, ret: Record<string, unknown>) => {
-//   const result = ret as {
-//     _id?: unknown;
-//     __v?: unknown;
-//     credentials?: unknown;
-//     auth?: unknown;
-//     profile?: unknown;
-//   };
-//   delete result._id;
-//   delete result.__v;
-//   delete result.credentials;
-//   delete result.auth;
+function transformUser(_: unknown, ret: DBUser) {
+  const { _id, __v, credentials, auth, ...user } = ret;
 
-//   if (!result.profile) {
-//     result.profile = {};
-//   }
-
-//   return result;
-// };
-
-import type { UserResponse } from "../../../../packages/shared/types/users/users.responses.js";
-
-const transformUser = (_: unknown, ret: DBUser) => {
-  delete ret._id;
-  delete ret.__v;
-  delete ret.credentials;
-  delete ret.auth;
-
-  if (!ret.profile) {
-    ret.profile = {};
-  }
-
-  return ret;
-};
+  return user;
+}
 
 UserSchema.set("toJSON", {
   transform: transformUser,
