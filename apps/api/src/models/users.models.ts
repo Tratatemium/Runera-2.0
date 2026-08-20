@@ -5,10 +5,10 @@ import mongoose from "mongoose";
 /* ================================================================================================= */
 
 interface DBPasswordMetadata {
-  algorithm?: string;
-  updatedAt?: Date;
+  algorithm: string;
+  updatedAt: Date | string;
   failedLoginAttempts?: number;
-  lockUntil?: Date;
+  lockUntil: Date | null;
 }
 
 const PasswordMetadataSchema = new mongoose.Schema<DBPasswordMetadata>(

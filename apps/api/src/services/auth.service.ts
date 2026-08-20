@@ -1,14 +1,15 @@
-const userRepo = require("../repositories/users.repository.js");
-const {
+import * as userRepo from "../repositories/users.repository.js";
+import {
   createPasswordHash,
   comparePasswordHash,
-} = require("../utils/password.utils.js");
-const { createToken } = require("../utils/jwt.utils.js");
+} from "../utils/password.utils.js";
+import { createToken } from "../utils/jwt.utils.js";
+import { DBUser } from "../models/users.models.js";
 
-const signup = async (email, username, password) => {
+async function signup(email: string, username: string, password: string) {
   const { passwordHash, passwordMetadata } = await createPasswordHash(password);
   const newUser = {
-    role: "user",
+    role: "user" as const,
     credentials: { passwordHash, passwordMetadata },
     auth: {
       accessTokenVersion: 0,
@@ -16,41 +17,41 @@ const signup = async (email, username, password) => {
     account: {
       username,
       email,
-      lastLogin: null,
+      lastLogin: undefined,
     },
     profile: {},
   };
 
   const newUserId = await userRepo.addNewUser(newUser);
   return newUserId;
-};
+}
 
-const updatePassword = async (userId, newPassword) => {
+async function updatePassword(userId: string, newPassword: string) {
   const newCredentials = await createPasswordHash(newPassword);
   const result = await userRepo.updateCredentials(userId, newCredentials);
   return result;
-};
+}
 
-const authenticateUser = async (identifier, password) => {
+async function authenticateUser(identifier: string, password: string) {
   const user = await userRepo.findUserByEmailOrUsername(identifier);
   await comparePasswordHash(user, password);
-  return user;
-};
+  return user as DBUser; // comparePasswordHash already throws LoginError for not found user
+}
 
-const login = async (identifier, password) => {
+async function login(identifier: string, password: string) {
   const user = await authenticateUser(identifier, password);
   //TODO: implement failed login attempts check
   const token = createToken(user);
   await userRepo.updateLastLogin(user);
   return token;
-};
+}
 
 // NOTE: change this if refresh tokens are implemented to generalized func
-const invalidatePreviousAccessTokens = async (userId) => {
+async function invalidatePreviousAccessTokens(userId: string) {
   await userRepo.incrementAccessTokenVersion(userId);
-};
+}
 
-module.exports = {
+export {
   signup,
   updatePassword,
   authenticateUser,

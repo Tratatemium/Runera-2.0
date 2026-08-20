@@ -2,41 +2,41 @@ import { randomUUID } from "crypto";
 
 import Run from "../models/runs.models.js";
 
-const addNewRun = async (newRun) => {
+async function addNewRun(newRun) {
   const newRunId = randomUUID();
   const runToInsert = { runId: newRunId, ...newRun };
   const savedRun = await Run.create(runToInsert);
   console.log("New run added to the database. ID:", newRunId);
   return savedRun;
-};
+}
 
-const findRunsByUserId = async (userId) => {
+async function findRunsByUserId(userId) {
   return await Run.find({ userId: userId }).sort({ startTime: -1, runId: 1 }); // most recent first
-};
+}
 
-const findRunById = async (runId) => {
+async function findRunById(runId) {
   const selectedRun = await Run.findOne({
     runId: runId,
   });
   return selectedRun || null;
-};
+}
 
-const updateRunById = async (runId, update) => {
+async function updateRunById(runId, update) {
   const result = await Run.findOneAndUpdate(
     { runId },
     { $set: update },
     { new: true },
   );
   return result || null;
-};
+}
 
-const deleteRunById = async (runId) => {
+async function deleteRunById(runId) {
   return await Run.deleteOne({
     runId: runId,
   });
-};
+}
 
-module.exports = {
+export {
   addNewRun,
   findRunsByUserId,
   findRunById,

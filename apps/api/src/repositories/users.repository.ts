@@ -1,4 +1,5 @@
-import type { DBUser } from "../models/users.models.js";
+import type { DBUser, DBCredentials } from "../models/users.models.js";
+import type { UpdateUserRequest } from "@runera/shared";
 
 import { randomUUID } from "crypto";
 
@@ -37,7 +38,9 @@ async function updateLastLogin(foundUser: DBUser) {
   return result;
 }
 
-async function addNewUser(newUser) {
+type NewUser = Omit<DBUser, "userId" | "_id" | "__v">;
+
+async function addNewUser(newUser: NewUser) {
   const newUserId = randomUUID();
   const userToInsert = { userId: newUserId, ...newUser };
   const savedUser = await User.create(userToInsert);
@@ -45,8 +48,8 @@ async function addNewUser(newUser) {
   return savedUser.userId;
 }
 
-async function updateProfile(userId, profilePatch) {
-  const update = {};
+async function updateProfile(userId: string, profilePatch: UpdateUserRequest) {
+  const update: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(profilePatch)) {
     update[`profile.${key}`] = value;
   }
@@ -58,7 +61,11 @@ async function updateProfile(userId, profilePatch) {
   return result?.profile ?? null;
 }
 
-async function updateAccount(userId, identifierName, newValue) {
+async function updateAccount(
+  userId: string,
+  identifierName: string,
+  newValue: string,
+) {
   const result = await User.updateOne(
     { userId },
     { $set: { [`account.${identifierName}`]: newValue } },
@@ -66,7 +73,10 @@ async function updateAccount(userId, identifierName, newValue) {
   return result;
 }
 
-async function updateCredentials(userId, newCredentials) {
+async function updateCredentials(
+  userId: string,
+  newCredentials: DBCredentials,
+) {
   const result = await User.updateOne(
     { userId },
     { $set: { credentials: newCredentials } },
@@ -74,7 +84,7 @@ async function updateCredentials(userId, newCredentials) {
   return result;
 }
 
-async function incrementAccessTokenVersion(userId) {
+async function incrementAccessTokenVersion(userId: string) {
   await User.updateOne({ userId }, { $inc: { "auth.accessTokenVersion": 1 } });
 }
 
