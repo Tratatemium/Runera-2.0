@@ -1,29 +1,31 @@
-const { NotFoundError } = require("../errors/errors.js");
-const usersRepo = require("../repositories/users.repository.js");
-const authService = require("./auth.service.js");
+import type { UpdateUserRequest } from "@runera/shared";
 
-const throwUserNotFoundError = (userId) => {
+import { NotFoundError } from "../errors/errors.js";
+import * as usersRepo from "../repositories/users.repository.js";
+import * as authService from "./auth.service.js";
+
+function throwUserNotFoundError(userId: string) {
   throw new NotFoundError(`No user with ID ${userId} found!`);
-};
+}
 
-const getUser = async (userId) => {
+async function getUser(userId: string) {
   const userData = await usersRepo.findUserById(userId);
   if (!userData) throwUserNotFoundError(userId);
   return userData;
-};
+}
 
-const getAllUsers = async () => {
+async function getAllUsers() {
   const usersData = await usersRepo.findAllUsers();
   return usersData;
-};
+}
 
-const updateProfile = async (userId, profilePatch) => {
+async function updateProfile(userId: string, profilePatch: UpdateUserRequest) {
   const savedProfile = await usersRepo.updateProfile(userId, profilePatch);
   if (!savedProfile) throwUserNotFoundError(userId);
   return savedProfile;
-};
+}
 
-const updateAccount = async (userId, fieldToUpdate, reqBody) => {
+async function updateAccount(userId: string, fieldToUpdate: string, reqBody) {
   const updateHandlers = {
     password: (userId, reqBody) =>
       authService.updatePassword(userId, reqBody.newPassword),
@@ -40,6 +42,6 @@ const updateAccount = async (userId, fieldToUpdate, reqBody) => {
 
   const result = await handler(userId, reqBody);
   if (result?.matchedCount === 0) throwUserNotFoundError(userId);
-};
+}
 
-module.exports = { getUser, getAllUsers, updateProfile, updateAccount };
+export { getUser, getAllUsers, updateProfile, updateAccount };
