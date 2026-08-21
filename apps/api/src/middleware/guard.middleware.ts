@@ -1,30 +1,48 @@
-const { GuardError } = require("../errors/errors.js");
-const runsService = require("../services/runs.service.js");
+import type { Request, Response, NextFunction } from "express";
+
+import { GuardError } from "../errors/errors.js";
+import * as runsService from "../services/runs.service.js";
 
 const ownershipResolvers = {
-  userId: async (req, param) => req.params[param],
-  runId: async (req, param) => {
-    const runId = req.params[param];
+  userId: async (req: Request, param: string) => req.params[param],
+  runId: async (req: Request, param: string) => {
+    const runId = Array.isArray(req.params[param])
+      ? req.params[param][0]
+      : req.params[param];
     const run = await runsService.getRunById(runId);
     return run.userId;
   },
 };
 
-const checkOwnership = async (req, param, type) => {
+async function checkOwnership(
+  req: Request,
+  param: string,
+  type: "userId" | "runId",
+) {
   const providedId = req.user.userId;
   const resolver = ownershipResolvers[type];
   if (!resolver) throw new Error(`Unknown id type: ${type}`);
 
   let resourceId = await resolver(req, param);
   return providedId === resourceId;
-};
+}
 
-const checkPermissions = ({ mode = "either", param = "id", type }) => {
+interface CheckPermissionsOptions {
+  mode: "admin" | "owner" | "either";
+  param: "id";
+  type: "userId" | "runId";
+}
+
+function checkPermissions({
+  mode = "either",
+  param = "id",
+  type,
+}: CheckPermissionsOptions) {
   if (!["admin", "owner", "either"].includes(mode)) {
     throw new Error('mode must be: "admin", "owner" or "either."');
   }
 
-  return async (req, res, next) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const isAdmin = req.user.role === "admin";
     if (mode === "admin") {
       if (!isAdmin) throw new GuardError("Admins only.");
@@ -37,6 +55,6 @@ const checkPermissions = ({ mode = "either", param = "id", type }) => {
 
     next();
   };
-};
+}
 
-module.exports = { checkPermissions };
+export { checkPermissions };

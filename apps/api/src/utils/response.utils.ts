@@ -1,6 +1,5 @@
 import type { Response } from "express";
 import type { CookieParseOptions } from "cookie-parser";
-import { ApiError } from "../errors/errors.js";
 
 interface CookieData {
   name: string;
@@ -41,12 +40,12 @@ function sendSuccess(
 
 function sendError(
   res: Response,
-  err: ApiError,
+  err: Error,
   extra: Record<string, unknown> = {},
 ) {
   const status = err.status || 500;
   const message = err.message || "Something went wrong";
-  const name = err.name || "Error";
+  const name = err.errorName || err.name || "Error";
 
   interface ErrorResponse {
     message: string;

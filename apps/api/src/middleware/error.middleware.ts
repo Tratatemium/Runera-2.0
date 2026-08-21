@@ -1,6 +1,24 @@
-const { sendError, capitalize } = require("../utils/response.utils");
+import type { Request, Response, NextFunction } from "express";
 
-const apiErrorHandler = (err, req, res, next) => {
+import {
+  MongoServerError,
+  MongoNetworkError,
+  MongoServerSelectionError,
+} from "mongodb";
+import {
+  JsonWebTokenError,
+  TokenExpiredError,
+  NotBeforeError,
+} from "jsonwebtoken";
+
+import { sendError, capitalize } from "../utils/response.utils.js";
+
+function apiErrorHandler(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   // --- JSON parse errors ---
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
     err.status = 400;
@@ -10,24 +28,24 @@ const apiErrorHandler = (err, req, res, next) => {
 
   // --- MongoDB connection errors ---
   const isConnectionError =
-    err.name === "MongoServerSelectionError" ||
-    err.name === "MongoNetworkError";
+    err instanceof MongoServerSelectionError ||
+    err instanceof MongoNetworkError;
 
   if (isConnectionError) {
     err.status = 500;
-    err.name = "DatabaseError";
+    err.errorName = "DatabaseError";
     err.message = "Failed to connect to database.";
   }
 
   // --- Duplicate key errors ---
-  const isDuplicateKey = err.name === "MongoServerError" && err.code === 11000;
+  const isDuplicateKey = err instanceof MongoServerError && err.code === 11000;
 
   if (isDuplicateKey) {
     const rawField = Object.keys(err.keyValue || {})[0];
     const value = rawField ? err.keyValue[rawField] : undefined;
     const field = rawField?.slice(rawField.lastIndexOf(".") + 1);
     err.status = 409;
-    err.name = "DuplicateKeyError";
+    err.errorName = "DuplicateKeyError";
     err.field = field;
     err.message = field
       ? capitalize(`${field} ${value} already exists.`)
@@ -35,20 +53,19 @@ const apiErrorHandler = (err, req, res, next) => {
   }
 
   // --- JWT errors ---
-  const jwtErrors = [
-    "JsonWebTokenError",
-    "TokenExpiredError",
-    "NotBeforeError",
-  ];
-  if (jwtErrors.includes(err.name)) {
+  if (
+    err instanceof JsonWebTokenError ||
+    err instanceof TokenExpiredError ||
+    err instanceof NotBeforeError
+  ) {
     err.status = 401;
 
-    if (err.name === "TokenExpiredError") err.message = "Token expired.";
-    else if (err.name === "JsonWebTokenError") err.message = "Invalid token.";
-    else if (err.name === "NotBeforeError")
+    if (err instanceof TokenExpiredError) err.message = "Token expired.";
+    else if (err instanceof NotBeforeError)
       err.message = "Token not active yet.";
+    else if (err instanceof JsonWebTokenError) err.message = "Invalid token.";
 
-    err.name = "AuthError";
+    err.errorName = "AuthError";
   }
 
   // --- Log server errors ---
@@ -57,6 +74,6 @@ const apiErrorHandler = (err, req, res, next) => {
 
   // --- Send error response ---
   sendError(res, err);
-};
+}
 
-module.exports = { apiErrorHandler };
+export { apiErrorHandler };
