@@ -1,5 +1,5 @@
 import type { DBUser, DBCredentials } from "../models/users.models.js";
-import type { UpdateUserRequest } from "@runera/shared";
+import type { UpdateProfileRequest } from "@runera/shared";
 
 import { randomUUID } from "crypto";
 
@@ -48,7 +48,10 @@ async function addNewUser(newUser: NewUser) {
   return savedUser.userId;
 }
 
-async function updateProfile(userId: string, profilePatch: UpdateUserRequest) {
+async function updateProfile(
+  userId: string,
+  profilePatch: UpdateProfileRequest,
+) {
   const update: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(profilePatch)) {
     update[`profile.${key}`] = value;

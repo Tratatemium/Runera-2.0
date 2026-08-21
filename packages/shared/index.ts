@@ -7,7 +7,10 @@ export type {
 } from "./types/runs/runs.responses";
 
 export type { UserState } from "./types/users/users.types";
-export type { UpdateUserRequest } from "./types/users/users.requests";
+export type {
+  UpdateProfileRequest,
+  UpdateAccountRequest,
+} from "./types/users/users.requests";
 export type {
   UserResponse,
   UserUpdateResponse,

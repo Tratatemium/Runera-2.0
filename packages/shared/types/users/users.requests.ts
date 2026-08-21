@@ -1,7 +1,27 @@
 import type { UserState } from "./users.types";
 
-interface UpdateUserRequest {
+interface UpdateProfileRequest {
   profile: UserState["profile"];
 }
 
-export type { UpdateUserRequest };
+type UpdateAccountRequest =
+  | {
+      currentPassword: string;
+      newPassword: string;
+      newEmail: never;
+      newUsername: never;
+    }
+  | {
+      currentPassword: string;
+      newPassword: never;
+      newEmail: string;
+      newUsername: never;
+    }
+  | {
+      currentPassword: string;
+      newPassword: never;
+      newEmail: never;
+      newUsername: string;
+    };
+
+export type { UpdateProfileRequest, UpdateAccountRequest };

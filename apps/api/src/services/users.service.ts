@@ -1,4 +1,7 @@
-import type { UpdateUserRequest } from "@runera/shared";
+import type {
+  UpdateProfileRequest,
+  UpdateAccountRequest,
+} from "@runera/shared";
 
 import { NotFoundError } from "../errors/errors.js";
 import * as usersRepo from "../repositories/users.repository.js";
@@ -19,28 +22,38 @@ async function getAllUsers() {
   return usersData;
 }
 
-async function updateProfile(userId: string, profilePatch: UpdateUserRequest) {
+async function updateProfile(
+  userId: string,
+  profilePatch: UpdateProfileRequest,
+) {
   const savedProfile = await usersRepo.updateProfile(userId, profilePatch);
   if (!savedProfile) throwUserNotFoundError(userId);
   return savedProfile;
 }
 
-async function updateAccount(userId: string, fieldToUpdate: string, reqBody) {
-  const updateHandlers = {
-    password: (userId, reqBody) =>
-      authService.updatePassword(userId, reqBody.newPassword),
-    email: (userId, reqBody) =>
-      usersRepo.updateAccount(userId, "email", reqBody.newEmail),
-    username: (userId, reqBody) =>
-      usersRepo.updateAccount(userId, "username", reqBody.newUsername),
-  };
+async function updateAccount(
+  userId: string,
+  fieldToUpdate: "password" | "email" | "username",
+  reqBody: UpdateAccountRequest,
+) {
+  let result;
 
-  const handler = updateHandlers[fieldToUpdate];
-  if (!handler) {
-    throw new Error("Invalid fieldToUpdate");
+  switch (fieldToUpdate) {
+    case "password":
+      result = await authService.updatePassword(userId, reqBody.newPassword);
+      break;
+    case "email":
+      result = await usersRepo.updateAccount(userId, "email", reqBody.newEmail);
+      break;
+    case "username":
+      result = await usersRepo.updateAccount(
+        userId,
+        "username",
+        reqBody.newUsername,
+      );
+      break;
   }
 
-  const result = await handler(userId, reqBody);
   if (result?.matchedCount === 0) throwUserNotFoundError(userId);
 }
 
