@@ -1,8 +1,9 @@
+import type { RunRequest } from "@runera/shared";
 import { randomUUID } from "crypto";
 
 import Run from "../models/runs.models.js";
 
-async function addNewRun(newRun) {
+async function addNewRun(newRun: RunRequest) {
   const newRunId = randomUUID();
   const runToInsert = { runId: newRunId, ...newRun };
   const savedRun = await Run.create(runToInsert);
@@ -10,18 +11,18 @@ async function addNewRun(newRun) {
   return savedRun;
 }
 
-async function findRunsByUserId(userId) {
+async function findRunsByUserId(userId: string) {
   return await Run.find({ userId: userId }).sort({ startTime: -1, runId: 1 }); // most recent first
 }
 
-async function findRunById(runId) {
+async function findRunById(runId: string) {
   const selectedRun = await Run.findOne({
     runId: runId,
   });
   return selectedRun || null;
 }
 
-async function updateRunById(runId, update) {
+async function updateRunById(runId: string, update: RunRequest) {
   const result = await Run.findOneAndUpdate(
     { runId },
     { $set: update },
@@ -30,7 +31,7 @@ async function updateRunById(runId, update) {
   return result || null;
 }
 
-async function deleteRunById(runId) {
+async function deleteRunById(runId: string) {
   return await Run.deleteOne({
     runId: runId,
   });

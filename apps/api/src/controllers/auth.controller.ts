@@ -1,13 +1,15 @@
-const authService = require("../services/auth.service.js");
-const { sendSuccess } = require("../utils/response.utils.js");
+import type { Request, Response } from "express";
 
-const createUser = async (req, res) => {
+import * as authService from "../services/auth.service.js";
+import { sendSuccess } from "../utils/response.utils.js";
+
+async function createUser(req, res) {
   const { email, username, password } = req.body;
   const newUserId = await authService.signup(email, username, password);
   sendSuccess(res, { statusCode: 201, data: { userId: newUserId } });
-};
+}
 
-const loginUser = async (req, res) => {
+async function loginUser(req, res) {
   const { email, username, password } = req.body;
   const identifier = email ? email : username;
   const token = await authService.login(identifier, password);
@@ -15,9 +17,9 @@ const loginUser = async (req, res) => {
     statusCode: 200,
     cookie: { name: "token", value: token },
   });
-};
+}
 
-const logout = async (req, res) => {
+async function logout(req, res) {
   sendSuccess(res, {
     statusCode: 200,
     cookie: {
@@ -29,17 +31,12 @@ const logout = async (req, res) => {
     },
     data: { message: "Logged out successfully." },
   });
-};
+}
 
-const logoutAll = async (req, res) => {
+async function logoutAll(req, res) {
   const { userId } = req.user;
   await authService.invalidatePreviousAccessTokens(userId);
   res.sendStatus(200);
-};
+}
 
-module.exports = {
-  createUser,
-  loginUser,
-  logout,
-  logoutAll,
-};
+export { createUser, loginUser, logout, logoutAll };

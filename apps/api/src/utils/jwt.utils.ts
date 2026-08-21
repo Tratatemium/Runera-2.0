@@ -15,8 +15,16 @@ function getTokenKey() {
   return tokenKey;
 }
 
+interface TokenPayload {
+  userId: string;
+  role: "user" | "admin";
+  username: string;
+  email: string;
+  accessTokenVersion: number;
+}
+
 function createToken(user: DBUser) {
-  const payload = {
+  const payload: TokenPayload = {
     userId: user.userId,
     role: user.role,
     username: user.account.username,
@@ -39,7 +47,8 @@ function verifyToken(token: string) {
     issuer: "runners-api",
   };
   const decoded = jwt.verify(token, getTokenKey(), options);
-  return decoded;
+  return decoded as TokenPayload;
 }
 
 export { createToken, verifyToken };
+export type { TokenPayload };

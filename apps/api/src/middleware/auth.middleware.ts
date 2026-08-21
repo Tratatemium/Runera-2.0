@@ -1,24 +1,27 @@
-import { verifyToken } from "../utils/jwt.utils.js";
-import userRepo = require("../repositories/users.repository.js");
-const { AuthError } = require("../errors/errors.js");
+import type { Request, Response, NextFunction } from "express";
+import type { TokenPayload } from "../utils/jwt.utils.js";
 
-const checkTokenVersion = async (tokenData) => {
+import { verifyToken } from "../utils/jwt.utils.js";
+import * as userRepo from "../repositories/users.repository.js";
+import { AuthError } from "../errors/errors.js";
+
+async function checkTokenVersion(tokenData: TokenPayload) {
   const storedUser = await userRepo.findUserById(tokenData.userId);
   if (!storedUser) throw new AuthError("Invalid token.");
 
   const { accessTokenVersion: incomingVersion } = tokenData;
   const storedVersion = storedUser.auth?.accessTokenVersion;
 
-  const isVersionValid = (incomingVersion, storedVersion) =>
+  const isVersionValid = (incomingVersion: number, storedVersion: number) =>
     incomingVersion != null &&
     storedVersion != null &&
     incomingVersion === storedVersion;
 
   if (!isVersionValid(incomingVersion, storedVersion))
     throw new AuthError("Invalid token.");
-};
+}
 
-const checkAuth = async (req, res, next) => {
+async function checkAuth(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;
   if (!token) throw new AuthError("Missing authentication token.");
 
@@ -28,6 +31,6 @@ const checkAuth = async (req, res, next) => {
 
   req.user = userData;
   next();
-};
+}
 
 export { checkAuth };
