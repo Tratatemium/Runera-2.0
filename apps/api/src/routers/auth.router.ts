@@ -2,7 +2,7 @@ import express from "express";
 
 import * as validation from "../middleware/validation/auth.validation.js";
 import * as authMiddleware from "../middleware/auth.middleware.js";
-import authController from "../controllers/auth.controller.js";
+import * as authController from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
 

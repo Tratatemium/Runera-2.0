@@ -3,13 +3,13 @@ import type { Request, Response } from "express";
 import * as authService from "../services/auth.service.js";
 import { sendSuccess } from "../utils/response.utils.js";
 
-async function createUser(req, res) {
+async function createUser(req: Request, res: Response) {
   const { email, username, password } = req.body;
   const newUserId = await authService.signup(email, username, password);
   sendSuccess(res, { statusCode: 201, data: { userId: newUserId } });
 }
 
-async function loginUser(req, res) {
+async function loginUser(req: Request, res: Response) {
   const { email, username, password } = req.body;
   const identifier = email ? email : username;
   const token = await authService.login(identifier, password);
@@ -19,7 +19,7 @@ async function loginUser(req, res) {
   });
 }
 
-async function logout(req, res) {
+async function logout(req: Request, res: Response) {
   sendSuccess(res, {
     statusCode: 200,
     cookie: {
@@ -33,7 +33,7 @@ async function logout(req, res) {
   });
 }
 
-async function logoutAll(req, res) {
+async function logoutAll(req: Request, res: Response) {
   const { userId } = req.user;
   await authService.invalidatePreviousAccessTokens(userId);
   res.sendStatus(200);

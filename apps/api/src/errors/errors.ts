@@ -1,7 +1,8 @@
 class ApiError extends Error {
   status?: number;
+  field?: string;
 
-  constructor(message?: string, status = 500) {
+  constructor(message?: string, status = 500, field?: string) {
     super(message);
     this.name = "ApiError";
     this.status = status;
@@ -10,8 +11,6 @@ class ApiError extends Error {
 }
 
 class ValidationError extends ApiError {
-  field?: string;
-
   constructor(message?: string, status?: number, field?: string) {
     super(message || "Invalid input.", status || 400);
     this.name = "ValidationError";

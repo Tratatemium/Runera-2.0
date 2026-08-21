@@ -1,0 +1,70 @@
+import type { Response } from "express";
+import type { CookieParseOptions } from "cookie-parser";
+import { ApiError } from "../errors/errors.js";
+
+interface CookieData {
+  name: string;
+  value: string;
+  options?: CookieParseOptions & Record<string, unknown>;
+}
+
+interface SuccessOptions {
+  statusCode?: number;
+  data?: Record<string, unknown> | null;
+  cookie?: CookieData;
+  extra?: Record<string, unknown>;
+}
+
+function sendSuccess(
+  res: Response,
+  { statusCode = 200, data = null, cookie, extra = {} }: SuccessOptions = {},
+) {
+  res.status(statusCode);
+
+  if (cookie) {
+    res.cookie(cookie.name, cookie.value, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      partitioned: true,
+      maxAge: 1000 * 60 * 60,
+      ...cookie.options,
+    });
+  }
+
+  res.json({
+    status: "success",
+    ...extra,
+    data,
+  });
+}
+
+function sendError(
+  res: Response,
+  err: ApiError,
+  extra: Record<string, unknown> = {},
+) {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong";
+  const name = err.name || "Error";
+
+  interface ErrorResponse {
+    message: string;
+    name: string;
+    field?: string;
+    [key: string]: unknown;
+  }
+
+  const errorResponse: ErrorResponse = { message, name, ...extra };
+
+  if (err.field) {
+    errorResponse.field = err.field;
+  }
+  res.status(status).json({ error: errorResponse });
+}
+
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export { sendSuccess, sendError, capitalize };
