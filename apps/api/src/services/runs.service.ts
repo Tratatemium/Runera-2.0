@@ -1,34 +1,36 @@
-const { NotFoundError } = require("../errors/errors.js");
-const runsRepo = require("../repositories/runs.repository.js");
-const { getStartOfDay } = require("../utils/runs.utils.js");
+import type { RunRequest } from "@runera/shared";
 
-const throwRunNotFoundError = (runId) => {
+import { NotFoundError } from "../errors/errors.js";
+import * as runsRepo from "../repositories/runs.repository.js";
+import { getStartOfDay } from "../utils/general.utils.js";
+import { DBRun } from "../models/runs.models.js";
+
+function throwRunNotFoundError(runId: string) {
   throw new NotFoundError(`No run with ID ${runId} found!`);
-};
+}
 
-const createRun = async (newRun) => {
+async function createRun(newRun: RunRequest) {
   const enriched = {
     ...newRun,
     date: getStartOfDay(newRun.startTime),
     paceSecPerKm: newRun.durationSec / (newRun.distanceMeters / 1000),
   };
   return await runsRepo.addNewRun(enriched);
-};
+}
 
-const getRunsByUser = async (userId) => {
+async function getRunsByUser(userId: string) {
   const runs = await runsRepo.findRunsByUserId(userId);
   return runs;
-};
+}
 
-const getRunById = async (runId) => {
+async function getRunById(runId: string) {
   const runData = await runsRepo.findRunById(runId);
   if (!runData) throwRunNotFoundError(runId);
-  return runData;
-};
+  return runData as DBRun;
+}
 
-const updateRunById = async (runId, runUpdate) => {
-  const existingRun = await runsRepo.findRunById(runId);
-  if (!existingRun) throwRunNotFoundError(runId);
+async function updateRunById(runId: string, runUpdate: RunRequest) {
+  const existingRun = await getRunById(runId);
 
   const startTime = runUpdate.startTime ?? existingRun.startTime;
   const durationSec = runUpdate.durationSec ?? existingRun.durationSec;
@@ -45,17 +47,11 @@ const updateRunById = async (runId, runUpdate) => {
     throwRunNotFoundError(runId);
   }
   return updatedRun;
-};
+}
 
-const deleteRunById = async (runId) => {
+async function deleteRunById(runId: string) {
   const result = await runsRepo.deleteRunById(runId);
   if (result.deletedCount === 0) throwRunNotFoundError(runId);
-};
+}
 
-module.exports = {
-  createRun,
-  getRunById,
-  getRunsByUser,
-  updateRunById,
-  deleteRunById,
-};
+export { createRun, getRunById, getRunsByUser, updateRunById, deleteRunById };

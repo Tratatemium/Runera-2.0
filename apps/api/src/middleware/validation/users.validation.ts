@@ -89,13 +89,17 @@ function validateAccountUpdate(
 
   const updateFields = [
     {
-      key: "password",
+      key: "password" as const,
       value: newPassword,
       validate: validators.validatePassword,
     },
-    { key: "email", value: newEmail, validate: validators.validateEmail },
     {
-      key: "username",
+      key: "email" as const,
+      value: newEmail,
+      validate: validators.validateEmail,
+    },
+    {
+      key: "username" as const,
       value: newUsername,
       validate: validators.validateUsername,
     },

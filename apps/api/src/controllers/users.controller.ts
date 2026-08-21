@@ -1,36 +1,39 @@
-const usersService = require("../services/users.service.js");
-const authService = require("../services/auth.service.js");
-const { sendSuccess } = require("../utils/response.utils.js");
+import type { Request, Response } from "express";
 
-const getUserById = async (req, res) => {
-  const userId = req.params.id;
+import * as usersService from "../services/users.service.js";
+import * as authService from "../services/auth.service.js";
+import { sendSuccess } from "../utils/response.utils.js";
+import { getIdFromReqestParams } from "../utils/general.utils.js";
+
+async function getUserById(req: Request, res: Response) {
+  const userId = getIdFromReqestParams(req);
   const userData = await usersService.getUser(userId);
   sendSuccess(res, { statusCode: 200, data: { userData } });
-};
+}
 
-const getAllUsers = async (req, res) => {
+async function getAllUsers(req: Request, res: Response) {
   const usersData = await usersService.getAllUsers();
   sendSuccess(res, {
     statusCode: 200,
-    data: { userId: newUserId },
+    data: { usersData },
     extra: { results: usersData.length },
   });
-};
+}
 
-const getMe = async (req, res) => {
+async function getMe(req: Request, res: Response) {
   const userId = req.user.userId;
   const userData = await usersService.getUser(userId);
   sendSuccess(res, { statusCode: 200, data: { userData } });
-};
+}
 
-const updateProfile = async (req, res) => {
+async function updateProfile(req: Request, res: Response) {
   const userId = req.user.userId;
   const profile = req.body.profile;
   const savedProfile = await usersService.updateProfile(userId, profile);
   sendSuccess(res, { statusCode: 200, data: { savedProfile } });
-};
+}
 
-const updateAccount = async (req, res) => {
+async function updateAccount(req: Request, res: Response) {
   const { userId, email: currentEmail } = req.user;
   const currentPassword = req.body.currentPassword;
   await authService.authenticateUser(currentEmail, currentPassword);
@@ -42,12 +45,6 @@ const updateAccount = async (req, res) => {
   await usersService.updateAccount(userId, fieldToUpdate, req.body);
   await authService.invalidatePreviousAccessTokens(userId);
   res.sendStatus(200);
-};
+}
 
-module.exports = {
-  getUserById,
-  getAllUsers,
-  getMe,
-  updateProfile,
-  updateAccount,
-};
+export { getUserById, getAllUsers, getMe, updateProfile, updateAccount };
