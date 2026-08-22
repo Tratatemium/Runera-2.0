@@ -28,8 +28,8 @@ async function checkOwnership(
 }
 
 interface CheckPermissionsOptions {
-  mode: "admin" | "owner" | "either";
-  param: "id";
+  mode?: "admin" | "owner" | "either";
+  param?: "id";
   type: "userId" | "runId";
 }
 

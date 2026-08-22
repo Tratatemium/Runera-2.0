@@ -5,11 +5,7 @@ import {
   MongoNetworkError,
   MongoServerSelectionError,
 } from "mongodb";
-import {
-  JsonWebTokenError,
-  TokenExpiredError,
-  NotBeforeError,
-} from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 import { sendError, capitalize } from "../utils/response.utils.js";
 
@@ -54,16 +50,17 @@ function apiErrorHandler(
 
   // --- JWT errors ---
   if (
-    err instanceof JsonWebTokenError ||
-    err instanceof TokenExpiredError ||
-    err instanceof NotBeforeError
+    err instanceof jwt.JsonWebTokenError ||
+    err instanceof jwt.TokenExpiredError ||
+    err instanceof jwt.NotBeforeError
   ) {
     err.status = 401;
 
-    if (err instanceof TokenExpiredError) err.message = "Token expired.";
-    else if (err instanceof NotBeforeError)
+    if (err instanceof jwt.TokenExpiredError) err.message = "Token expired.";
+    else if (err instanceof jwt.NotBeforeError)
       err.message = "Token not active yet.";
-    else if (err instanceof JsonWebTokenError) err.message = "Invalid token.";
+    else if (err instanceof jwt.JsonWebTokenError)
+      err.message = "Invalid token.";
 
     err.errorName = "AuthError";
   }

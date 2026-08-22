@@ -1,10 +1,11 @@
-const express = require("express");
-const runsRouter = express.Router();
+import express from "express";
 
-const runsValidation = require("../middleware/validation/runs.validation.js");
-const authMiddleware = require("../middleware/auth.middleware.js");
-const guardMiddleware = require("../middleware/guard.middleware.js");
-const runsController = require("../controllers/runs.controller.js");
+import * as runsValidation from "../middleware/validation/runs.validation.js";
+import * as authMiddleware from "../middleware/auth.middleware.js";
+import * as guardMiddleware from "../middleware/guard.middleware.js";
+import * as runsController from "../controllers/runs.controller.js";
+
+const runsRouter = express.Router();
 
 runsRouter.get(
   "/:id",
@@ -36,4 +37,4 @@ runsRouter.delete(
   runsController.deleteRunById,
 );
 
-module.exports = runsRouter;
+export default runsRouter;
