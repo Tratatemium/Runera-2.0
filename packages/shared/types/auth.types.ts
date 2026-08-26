@@ -6,11 +6,17 @@ interface SignupRequest {
   password: string;
 }
 
-interface LoginRequest {
-  username?: string;
-  email?: string;
-  password: string;
-}
+type LoginRequest =
+  | {
+      username: string;
+      email?: never;
+      password: string;
+    }
+  | {
+      username?: never;
+      email: string;
+      password: string;
+    };
 
 interface SignupResponse {
   userId: string;

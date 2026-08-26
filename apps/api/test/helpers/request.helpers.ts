@@ -1,13 +1,25 @@
-/**
- * Helper functions for common request patterns and assertions
- */
+import type { Response } from "supertest";
+import type { Test } from "supertest";
+import { expect } from "@jest/globals";
 
-/**
- * Common assertions for error responses
- * @param {Object} response - Supertest response object
- * @param {number} expectedStatus - Expected HTTP status code
- */
-const expectErrorResponse = (response, expectedStatus) => {
+interface AuthValidationTest {
+  name: string;
+  setupAuth: (req: Test) => Test;
+}
+
+interface ContentTypeTest {
+  name: string;
+  contentType: string;
+  body: string;
+}
+
+interface MissingFieldTest {
+  name: string;
+  data: Record<string, unknown>;
+  field: string;
+}
+
+function expectErrorResponse(response: Response, expectedStatus: number): void {
   expect(response.statusCode).toBe(expectedStatus);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -17,13 +29,13 @@ const expectErrorResponse = (response, expectedStatus) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
 /**
  * Test cases for authentication validation (401 errors)
  * Returns an array of test case objects
  */
-const getAuthValidationTests = () => [
+const getAuthValidationTests = (): AuthValidationTest[] => [
   {
     name: "returns 401 when no auth cookie is provided",
     setupAuth: (req) => req,
@@ -41,7 +53,7 @@ const getAuthValidationTests = () => [
 /**
  * Test cases for Content-Type validation (415 errors)
  */
-const getContentTypeTests = () => [
+const getContentTypeTests = (): ContentTypeTest[] => [
   {
     name: "returns 415 when Content-Type is not JSON",
     contentType: "text/plain",
@@ -51,11 +63,11 @@ const getContentTypeTests = () => [
 
 /**
  * Generate test cases for missing required fields
- * @param {Object} validData - Valid data object
- * @param {Array<string>} requiredFields - List of required field names
- * @returns {Array<Object>} Test case objects
  */
-const getMissingFieldTests = (validData, requiredFields) => {
+const getMissingFieldTests = (
+  validData: Record<string, unknown>,
+  requiredFields: string[],
+): MissingFieldTest[] => {
   return requiredFields.map((field) => {
     const { [field]: omitted, ...dataWithoutField } = validData;
     return {
@@ -66,7 +78,7 @@ const getMissingFieldTests = (validData, requiredFields) => {
   });
 };
 
-module.exports = {
+export {
   expectErrorResponse,
   getAuthValidationTests,
   getContentTypeTests,

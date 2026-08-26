@@ -1,21 +1,20 @@
-/**
- * Custom assertion helpers for common test patterns
- */
+import type { Response } from "supertest";
+import type { DBRun } from "../../src/models/runs.models";
+import type { DBUser } from "../../src/models/users.models";
 
-/**
- * Assert that a login response sets a valid JWT auth cookie
- * @param {Object} response - Supertest response object
- */
-const expectValidJwtToken = (response) => {
+import { expect } from "@jest/globals";
+
+function expectValidJwtToken(response: Response) {
   expect(response.statusCode).toBe(200);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("status", "success");
   expect(response.body).toHaveProperty("data", null);
   expect(response.headers).toHaveProperty("set-cookie");
 
-  const tokenCookie = response.headers["set-cookie"].find((cookie) =>
-    cookie.startsWith("token="),
-  );
+  const cookies = Array.isArray(response.headers["set-cookie"])
+    ? response.headers["set-cookie"]
+    : [response.headers["set-cookie"]];
+  const tokenCookie = cookies.find((cookie) => cookie?.startsWith("token="));
   expect(tokenCookie).toBeDefined();
 
   const tokenValue = tokenCookie.split(";")[0].slice("token=".length);
@@ -23,14 +22,10 @@ const expectValidJwtToken = (response) => {
   expect(tokenValue).toMatch(
     /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/,
   );
-};
+}
 
-/**
- * Assert that a run object has the correct structure and data types
- * @param {Object} run - Run object to validate
- */
-const expectValidRunStructure = (run) => {
-  const runData = run?.runData ?? run;
+function expectValidRunStructure(run: DBRun | { runData: DBRun }) {
+  const runData = "runData" in run ? run.runData : run;
 
   expect(runData).toHaveProperty("runId");
   expect(runData).toHaveProperty("userId");
@@ -47,15 +42,13 @@ const expectValidRunStructure = (run) => {
   expect(new Date(runData.startTime).toString()).not.toBe("Invalid Date");
   expect(runData.durationSec).toBeGreaterThan(0);
   expect(runData.distanceMeters).toBeGreaterThan(0);
-};
+}
 
-/**
- * Assert that a user object has the correct structure
- * @param {Object} user - User object to validate
- * @param {Object} expectedAccount - Expected account data
- */
-const expectValidUserStructure = (user, expectedAccount = {}) => {
-  const userData = user?.userData ?? user;
+function expectValidUserStructure(
+  user: DBUser | { userData: DBUser },
+  expectedAccount: { username?: string; email?: string } = {},
+) {
+  const userData = "userData" in user ? user.userData : user;
 
   expect(userData).toHaveProperty("account");
   expect(userData).toHaveProperty("profile");
@@ -63,21 +56,20 @@ const expectValidUserStructure = (user, expectedAccount = {}) => {
   expect(userData).not.toHaveProperty("credentials");
 
   if (expectedAccount.username) {
-    expect(userData.account).toHaveProperty("username", expectedAccount.username);
+    expect(userData.account).toHaveProperty(
+      "username",
+      expectedAccount.username,
+    );
   }
   if (expectedAccount.email) {
     expect(userData.account).toHaveProperty("email", expectedAccount.email);
   }
-};
+}
 
-/**
- * Assert that a response is a 400 error with specific message
- * Validation errors are expected to use the object payload shape:
- * { error: { field, message } }
- * @param {Object} response - Supertest response object
- * @param {string|RegExp|Object} expectedError - Expected message/pattern or an object with field/message
- */
-const expect400WithMessage = (response, expectedError) => {
+function expect400WithMessage(
+  response: Response,
+  expectedError: string | RegExp | { message: string; field: string },
+) {
   expect(response.statusCode).toBe(400);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -110,13 +102,9 @@ const expect400WithMessage = (response, expectedError) => {
       expect(error.field).toBe(expectedError.field);
     }
   }
-};
+}
 
-/**
- * Assert that a response is a 401 error
- * @param {Object} response - Supertest response object
- */
-const expect401Error = (response) => {
+function expect401Error(response: Response) {
   expect(response.statusCode).toBe(401);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -126,13 +114,9 @@ const expect401Error = (response) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
-/**
- * Assert that a response is a 403 error
- * @param {Object} response - Supertest response object
- */
-const expect403Error = (response) => {
+function expect403Error(response: Response) {
   expect(response.statusCode).toBe(403);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -142,13 +126,9 @@ const expect403Error = (response) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
-/**
- * Assert that a response is a 404 error
- * @param {Object} response - Supertest response object
- */
-const expect404Error = (response) => {
+function expect404Error(response: Response) {
   expect(response.statusCode).toBe(404);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -158,13 +138,9 @@ const expect404Error = (response) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
-/**
- * Assert that a response is a 409 error
- * @param {Object} response - Supertest response object
- */
-const expect409Error = (response) => {
+function expect409Error(response: Response) {
   expect(response.statusCode).toBe(409);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -174,13 +150,9 @@ const expect409Error = (response) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
-/**
- * Assert that a response is a 409 error
- * @param {Object} response - Supertest response object
- */
-const expect415Error = (response) => {
+function expect415Error(response: Response) {
   expect(response.statusCode).toBe(415);
   expect(response.headers["content-type"]).toMatch(/json/);
   expect(response.body).toHaveProperty("error");
@@ -190,19 +162,14 @@ const expect415Error = (response) => {
       message: expect.any(String),
     }),
   );
-};
+}
 
-/**
- * Common assertions for successful JSON responses
- * @param {Object} response - Supertest response object
- * @param {number} expectedStatus - Expected HTTP status code (default 200)
- */
-const expectJsonResponse = (response, expectedStatus = 200) => {
+function expectJsonResponse(response: Response, expectedStatus = 200) {
   expect(response.statusCode).toBe(expectedStatus);
   expect(response.headers["content-type"]).toMatch(/json/);
-};
+}
 
-module.exports = {
+export {
   expectValidJwtToken,
   expectValidRunStructure,
   expectValidUserStructure,
