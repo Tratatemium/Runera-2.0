@@ -1,23 +1,24 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expectValidUserStructure,
   expect401Error,
   expect403Error,
   expect400WithMessage,
   expect404Error,
   expectJsonResponse,
-} = require("../../helpers/assertions");
-const { getAuthValidationTests } = require("../../helpers/request.helpers");
+} from "../../helpers/assertions";
+import { getAuthValidationTests } from "../../helpers/request.helpers";
 
-describe("GET /api/v1/users/:id (Admin Route)", () => {
-  let user1Token;
-  let user2Token;
-  let adminToken;
+describe("GET /api/v1/users/:id (Admin Route)", function () {
+  let user1Token: string;
+  let user2Token: string;
+  let adminToken: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -32,9 +33,9 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     });
   });
 
-  describe("Authentication validation", () => {
+  describe("Authentication validation", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const req = request(app).get(
           `/api/v1/users/${TEST_USERS.user1.userId}`,
         );
@@ -45,7 +46,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     });
   });
 
-  describe("UUID validation", () => {
+  describe("UUID validation", function () {
     const invalidUUIDs = [
       { id: "not-a-uuid", desc: "invalid format" },
       { id: "123", desc: "too short" },
@@ -57,7 +58,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     ];
 
     invalidUUIDs.forEach(({ id, desc }) => {
-      it(`returns 400 when id is ${desc}`, async () => {
+      it(`returns 400 when id is ${desc}`, async function () {
         const res = await request(app)
           .get(`/api/v1/users/${id}`)
           .set("Cookie", adminToken);
@@ -67,8 +68,8 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     });
   });
 
-  describe("Authorization/Permission checks", () => {
-    it("allows admin to access any user's data", async () => {
+  describe("Authorization/Permission checks", function () {
+    it("allows admin to access any user's data", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user1.userId}`)
         .set("Cookie", adminToken);
@@ -80,7 +81,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
       });
     });
 
-    it("allows user to access their own data", async () => {
+    it("allows user to access their own data", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user1.userId}`)
         .set("Cookie", user1Token);
@@ -92,7 +93,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
       });
     });
 
-    it("denies user access to another user's data", async () => {
+    it("denies user access to another user's data", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user2.userId}`)
         .set("Cookie", user1Token);
@@ -102,8 +103,8 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     });
   });
 
-  describe("Successful user retrieval", () => {
-    it("returns complete user data for user1", async () => {
+  describe("Successful user retrieval", function () {
+    it("returns complete user data for user1", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user1.userId}`)
         .set("Cookie", adminToken);
@@ -115,7 +116,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
       });
     });
 
-    it("returns complete user data for user2", async () => {
+    it("returns complete user data for user2", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user2.userId}`)
         .set("Cookie", adminToken);
@@ -127,7 +128,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
       });
     });
 
-    it("returns admin user data when admin requests their own data", async () => {
+    it("returns admin user data when admin requests their own data", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.admin.userId}`)
         .set("Cookie", adminToken);
@@ -139,7 +140,7 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
       });
     });
 
-    it("does not expose sensitive credentials in response", async () => {
+    it("does not expose sensitive credentials in response", async function () {
       const res = await request(app)
         .get(`/api/v1/users/${TEST_USERS.user1.userId}`)
         .set("Cookie", adminToken);
@@ -150,8 +151,8 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
     });
   });
 
-  describe("Non-existent user", () => {
-    it("returns 404 for non-existent user ID", async () => {
+  describe("Non-existent user", function () {
+    it("returns 404 for non-existent user ID", async function () {
       const nonExistentId = "e970bb08-3470-41de-be0b-753df9ec6562";
       const res = await request(app)
         .get(`/api/v1/users/${nonExistentId}`)
@@ -163,12 +164,12 @@ describe("GET /api/v1/users/:id (Admin Route)", () => {
   });
 });
 
-describe("GET /api/v1/users/ (Admin - Get All Users)", () => {
-  let user1Token;
-  let user2Token;
-  let adminToken;
+describe("GET /api/v1/users/ (Admin - Get All Users)", function () {
+  let user1Token: string;
+  let user2Token: string;
+  let adminToken: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -183,9 +184,9 @@ describe("GET /api/v1/users/ (Admin - Get All Users)", () => {
     });
   });
 
-  describe("Authentication validation", () => {
+  describe("Authentication validation", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const req = request(app).get("/api/v1/users/");
         const res = await setupAuth(req);
 
@@ -194,8 +195,8 @@ describe("GET /api/v1/users/ (Admin - Get All Users)", () => {
     });
   });
 
-  describe("Authorization/Permission checks", () => {
-    it("denies access to regular users", async () => {
+  describe("Authorization/Permission checks", function () {
+    it("denies access to regular users", async function () {
       const res = await request(app)
         .get("/api/v1/users/")
         .set("Cookie", user1Token);
@@ -204,7 +205,7 @@ describe("GET /api/v1/users/ (Admin - Get All Users)", () => {
       expect(res.body.error.message).toMatch(/not allowed|permission|admin/i);
     });
 
-    it("denies access to different regular users", async () => {
+    it("denies access to different regular users", async function () {
       const res = await request(app)
         .get("/api/v1/users/")
         .set("Cookie", user2Token);
@@ -213,8 +214,8 @@ describe("GET /api/v1/users/ (Admin - Get All Users)", () => {
     });
   });
 
-  describe("Successful user list retrieval", () => {
-    it("currently returns 500 for admin list retrieval", async () => {
+  describe("Successful user list retrieval", function () {
+    it("currently returns 500 for admin list retrieval", async function () {
       const res = await request(app)
         .get("/api/v1/users/")
         .set("Cookie", adminToken);

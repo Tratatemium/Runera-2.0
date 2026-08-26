@@ -1,23 +1,24 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS, VALID_PROFILE_DATA } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS, VALID_PROFILE_DATA } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expect400WithMessage,
   expectJsonResponse,
   expect401Error,
   expect415Error,
-} = require("../../helpers/assertions");
-const {
+} from "../../helpers/assertions";
+import {
   getAuthValidationTests,
   getContentTypeTests,
-} = require("../../helpers/request.helpers");
+} from "../../helpers/request.helpers";
 
-describe("PATCH /api/v1/users/me/profile", () => {
-  let user1Token;
-  let user2Token;
+describe("PATCH /api/v1/users/me/profile", function () {
+  let user1Token: string;
+  let user2Token: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -28,9 +29,9 @@ describe("PATCH /api/v1/users/me/profile", () => {
     });
   });
 
-  describe("Content-Type validation", () => {
+  describe("Content-Type validation", function () {
     getContentTypeTests().forEach(({ name, contentType, body }) => {
-      it(name, async () => {
+      it(name, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Content-Type", contentType)
@@ -42,9 +43,9 @@ describe("PATCH /api/v1/users/me/profile", () => {
     });
   });
 
-  describe("Authentication validation", () => {
+  describe("Authentication validation", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const req = request(app)
           .patch("/api/v1/users/me/profile")
           .send({ profile: { firstName: "John" } });
@@ -55,7 +56,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     });
   });
 
-  describe("Profile object validation", () => {
+  describe("Profile object validation", function () {
     const invalidProfileCases = [
       { profile: undefined, desc: "missing" },
       { profile: null, desc: "null" },
@@ -64,7 +65,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     ];
 
     invalidProfileCases.forEach(({ profile, desc }) => {
-      it(`returns 400 when profile is ${desc}`, async () => {
+      it(`returns 400 when profile is ${desc}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Cookie", user1Token)
@@ -74,7 +75,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
       });
     });
 
-    it("returns 400 for unknown field in profile", async () => {
+    it("returns 400 for unknown field in profile", async function () {
       const res = await request(app)
         .patch("/api/v1/users/me/profile")
         .set("Cookie", user1Token)
@@ -83,7 +84,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
       expect400WithMessage(res, "Unknown field: unknownField");
     });
 
-    it("returns 400 for multiple unknown fields", async () => {
+    it("returns 400 for multiple unknown fields", async function () {
       const res = await request(app)
         .patch("/api/v1/users/me/profile")
         .set("Cookie", user1Token)
@@ -94,7 +95,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     });
   });
 
-  describe("Field validation", () => {
+  describe("Field validation", function () {
     const nameValidationCases = [
       { field: "firstName", value: "", error: /firstName/ },
       { field: "firstName", value: "John123", error: /firstName/ },
@@ -107,7 +108,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     ];
 
     nameValidationCases.forEach(({ field, value, error }) => {
-      it(`returns 400 for invalid ${field}: ${value.slice(0, 20)}`, async () => {
+      it(`returns 400 for invalid ${field}: ${value.slice(0, 20)}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Cookie", user1Token)
@@ -124,7 +125,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     ];
 
     dateValidationCases.forEach(({ value, desc }) => {
-      it(`returns 400 for dateOfBirth: ${desc}`, async () => {
+      it(`returns 400 for dateOfBirth: ${desc}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Cookie", user1Token)
@@ -144,7 +145,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     ];
 
     numericValidationCases.forEach(({ field, value, desc }) => {
-      it(`returns 400 for ${field}: ${desc}`, async () => {
+      it(`returns 400 for ${field}: ${desc}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Cookie", user1Token)
@@ -155,7 +156,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     });
   });
 
-  describe("Successful profile updates", () => {
+  describe("Successful profile updates", function () {
     const successCases = [
       { profile: { firstName: "John" }, desc: "firstName only" },
       { profile: { lastName: "Doe" }, desc: "lastName only" },
@@ -171,7 +172,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
     ];
 
     successCases.forEach(({ profile, desc }) => {
-      it(`returns 200 when updating ${desc}`, async () => {
+      it(`returns 200 when updating ${desc}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/profile")
           .set("Cookie", user1Token)
@@ -181,7 +182,7 @@ describe("PATCH /api/v1/users/me/profile", () => {
       });
     });
 
-    it("allows different users to update their own profiles", async () => {
+    it("allows different users to update their own profiles", async function () {
       const res1 = await request(app)
         .patch("/api/v1/users/me/profile")
         .set("Cookie", user1Token)

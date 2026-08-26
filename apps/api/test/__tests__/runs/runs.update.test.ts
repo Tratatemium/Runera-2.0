@@ -1,23 +1,24 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS, TEST_RUN_IDS } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS, TEST_RUN_IDS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expect400WithMessage,
   expect403Error,
   expect404Error,
   expectValidRunStructure,
   expectJsonResponse,
   expect415Error,
-} = require("../../helpers/assertions");
-const { getAuthValidationTests } = require("../../helpers/request.helpers");
+} from "../../helpers/assertions";
+import { getAuthValidationTests } from "../../helpers/request.helpers";
 
-describe("PATCH /api/v1/runs/:id", () => {
-  let user1Token;
-  let user2Token;
-  let adminToken;
+describe("PATCH /api/v1/runs/:id", function () {
+  let user1Token: string;
+  let user2Token: string;
+  let adminToken: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -32,9 +33,9 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Authentication", () => {
+  describe("Authentication", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const runId = TEST_RUN_IDS.user1Run1;
         const req = request(app).patch(`/api/v1/runs/${runId}`).send({
           durationSec: 2000,
@@ -47,8 +48,8 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Authorization (permissions)", () => {
-    it("returns 403 when user tries to update another user's run", async () => {
+  describe("Authorization (permissions)", function () {
+    it("returns 403 when user tries to update another user's run", async function () {
       const user1RunId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .patch(`/api/v1/runs/${user1RunId}`)
@@ -60,7 +61,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect403Error(res);
     });
 
-    it("returns 403 with appropriate error message for permission denial", async () => {
+    it("returns 403 with appropriate error message for permission denial", async function () {
       const user1RunId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .patch(`/api/v1/runs/${user1RunId}`)
@@ -74,8 +75,8 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Owner permissions", () => {
-    it("allows owner to update their own run", async () => {
+  describe("Owner permissions", function () {
+    it("allows owner to update their own run", async function () {
       // Create a run as user1
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -101,7 +102,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect(updateRes.body.data.runData).toHaveProperty("durationSec", 2000);
     });
 
-    it("owner can update multiple fields at once", async () => {
+    it("owner can update multiple fields at once", async function () {
       // Create a run as user2
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -125,10 +126,13 @@ describe("PATCH /api/v1/runs/:id", () => {
 
       expectJsonResponse(updateRes, 200);
       expect(updateRes.body.data.runData).toHaveProperty("durationSec", 1800);
-      expect(updateRes.body.data.runData).toHaveProperty("distanceMeters", 5000);
+      expect(updateRes.body.data.runData).toHaveProperty(
+        "distanceMeters",
+        5000,
+      );
     });
 
-    it("owner can update startTime", async () => {
+    it("owner can update startTime", async function () {
       // Create a run as user1
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -151,10 +155,13 @@ describe("PATCH /api/v1/runs/:id", () => {
         });
 
       expectJsonResponse(updateRes, 200);
-      expect(updateRes.body.data.runData).toHaveProperty("startTime", newStartTime);
+      expect(updateRes.body.data.runData).toHaveProperty(
+        "startTime",
+        newStartTime,
+      );
     });
 
-    it("updated run maintains valid structure", async () => {
+    it("updated run maintains valid structure", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -179,7 +186,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expectValidRunStructure(updateRes.body.data.runData);
     });
 
-    it("owner update persists in database", async () => {
+    it("owner update persists in database", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -208,8 +215,8 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Admin permissions", () => {
-    it("allows admin to update another user's run", async () => {
+  describe("Admin permissions", function () {
+    it("allows admin to update another user's run", async function () {
       // Create a run as user1
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -235,7 +242,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect(updateRes.body.data.runData).toHaveProperty("durationSec", 1800);
     });
 
-    it("admin can update multiple fields of another user's run", async () => {
+    it("admin can update multiple fields of another user's run", async function () {
       // Create a run as user2
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -264,10 +271,13 @@ describe("PATCH /api/v1/runs/:id", () => {
         "2026-02-03T17:00:00.000Z",
       );
       expect(updateRes.body.data.runData).toHaveProperty("durationSec", 2200);
-      expect(updateRes.body.data.runData).toHaveProperty("distanceMeters", 6000);
+      expect(updateRes.body.data.runData).toHaveProperty(
+        "distanceMeters",
+        6000,
+      );
     });
 
-    it("admin update maintains valid run structure", async () => {
+    it("admin update maintains valid run structure", async function () {
       // Create a run as user1
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -292,7 +302,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expectValidRunStructure(updateRes.body.data.runData);
     });
 
-    it("admin update persists in database", async () => {
+    it("admin update persists in database", async function () {
       // Create a run as user2
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -321,8 +331,8 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Validation", () => {
-    it("returns 415 when Content-Type is not application/json", async () => {
+  describe("Validation", function () {
+    it("returns 415 when Content-Type is not application/json", async function () {
       const runId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .patch(`/api/v1/runs/${runId}`)
@@ -339,7 +349,7 @@ describe("PATCH /api/v1/runs/:id", () => {
     ];
 
     invalidIdCases.forEach(({ id, desc }) => {
-      it(`returns 404 for ${desc}`, async () => {
+      it(`returns 404 for ${desc}`, async function () {
         const res = await request(app)
           .patch(`/api/v1/runs/${id}`)
           .set("Cookie", user1Token)
@@ -351,7 +361,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       });
     });
 
-    it("returns 404 when updating non-existent run", async () => {
+    it("returns 404 when updating non-existent run", async function () {
       const nonExistentId = TEST_RUN_IDS.nonExistent;
       const res = await request(app)
         .patch(`/api/v1/runs/${nonExistentId}`)
@@ -363,7 +373,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect404Error(res);
     });
 
-    it("returns 400 when updating with empty body", async () => {
+    it("returns 400 when updating with empty body", async function () {
       const runId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .patch(`/api/v1/runs/${runId}`)
@@ -373,7 +383,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect400WithMessage(res, /must have one of the required fields/i);
     });
 
-    it("returns 400 when updating with unknown fields", async () => {
+    it("returns 400 when updating with unknown fields", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -404,7 +414,7 @@ describe("PATCH /api/v1/runs/:id", () => {
     ];
 
     invalidDurationCases.forEach(({ value, desc }) => {
-      it(`returns 400 for invalid durationSec: ${desc}`, async () => {
+      it(`returns 400 for invalid durationSec: ${desc}`, async function () {
         const createRes = await request(app)
           .post("/api/v1/users/me/runs")
           .set("Cookie", user1Token)
@@ -434,7 +444,7 @@ describe("PATCH /api/v1/runs/:id", () => {
     ];
 
     invalidDistanceCases.forEach(({ value, desc }) => {
-      it(`returns 400 for invalid distanceMeters: ${desc}`, async () => {
+      it(`returns 400 for invalid distanceMeters: ${desc}`, async function () {
         const createRes = await request(app)
           .post("/api/v1/users/me/runs")
           .set("Cookie", user1Token)
@@ -464,7 +474,7 @@ describe("PATCH /api/v1/runs/:id", () => {
     ];
 
     invalidStartTimeCases.forEach(({ value, desc }) => {
-      it(`returns 400 for invalid startTime: ${desc}`, async () => {
+      it(`returns 400 for invalid startTime: ${desc}`, async function () {
         const createRes = await request(app)
           .post("/api/v1/users/me/runs")
           .set("Cookie", user1Token)
@@ -488,8 +498,8 @@ describe("PATCH /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Response format", () => {
-    it("returns updated run data in standard success format", async () => {
+  describe("Response format", function () {
+    it("returns updated run data in standard success format", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -516,7 +526,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect(res.body.data.runData).toBeInstanceOf(Object);
     });
 
-    it("returns all run fields in response", async () => {
+    it("returns all run fields in response", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -545,7 +555,7 @@ describe("PATCH /api/v1/runs/:id", () => {
       expect(res.body.data.runData).toHaveProperty("distanceMeters");
     });
 
-    it("preserves unchanged fields in response", async () => {
+    it("preserves unchanged fields in response", async function () {
       // Create a run
       const originalStartTime = "2026-02-04T10:00:00.000Z";
       const originalDistance = 5200;
@@ -570,8 +580,14 @@ describe("PATCH /api/v1/runs/:id", () => {
 
       expectJsonResponse(res, 200);
       expect(res.body.data.runData).toHaveProperty("durationSec", 1900);
-      expect(res.body.data.runData).toHaveProperty("startTime", originalStartTime);
-      expect(res.body.data.runData).toHaveProperty("distanceMeters", originalDistance);
+      expect(res.body.data.runData).toHaveProperty(
+        "startTime",
+        originalStartTime,
+      );
+      expect(res.body.data.runData).toHaveProperty(
+        "distanceMeters",
+        originalDistance,
+      );
     });
   });
 });

@@ -1,15 +1,16 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_RUN_IDS } = require("../../helpers/test-data");
-const {
+import request from "supertest";
+import { describe, it, expect } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_RUN_IDS } from "../../helpers/test-data";
+import {
   expectValidRunStructure,
   expect404Error,
   expect400WithMessage,
-  expectJsonResponse
-} = require("../../helpers/assertions");
+  expectJsonResponse,
+} from "../../helpers/assertions";
 
-describe("GET /api/v1/runs/:id", () => {
-  it("returns 200 and run JSON for an existing ID", async () => {
+describe("GET /api/v1/runs/:id", function () {
+  it("returns 200 and run JSON for an existing ID", async function () {
     const runId = TEST_RUN_IDS.user1Run1;
     const res = await request(app).get(`/api/v1/runs/${runId}`);
 
@@ -18,14 +19,14 @@ describe("GET /api/v1/runs/:id", () => {
     expectValidRunStructure(res.body.data.runData);
   });
 
-  it("returns 404 for a non-existing ID", async () => {
+  it("returns 404 for a non-existing ID", async function () {
     const runId = TEST_RUN_IDS.nonExistent;
     const res = await request(app).get(`/api/v1/runs/${runId}`);
 
     expect404Error(res);
   });
 
-  it("returns 400 for non-UUID", async () => {
+  it("returns 400 for non-UUID", async function () {
     const runId = "not-a-UUID";
     const res = await request(app).get(`/api/v1/runs/${runId}`);
 

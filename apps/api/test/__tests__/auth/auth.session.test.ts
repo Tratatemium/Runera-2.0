@@ -1,19 +1,20 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import request from "supertest";
+import { describe, it, beforeAll, expect } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expectValidUserStructure,
   expect401Error,
   expectJsonResponse,
-} = require("../../helpers/assertions");
-const { getAuthValidationTests } = require("../../helpers/request.helpers");
+} from "../../helpers/assertions";
+import { getAuthValidationTests } from "../../helpers/request.helpers";
 
-describe("GET /api/v1/users/me", () => {
-  let user1Token;
-  let user2Token;
+describe("GET /api/v1/users/me", function () {
+  let user1Token: string;
+  let user2Token: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -24,9 +25,9 @@ describe("GET /api/v1/users/me", () => {
     });
   });
 
-  describe("Authentication validation", () => {
+  describe("Authentication validation", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const req = request(app).get("/api/v1/users/me");
         const res = await setupAuth(req);
 
@@ -35,8 +36,8 @@ describe("GET /api/v1/users/me", () => {
     });
   });
 
-  describe("Successful requests", () => {
-    it("returns 200 and user data for authenticated user", async () => {
+  describe("Successful requests", function () {
+    it("returns 200 and user data for authenticated user", async function () {
       const res = await request(app)
         .get("/api/v1/users/me")
         .set("Cookie", user1Token);
@@ -48,7 +49,7 @@ describe("GET /api/v1/users/me", () => {
       });
     });
 
-    it("returns correct data for different authenticated users", async () => {
+    it("returns correct data for different authenticated users", async function () {
       const res = await request(app)
         .get("/api/v1/users/me")
         .set("Cookie", user2Token);
@@ -62,10 +63,10 @@ describe("GET /api/v1/users/me", () => {
   });
 });
 
-describe("POST /api/v1/auth/logoutAll", () => {
-  describe("Authentication validation", () => {
+describe("POST /api/v1/auth/logoutAll", function () {
+  describe("Authentication validation", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const req = request(app).post("/api/v1/auth/logoutAll");
         const res = await setupAuth(req);
 
@@ -74,8 +75,8 @@ describe("POST /api/v1/auth/logoutAll", () => {
     });
   });
 
-  describe("Successful logout", () => {
-    it("returns 200 when logging out all sessions", async () => {
+  describe("Successful logout", function () {
+    it("returns 200 when logging out all sessions", async function () {
       const token = await getAuthToken({
         email: TEST_USERS.user1.email,
         password: TEST_USERS.user1.password,
@@ -88,7 +89,7 @@ describe("POST /api/v1/auth/logoutAll", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("invalidates all previous tokens after logoutAll", async () => {
+    it("invalidates all previous tokens after logoutAll", async function () {
       const token = await getAuthToken({
         email: TEST_USERS.user1.email,
         password: TEST_USERS.user1.password,
@@ -101,9 +102,7 @@ describe("POST /api/v1/auth/logoutAll", () => {
       expect(beforeLogout.statusCode).toBe(200);
 
       // Logout all sessions
-      await request(app)
-        .post("/api/v1/auth/logoutAll")
-        .set("Cookie", token);
+      await request(app).post("/api/v1/auth/logoutAll").set("Cookie", token);
 
       // Try to use old token
       const afterLogout = await request(app)
@@ -113,7 +112,7 @@ describe("POST /api/v1/auth/logoutAll", () => {
       expect401Error(afterLogout);
     });
 
-    it("invalidates multiple tokens after logoutAll", async () => {
+    it("invalidates multiple tokens after logoutAll", async function () {
       // Login twice to get two tokens
       const token1 = await getAuthToken({
         email: TEST_USERS.user1.email,
@@ -136,9 +135,7 @@ describe("POST /api/v1/auth/logoutAll", () => {
       expect(check2.statusCode).toBe(200);
 
       // Logout all sessions using first token
-      await request(app)
-        .post("/api/v1/auth/logoutAll")
-        .set("Cookie", token1);
+      await request(app).post("/api/v1/auth/logoutAll").set("Cookie", token1);
 
       // Both tokens should now be invalid
       const afterLogout1 = await request(app)
@@ -152,16 +149,14 @@ describe("POST /api/v1/auth/logoutAll", () => {
       expect401Error(afterLogout2);
     });
 
-    it("allows login with new token after logoutAll", async () => {
+    it("allows login with new token after logoutAll", async function () {
       // Login and logout all
       const oldToken = await getAuthToken({
         email: TEST_USERS.user1.email,
         password: TEST_USERS.user1.password,
       });
 
-      await request(app)
-        .post("/api/v1/auth/logoutAll")
-        .set("Cookie", oldToken);
+      await request(app).post("/api/v1/auth/logoutAll").set("Cookie", oldToken);
 
       // Login again to get new token
       const newToken = await getAuthToken({

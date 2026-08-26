@@ -1,17 +1,18 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS } = require("../../helpers/test-data");
-const { expectErrorResponse } = require("../../helpers/request.helpers");
-const {
+import request from "supertest";
+import { describe, it } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS } from "../../helpers/test-data";
+import { expectErrorResponse } from "../../helpers/request.helpers";
+import {
   expectValidJwtToken,
   expect400WithMessage,
   expect401Error,
   expect415Error,
-} = require("../../helpers/assertions");
+} from "../../helpers/assertions";
 
-describe("POST /api/v1/auth/login", () => {
-  describe("Content-Type validation", () => {
-    it("returns 415 when Content-Type is not JSON", async () => {
+describe("POST /api/v1/auth/login", function () {
+  describe("Content-Type validation", function () {
+    it("returns 415 when Content-Type is not JSON", async function () {
       const res = await request(app)
         .post("/api/v1/auth/login")
         .set("Content-Type", "text/plain")
@@ -22,14 +23,14 @@ describe("POST /api/v1/auth/login", () => {
   });
 });
 
-describe("Required fields validation", () => {
-  it("returns 400 for empty JSON", async () => {
+describe("Required fields validation", function () {
+  it("returns 400 for empty JSON", async function () {
     const res = await request(app).post("/api/v1/auth/login").send({});
 
     expect400WithMessage(res, "Login request must include password.");
   });
 
-  it("returns 400 for missing password field", async () => {
+  it("returns 400 for missing password field", async function () {
     const res = await request(app)
       .post("/api/v1/auth/login")
       .send({ username: TEST_USERS.user1.username });
@@ -37,7 +38,7 @@ describe("Required fields validation", () => {
     expect400WithMessage(res, "Login request must include password.");
   });
 
-  it("returns 400 when both username and email are missing", async () => {
+  it("returns 400 when both username and email are missing", async function () {
     const res = await request(app)
       .post("/api/v1/auth/login")
       .send({ password: TEST_USERS.user1.password });
@@ -48,7 +49,7 @@ describe("Required fields validation", () => {
     );
   });
 
-  it("returns 400 when both username and email are provided", async () => {
+  it("returns 400 when both username and email are provided", async function () {
     const res = await request(app).post("/api/v1/auth/login").send({
       username: TEST_USERS.user1.username,
       email: TEST_USERS.user1.email,
@@ -77,7 +78,7 @@ describe("Required fields validation", () => {
   });
 });
 
-describe("Authentication validation", () => {
+describe("Authentication validation", function () {
   it.each([
     { type: "username", identifier: TEST_USERS.user1.username },
     { type: "email", identifier: TEST_USERS.user1.email },
@@ -105,7 +106,7 @@ describe("Authentication validation", () => {
   });
 });
 
-describe("Successful login", () => {
+describe("Successful login", function () {
   it.each([
     {
       name: "with username",
@@ -127,7 +128,7 @@ describe("Successful login", () => {
     expectValidJwtToken(res);
   });
 
-  it("allows multiple logins with same credentials", async () => {
+  it("allows multiple logins with same credentials", async function () {
     const loginData = {
       username: TEST_USERS.user1.username,
       password: TEST_USERS.user1.password,
@@ -140,7 +141,7 @@ describe("Successful login", () => {
     expectValidJwtToken(res2);
   });
 
-  it("allows login with case-insensitive email", async () => {
+  it("allows login with case-insensitive email", async function () {
     const email = TEST_USERS.user2.email.toLowerCase();
     const res = await request(app).post("/api/v1/auth/login").send({
       email,

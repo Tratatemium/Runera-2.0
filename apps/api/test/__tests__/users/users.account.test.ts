@@ -1,28 +1,29 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const seeding = require("../../helpers/seeding.js");
-const User = require("../../../src/models/users.models.js");
-const { TEST_USERS } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import request from "supertest";
+import { describe, it, expect, beforeAll, afterEach } from "@jest/globals";
+import app from "../../../src/app.js";
+import * as seeding from "../../helpers/seeding.js";
+import User from "../../../src/models/users.models.js";
+import { TEST_USERS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expect400WithMessage,
   expect401Error,
   expect415Error,
-} = require("../../helpers/assertions");
-const {
+} from "../../helpers/assertions";
+import {
   getAuthValidationTests,
   getContentTypeTests,
-} = require("../../helpers/request.helpers");
+} from "../../helpers/request.helpers";
 
 /**
  * Test suite for PATCH /api/v1/users/me/account endpoint
  * Covers password, email, and username updates
  */
-describe("PATCH /api/v1/users/me/account", () => {
-  let user1Token;
-  let user2Token;
+describe("PATCH /api/v1/users/me/account", function () {
+  let user1Token: string;
+  let user2Token: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -33,16 +34,16 @@ describe("PATCH /api/v1/users/me/account", () => {
     });
   });
 
-  afterEach(async () => {
+  afterEach(async function () {
     // Reseed data after each test to maintain consistent state
     await User.deleteMany({});
     await seeding.seedData(User, "users");
   });
 
-  describe("Common validations", () => {
-    describe("Content-Type validation", () => {
+  describe("Common validations", function () {
+    describe("Content-Type validation", function () {
       getContentTypeTests().forEach(({ name, contentType, body }) => {
-        it(name, async () => {
+        it(name, async function () {
           const res = await request(app)
             .patch("/api/v1/users/me/account")
             .set("Content-Type", contentType)
@@ -54,9 +55,9 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    describe("Authentication validation", () => {
+    describe("Authentication validation", function () {
       getAuthValidationTests().forEach(({ name, setupAuth }) => {
-        it(name, async () => {
+        it(name, async function () {
           const req = request(app).patch("/api/v1/users/me/account").send({
             currentPassword: TEST_USERS.user1.password,
             newPassword: "NewPassword456!",
@@ -68,8 +69,8 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    describe("currentPassword validation", () => {
-      it("returns 400 when currentPassword is missing", async () => {
+    describe("currentPassword validation", function () {
+      it("returns 400 when currentPassword is missing", async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user1Token)
@@ -78,7 +79,7 @@ describe("PATCH /api/v1/users/me/account", () => {
         expect400WithMessage(res, "currentPassword must be provided.");
       });
 
-      it("returns 401 when currentPassword is incorrect", async () => {
+      it("returns 401 when currentPassword is incorrect", async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user1Token)
@@ -91,7 +92,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    describe("Field update validation", () => {
+    describe("Field update validation", function () {
       const invalidFieldCombinations = [
         {
           data: { currentPassword: TEST_USERS.user1.password },
@@ -117,7 +118,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       ];
 
       invalidFieldCombinations.forEach(({ data, desc }) => {
-        it(`returns 400 when ${desc} provided`, async () => {
+        it(`returns 400 when ${desc} provided`, async function () {
           const res = await request(app)
             .patch("/api/v1/users/me/account")
             .set("Cookie", user1Token)
@@ -132,7 +133,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     });
   });
 
-  describe("Password updates", () => {
+  describe("Password updates", function () {
     const passwordValidationCases = [
       {
         password: "Short1!",
@@ -146,7 +147,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     ];
 
     passwordValidationCases.forEach(({ password, message }) => {
-      it(`returns 400 for invalid newPassword: ${message}`, async () => {
+      it(`returns 400 for invalid newPassword: ${message}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user1Token)
@@ -159,7 +160,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    it("successfully updates password", async () => {
+    it("successfully updates password", async function () {
       const res = await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -171,7 +172,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("invalidates previous token after password update", async () => {
+    it("invalidates previous token after password update", async function () {
       const oldToken = user1Token;
 
       await request(app)
@@ -189,7 +190,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect401Error(res);
     });
 
-    it("allows login with new password after update", async () => {
+    it("allows login with new password after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -207,7 +208,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(loginRes.headers).toHaveProperty("set-cookie");
     });
 
-    it("rejects login with old password after update", async () => {
+    it("rejects login with old password after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -225,7 +226,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     });
   });
 
-  describe("Email updates", () => {
+  describe("Email updates", function () {
     const emailValidationCases = [
       { email: "notanemail", message: "Email must be a valid email address." },
       {
@@ -240,7 +241,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     ];
 
     emailValidationCases.forEach(({ email, message }) => {
-      it(`returns 400 for invalid newEmail: ${message}`, async () => {
+      it(`returns 400 for invalid newEmail: ${message}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user2Token)
@@ -253,7 +254,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    it("successfully updates email", async () => {
+    it("successfully updates email", async function () {
       const res = await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user2Token)
@@ -265,7 +266,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("invalidates previous token after email update", async () => {
+    it("invalidates previous token after email update", async function () {
       const oldToken = user2Token;
 
       await request(app)
@@ -283,7 +284,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect401Error(res);
     });
 
-    it("allows login with new email after update", async () => {
+    it("allows login with new email after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user2Token)
@@ -301,7 +302,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(loginRes.headers).toHaveProperty("set-cookie");
     });
 
-    it("rejects login with old email after update", async () => {
+    it("rejects login with old email after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user2Token)
@@ -319,7 +320,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     });
   });
 
-  describe("Username updates", () => {
+  describe("Username updates", function () {
     const usernameValidationCases = [
       {
         username: "abc",
@@ -341,7 +342,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     ];
 
     usernameValidationCases.forEach(({ username, message }) => {
-      it(`returns 400 for invalid newUsername: ${message}`, async () => {
+      it(`returns 400 for invalid newUsername: ${message}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user1Token)
@@ -354,7 +355,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       });
     });
 
-    it("successfully updates username", async () => {
+    it("successfully updates username", async function () {
       const res = await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -366,7 +367,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(res.statusCode).toBe(200);
     });
 
-    it("invalidates previous token after username update", async () => {
+    it("invalidates previous token after username update", async function () {
       const oldToken = user1Token;
 
       await request(app)
@@ -384,7 +385,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect401Error(res);
     });
 
-    it("allows login with new username after update", async () => {
+    it("allows login with new username after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -402,7 +403,7 @@ describe("PATCH /api/v1/users/me/account", () => {
       expect(loginRes.headers).toHaveProperty("set-cookie");
     });
 
-    it("rejects login with old username after update", async () => {
+    it("rejects login with old username after update", async function () {
       await request(app)
         .patch("/api/v1/users/me/account")
         .set("Cookie", user1Token)
@@ -425,7 +426,7 @@ describe("PATCH /api/v1/users/me/account", () => {
     ];
 
     validUsernames.forEach(({ username, desc }) => {
-      it(`accepts valid username ${desc}`, async () => {
+      it(`accepts valid username ${desc}`, async function () {
         const res = await request(app)
           .patch("/api/v1/users/me/account")
           .set("Cookie", user1Token)

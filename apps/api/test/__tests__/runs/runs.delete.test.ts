@@ -1,20 +1,23 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { TEST_USERS, TEST_RUN_IDS } = require("../../helpers/test-data");
-const { getAuthToken } = require("../../helpers/auth.helpers");
-const {
+import type { DBRun } from "../../../src/models/runs.models.js";
+
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS, TEST_RUN_IDS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
   expect400WithMessage,
   expect403Error,
   expect404Error,
-} = require("../../helpers/assertions");
-const { getAuthValidationTests } = require("../../helpers/request.helpers");
+} from "../../helpers/assertions";
+import { getAuthValidationTests } from "../../helpers/request.helpers";
 
-describe("DELETE /api/v1/runs/:id", () => {
-  let user1Token;
-  let user2Token;
-  let adminToken;
+describe("DELETE /api/v1/runs/:id", function () {
+  let user1Token: string;
+  let user2Token: string;
+  let adminToken: string;
 
-  beforeAll(async () => {
+  beforeAll(async function () {
     user1Token = await getAuthToken({
       email: TEST_USERS.user1.email,
       password: TEST_USERS.user1.password,
@@ -29,9 +32,9 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Authentication", () => {
+  describe("Authentication", function () {
     getAuthValidationTests().forEach(({ name, setupAuth }) => {
-      it(name, async () => {
+      it(name, async function () {
         const runId = TEST_RUN_IDS.user1Run1;
         const req = request(app).delete(`/api/v1/runs/${runId}`);
         const res = await setupAuth(req);
@@ -42,8 +45,8 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Authorization (permissions)", () => {
-    it("returns 403 when user tries to delete another user's run", async () => {
+  describe("Authorization (permissions)", function () {
+    it("returns 403 when user tries to delete another user's run", async function () {
       const user1RunId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .delete(`/api/v1/runs/${user1RunId}`)
@@ -52,7 +55,7 @@ describe("DELETE /api/v1/runs/:id", () => {
       expect403Error(res);
     });
 
-    it("returns 403 with appropriate error message for permission denial", async () => {
+    it("returns 403 with appropriate error message for permission denial", async function () {
       const user1RunId = TEST_RUN_IDS.user1Run1;
       const res = await request(app)
         .delete(`/api/v1/runs/${user1RunId}`)
@@ -63,8 +66,8 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Admin permissions", () => {
-    it("allows admin to delete another user's run", async () => {
+  describe("Admin permissions", function () {
+    it("allows admin to delete another user's run", async function () {
       // Create a run as user1
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -92,7 +95,7 @@ describe("DELETE /api/v1/runs/:id", () => {
       expect(deleteRes.body).toEqual({});
     });
 
-    it("admin deletion actually removes the run from database", async () => {
+    it("admin deletion actually removes the run from database", async function () {
       // Create a run as user2
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -115,7 +118,7 @@ describe("DELETE /api/v1/runs/:id", () => {
       expect404Error(getAfterDelete);
     });
 
-    it("allows admin to delete their own runs", async () => {
+    it("allows admin to delete their own runs", async function () {
       // Create a run as admin
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -143,14 +146,14 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Validation", () => {
+  describe("Validation", function () {
     const invalidIdCases = [
       { id: "not-a-valid-uuid", desc: "invalid UUID format" },
       { id: "000000zdg000000000000000000", desc: "malformed UUID" },
     ];
 
     invalidIdCases.forEach(({ id, desc }) => {
-      it(`returns 400 for ${desc}`, async () => {
+      it(`returns 400 for ${desc}`, async function () {
         const res = await request(app)
           .delete(`/api/v1/runs/${id}`)
           .set("Cookie", user1Token);
@@ -160,8 +163,8 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Not found", () => {
-    it("returns 404 for non-existent run ID", async () => {
+  describe("Not found", function () {
+    it("returns 404 for non-existent run ID", async function () {
       const nonExistentId = TEST_RUN_IDS.nonExistent;
       const res = await request(app)
         .delete(`/api/v1/runs/${nonExistentId}`)
@@ -171,8 +174,8 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Successful deletion", () => {
-    it("returns 204 when user successfully deletes their own run", async () => {
+  describe("Successful deletion", function () {
+    it("returns 204 when user successfully deletes their own run", async function () {
       // First, create a new run to delete
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -194,7 +197,7 @@ describe("DELETE /api/v1/runs/:id", () => {
       expect(deleteRes.body).toEqual({});
     });
 
-    it("actually removes the run from the database", async () => {
+    it("actually removes the run from the database", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -223,7 +226,7 @@ describe("DELETE /api/v1/runs/:id", () => {
       expect404Error(getAfterDelete);
     });
 
-    it("removes the run from user's runs list", async () => {
+    it("removes the run from user's runs list", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")
@@ -257,11 +260,13 @@ describe("DELETE /api/v1/runs/:id", () => {
 
       expect(countAfter).toBe(countBefore - 1);
       expect(
-        getRunsAfter.body.data.myRuns.find((run) => run.runId === newRunId),
+        getRunsAfter.body.data.myRuns.find(
+          (run: DBRun) => run.runId === newRunId,
+        ),
       ).toBeUndefined();
     });
 
-    it("allows user to delete multiple runs sequentially", async () => {
+    it("allows user to delete multiple runs sequentially", async function () {
       // Create two runs
       const createRes1 = await request(app)
         .post("/api/v1/users/me/runs")
@@ -307,8 +312,8 @@ describe("DELETE /api/v1/runs/:id", () => {
     });
   });
 
-  describe("Idempotency", () => {
-    it("returns 404 when trying to delete an already deleted run", async () => {
+  describe("Idempotency", function () {
+    it("returns 404 when trying to delete an already deleted run", async function () {
       // Create a run
       const createRes = await request(app)
         .post("/api/v1/users/me/runs")

@@ -1,16 +1,17 @@
-const request = require("supertest");
-const app = require("../../../src/app.js");
-const { VALID_USER_DATA } = require("../../helpers/test-data");
-const {
+import request from "supertest";
+import { describe, it, expect } from "@jest/globals";
+import app from "../../../src/app.js";
+import { VALID_USER_DATA } from "../../helpers/test-data";
+import {
   expect400WithMessage,
   expect409Error,
   expect415Error,
   expectJsonResponse,
-} = require("../../helpers/assertions");
+} from "../../helpers/assertions";
 
-describe("POST /api/v1/auth/signup", () => {
-  describe("Content-Type validation", () => {
-    it("returns 415 when Content-Type is not JSON", async () => {
+describe("POST /api/v1/auth/signup", function () {
+  describe("Content-Type validation", function () {
+    it("returns 415 when Content-Type is not JSON", async function () {
       const res = await request(app)
         .post("/api/v1/auth/signup")
         .set("Content-Type", "text/plain")
@@ -21,8 +22,8 @@ describe("POST /api/v1/auth/signup", () => {
   });
 });
 
-describe("Required fields validation", () => {
-  it("returns 400 for empty JSON", async () => {
+describe("Required fields validation", function () {
+  it("returns 400 for empty JSON", async function () {
     const res = await request(app).post("/api/v1/auth/signup").send({});
 
     expect400WithMessage(
@@ -34,7 +35,10 @@ describe("Required fields validation", () => {
   it.each(["username", "password", "email"])(
     "returns 400 for missing %s field",
     async (field) => {
-      const { [field]: omitted, ...dataWithoutField } = VALID_USER_DATA;
+      const { [field]: omitted, ...dataWithoutField } = VALID_USER_DATA as Record<
+        string,
+        unknown
+      >;
       const res = await request(app)
         .post("/api/v1/auth/signup")
         .send(dataWithoutField);
@@ -46,7 +50,7 @@ describe("Required fields validation", () => {
     },
   );
 
-  it("returns 400 when field is null", async () => {
+  it("returns 400 when field is null", async function () {
     const res = await request(app)
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, username: null });
@@ -55,8 +59,8 @@ describe("Required fields validation", () => {
   });
 });
 
-describe("Username validation", () => {
-  it("returns 400 for non-string username", async () => {
+describe("Username validation", function () {
+  it("returns 400 for non-string username", async function () {
     const res = await request(app)
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, username: 12345 });
@@ -114,8 +118,8 @@ describe("Username validation", () => {
   });
 });
 
-describe("Email validation", () => {
-  it("returns 400 for non-string email", async () => {
+describe("Email validation", function () {
+  it("returns 400 for non-string email", async function () {
     const res = await request(app)
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, email: 12345 });
@@ -123,7 +127,7 @@ describe("Email validation", () => {
     expect400WithMessage(res, "Email must be a string.");
   });
 
-  it("returns 400 for email longer than 254 characters", async () => {
+  it("returns 400 for email longer than 254 characters", async function () {
     const longEmail = "a".repeat(250) + "@test.com";
     const res = await request(app)
       .post("/api/v1/auth/signup")
@@ -166,8 +170,8 @@ describe("Email validation", () => {
   });
 });
 
-describe("Password validation", () => {
-  it("returns 400 for non-string password", async () => {
+describe("Password validation", function () {
+  it("returns 400 for non-string password", async function () {
     const res = await request(app)
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, password: 12345 });
@@ -223,8 +227,8 @@ describe("Password validation", () => {
   });
 });
 
-describe("Uniqueness validation", () => {
-  it("returns 409 for duplicate username", async () => {
+describe("Uniqueness validation", function () {
+  it("returns 409 for duplicate username", async function () {
     const firstUser = {
       username: "unique_user_001",
       password: "FirstPassword123!",
@@ -244,7 +248,7 @@ describe("Uniqueness validation", () => {
     expect409Error(res);
   });
 
-  it("returns 409 for duplicate email", async () => {
+  it("returns 409 for duplicate email", async function () {
     const firstUser = {
       username: "unique_user_002",
       password: "FirstPassword123!",
@@ -264,7 +268,7 @@ describe("Uniqueness validation", () => {
     expect409Error(res);
   });
 
-  it("handles concurrent duplicate requests safely", async () => {
+  it("handles concurrent duplicate requests safely", async function () {
     const userA = {
       username: "race_user",
       password: "Password123!",
@@ -281,14 +285,16 @@ describe("Uniqueness validation", () => {
       request(app).post("/api/v1/auth/signup").send(userB),
     ]);
 
-    const statuses = results.map((r) => r.value.statusCode);
+    const statuses = results.map((r) =>
+      r.status === "fulfilled" ? r.value.statusCode : undefined,
+    );
     expect(statuses).toContain(201);
     expect(statuses).toContain(409);
   });
 });
 
-describe("Successful registration", () => {
-  it("returns 201 for valid user data", async () => {
+describe("Successful registration", function () {
+  it("returns 201 for valid user data", async function () {
     const res = await request(app).post("/api/v1/auth/signup").send({
       username: "newuser123",
       password: "SecurePassword123!",
@@ -299,7 +305,7 @@ describe("Successful registration", () => {
     expect(res.body.data).toHaveProperty("userId");
   });
 
-  it("returns 201 for valid user with all allowed characters", async () => {
+  it("returns 201 for valid user with all allowed characters", async function () {
     const res = await request(app).post("/api/v1/auth/signup").send({
       username: "user_name_123",
       password: "SecureP@ssw0rd!",
