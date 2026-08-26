@@ -21,7 +21,7 @@ const TEST_USERS = {
     password: "TheMostSecurePassword!@19",
     email: "admin@test.com",
     userId: "f7a076d4-361b-49bb-9b31-145302e83484",
-  }
+  },
 };
 
 // Valid run data template
@@ -53,7 +53,7 @@ const VALID_PROFILE_DATA = {
   weightKg: 75,
 };
 
-module.exports = {
+export {
   TEST_USERS,
   VALID_RUN_DATA,
   TEST_RUN_IDS,
