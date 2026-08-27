@@ -8,6 +8,7 @@
     "dev": "pnpm --parallel --filter @runera/web --filter @runera/api dev",
     "dev:web": "pnpm --filter @runera/web dev",
     "dev:api": "pnpm --filter @runera/api dev",
+    "test:api": "pnpm --filter @runera/api test",
     "build": "pnpm --recursive build"
   },
   "keywords": [],

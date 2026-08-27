@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -30,13 +31,20 @@
   },
   "jest": {
     "silent": true,
+    "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
     "setupFilesAfterEnv": [
-      "<rootDir>/test/setup/jest.setup.js"
+      "<rootDir>/test/setup/jest.setup.ts"
     ],
     "testMatch": [
-      "<rootDir>/test/__tests__/**/*.tests.js",
-      "<rootDir>/test/__tests__/**/*.test.js"
+      "<rootDir>/test/__tests__/**/*.tests.ts",
+      "<rootDir>/test/__tests__/**/*.test.ts"
     ]
   },
   "devDependencies": {
@@ -45,11 +53,13 @@
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.5",
     "@types/supertest": "^7.2.1",
-    "jest": "^30.4.2",
+    "jest": "^29.7.0",
     "mongodb-memory-server": "^11.0.1",
+    "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.12",
     "typescript": "^5.9.3"
