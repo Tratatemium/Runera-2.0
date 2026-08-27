@@ -137,13 +137,13 @@ describe("PATCH /api/v1/users/me/account", function () {
     const passwordValidationCases = [
       {
         password: "Short1!",
-        message: "Password must be at least 8 characters long.",
+        message: "password must be at least 8 characters long.",
       },
       {
         password: "A".repeat(129),
-        message: "Password must be at most 128 characters long.",
+        message: "password must be at most 128 characters long.",
       },
-      { password: 123456789012, message: "Password must be a string." },
+      { password: 123456789012, message: "password must be a string." },
     ];
 
     passwordValidationCases.forEach(({ password, message }) => {
@@ -228,16 +228,16 @@ describe("PATCH /api/v1/users/me/account", function () {
 
   describe("Email updates", function () {
     const emailValidationCases = [
-      { email: "notanemail", message: "Email must be a valid email address." },
+      { email: "notanemail", message: "email must be a valid email address." },
       {
         email: "new email@test.com",
-        message: "Email must not contain whitespace.",
+        message: "email must not contain whitespace.",
       },
       {
         email: "a".repeat(250) + "@test.com",
-        message: "Email must not be longer than 254 characters.",
+        message: "email must not be longer than 254 characters.",
       },
-      { email: 12345, message: "Email must be a string." },
+      { email: 12345, message: "email must be a string." },
     ];
 
     emailValidationCases.forEach(({ email, message }) => {
@@ -324,21 +324,21 @@ describe("PATCH /api/v1/users/me/account", function () {
     const usernameValidationCases = [
       {
         username: "abc",
-        message: "Username must be between 4 and 20 characters long.",
+        message: "username must be between 4 and 20 characters long.",
       },
       {
         username: "a".repeat(21),
-        message: "Username must be between 4 and 20 characters long.",
+        message: "username must be between 4 and 20 characters long.",
       },
       {
         username: "user@name",
-        message: "Username may only contain letters, numbers, and underscores.",
+        message: "username may only contain letters, numbers, and underscores.",
       },
       {
         username: "user name",
-        message: "Username may only contain letters, numbers, and underscores.",
+        message: "username may only contain letters, numbers, and underscores.",
       },
-      { username: 123456, message: "Username must be a string." },
+      { username: 123456, message: "username must be a string." },
     ];
 
     usernameValidationCases.forEach(({ username, message }) => {

@@ -26,7 +26,7 @@ async function updateRunById(runId: string, update: RunRequest) {
   const result = await Run.findOneAndUpdate(
     { runId },
     { $set: update },
-    { new: true },
+    { returnDocument: "after" },
   );
   return result || null;
 }

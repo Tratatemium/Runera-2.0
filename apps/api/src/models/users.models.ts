@@ -185,8 +185,8 @@ const UserSchema = new mongoose.Schema<DBUser>(
 
 function transformUser(_: unknown, ret: DBUser) {
   const { _id, __v, credentials, auth, ...user } = ret;
-
-  return user;
+  // Mongoose 9 omits empty subdocuments; ensure profile is always present
+  return { ...user, profile: user.profile ?? {} };
 }
 
 UserSchema.set("toJSON", {

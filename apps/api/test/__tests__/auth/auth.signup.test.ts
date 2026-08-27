@@ -35,10 +35,8 @@ describe("Required fields validation", function () {
   it.each(["username", "password", "email"])(
     "returns 400 for missing %s field",
     async (field) => {
-      const { [field]: omitted, ...dataWithoutField } = VALID_USER_DATA as Record<
-        string,
-        unknown
-      >;
+      const { [field]: omitted, ...dataWithoutField } =
+        VALID_USER_DATA as Record<string, unknown>;
       const res = await request(app)
         .post("/api/v1/auth/signup")
         .send(dataWithoutField);
@@ -59,23 +57,23 @@ describe("Required fields validation", function () {
   });
 });
 
-describe("Username validation", function () {
+describe("username validation", function () {
   it("returns 400 for non-string username", async function () {
     const res = await request(app)
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, username: 12345 });
 
-    expect400WithMessage(res, "Username must be a string.");
+    expect400WithMessage(res, "username must be a string.");
   });
 
   it.each([
     {
       username: "abc",
-      message: "Username must be between 4 and 20 characters long.",
+      message: "username must be between 4 and 20 characters long.",
     },
     {
       username: "a".repeat(21),
-      message: "Username must be between 4 and 20 characters long.",
+      message: "username must be between 4 and 20 characters long.",
     },
   ])(
     "returns 400 for invalid username length: $username",
@@ -98,7 +96,7 @@ describe("Username validation", function () {
 
     expect400WithMessage(
       res,
-      "Username may only contain letters, numbers, and underscores.",
+      "username may only contain letters, numbers, and underscores.",
     );
   });
 
@@ -124,7 +122,7 @@ describe("Email validation", function () {
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, email: 12345 });
 
-    expect400WithMessage(res, "Email must be a string.");
+    expect400WithMessage(res, "email must be a string.");
   });
 
   it("returns 400 for email longer than 254 characters", async function () {
@@ -133,20 +131,20 @@ describe("Email validation", function () {
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, email: longEmail });
 
-    expect400WithMessage(res, "Email must not be longer than 254 characters.");
+    expect400WithMessage(res, "email must not be longer than 254 characters.");
   });
 
   it.each([
     {
       email: "test user@example.com",
-      message: "Email must not contain whitespace.",
+      message: "email must not contain whitespace.",
     },
     {
       email: "invalidemail.com",
-      message: "Email must be a valid email address.",
+      message: "email must be a valid email address.",
     },
-    { email: "invalid@", message: "Email must be a valid email address." },
-    { email: "", message: "Email must be a valid email address." },
+    { email: "invalid@", message: "email must be a valid email address." },
+    { email: "", message: "email must be a valid email address." },
   ])("returns 400 for invalid email: $email", async ({ email, message }) => {
     const res = await request(app)
       .post("/api/v1/auth/signup")
@@ -176,17 +174,17 @@ describe("Password validation", function () {
       .post("/api/v1/auth/signup")
       .send({ ...VALID_USER_DATA, password: 12345 });
 
-    expect400WithMessage(res, "Password must be a string.");
+    expect400WithMessage(res, "password must be a string.");
   });
 
   it.each([
     {
       password: "Short1!",
-      message: "Password must be at least 8 characters long.",
+      message: "password must be at least 8 characters long.",
     },
     {
       password: "a".repeat(129),
-      message: "Password must be at most 128 characters long.",
+      message: "password must be at most 128 characters long.",
     },
   ])(
     "returns 400 for password with invalid length",

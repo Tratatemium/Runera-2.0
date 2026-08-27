@@ -131,7 +131,7 @@ function validateISO(value: unknown, fieldName: string, mode = "datetime") {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(value)) {
       throwValidationError({
-        message: `${name} must be a valid ISO 8601 date (YYYY-MM-DD).`,
+        message: `${fieldName} must be a valid ISO 8601 date (YYYY-MM-DD).`,
         field: fieldName,
       });
     }
@@ -222,14 +222,14 @@ function validateUsername(username: unknown) {
 
   if (username.length < 4 || username.length > 20) {
     throwValidationError({
-      message: "Username must be between 4 and 20 characters long.",
+      message: "username must be between 4 and 20 characters long.",
       field: "username",
     });
   }
   const usernameRegex = /^[a-zA-Z0-9_]+$/;
   if (!usernameRegex.test(username)) {
     throwValidationError({
-      message: "Username may only contain letters, numbers, and underscores.",
+      message: "username may only contain letters, numbers, and underscores.",
       field: "username",
     });
   }
@@ -240,20 +240,20 @@ function validateEmail(email: unknown) {
 
   if (email.length > 254) {
     throwValidationError({
-      message: "Email must not be longer than 254 characters.",
+      message: "email must not be longer than 254 characters.",
       field: "email",
     });
   }
   if (/\s/.test(email)) {
     throwValidationError({
-      message: "Email must not contain whitespace.",
+      message: "email must not contain whitespace.",
       field: "email",
     });
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     throwValidationError({
-      message: "Email must be a valid email address.",
+      message: "email must be a valid email address.",
       field: "email",
     });
   }
@@ -265,13 +265,13 @@ function validatePassword(password: unknown) {
   const length = password.length;
   if (length < 8) {
     throwValidationError({
-      message: "Password must be at least 8 characters long.",
+      message: "password must be at least 8 characters long.",
       field: "password",
     });
   }
   if (length > 128) {
     throwValidationError({
-      message: "Password must be at most 128 characters long.",
+      message: "password must be at most 128 characters long.",
       field: "password",
     });
   }

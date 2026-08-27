@@ -215,19 +215,17 @@ describe("GET /api/v1/users/ (Admin - Get All Users)", function () {
   });
 
   describe("Successful user list retrieval", function () {
-    it("currently returns 500 for admin list retrieval", async function () {
+    it("returns 200 and list of all users for admin", async function () {
       const res = await request(app)
         .get("/api/v1/users/")
         .set("Cookie", adminToken);
 
-      expect(res.statusCode).toBe(500);
-      expect(res.body).toHaveProperty("error");
-      expect(res.body.error).toEqual(
-        expect.objectContaining({
-          name: expect.any(String),
-          message: expect.any(String),
-        }),
-      );
+      expectJsonResponse(res, 200);
+      expect(res.body).toHaveProperty("status", "success");
+      expect(res.body).toHaveProperty("results");
+      expect(Array.isArray(res.body.data.usersData)).toBe(true);
+      expect(res.body.data.usersData.length).toBeGreaterThan(0);
+      expect(res.body.results).toBe(res.body.data.usersData.length);
     });
   });
 });

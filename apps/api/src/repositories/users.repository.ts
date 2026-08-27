@@ -59,7 +59,7 @@ async function updateProfile(
   const result = await User.findOneAndUpdate(
     { userId },
     { $set: update },
-    { new: true },
+    { returnDocument: "after" },
   );
   return result?.profile ?? null;
 }

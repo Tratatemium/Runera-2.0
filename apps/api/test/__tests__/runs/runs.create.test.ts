@@ -128,7 +128,7 @@ describe("POST /api/v1/users/me/runs", function () {
           .send({ ...VALID_RUN_DATA, startTime: value });
 
         expectJsonResponse(res, 201);
-        expect(res.body.data).toHaveProperty("runId");
+        expect(res.body.data.runData).toHaveProperty("runId");
       });
     });
   });
@@ -169,7 +169,7 @@ describe("POST /api/v1/users/me/runs", function () {
           .send({ ...VALID_RUN_DATA, durationSec: value });
 
         expectJsonResponse(res, 201);
-        expect(res.body.data).toHaveProperty("runId");
+        expect(res.body.data.runData).toHaveProperty("runId");
       });
     });
   });
@@ -210,7 +210,7 @@ describe("POST /api/v1/users/me/runs", function () {
           .send({ ...VALID_RUN_DATA, distanceMeters: value });
 
         expectJsonResponse(res, 201);
-        expect(res.body.data).toHaveProperty("runId");
+        expect(res.body.data.runData).toHaveProperty("runId");
       });
     });
   });
@@ -223,7 +223,7 @@ describe("POST /api/v1/users/me/runs", function () {
         .send(VALID_RUN_DATA);
 
       expectJsonResponse(res, 201);
-      expect(res.body.data).toHaveProperty("runId");
+      expect(res.body.data.runData).toHaveProperty("runId");
     });
 
     it("handles data with whitespace and string numbers", async function () {
@@ -237,7 +237,7 @@ describe("POST /api/v1/users/me/runs", function () {
         });
 
       expectJsonResponse(res, 201);
-      expect(res.body.data).toHaveProperty("runId");
+      expect(res.body.data.runData).toHaveProperty("runId");
     });
   });
 });

@@ -87,7 +87,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 5000,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update it as owner
       const updateRes = await request(app)
@@ -113,7 +113,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 4000,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update multiple fields
       const updateRes = await request(app)
@@ -143,7 +143,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 3000,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update startTime
       const newStartTime = "2026-02-03T13:00:00.000Z";
@@ -172,7 +172,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 2500,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update it
       const updateRes = await request(app)
@@ -197,7 +197,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 2800,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update it
       await request(app)
@@ -227,7 +227,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 4500,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update it as admin
       const updateRes = await request(app)
@@ -253,7 +253,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 5500,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Admin updates multiple fields
       const updateRes = await request(app)
@@ -288,7 +288,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 3800,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Admin updates it
       const updateRes = await request(app)
@@ -313,7 +313,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 3200,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Admin updates it
       await request(app)
@@ -394,7 +394,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 4000,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       const res = await request(app)
         .patch(`/api/v1/runs/${newRunId}`)
@@ -424,7 +424,7 @@ describe("PATCH /api/v1/runs/:id", function () {
             distanceMeters: 4000,
           });
 
-        const newRunId = createRes.body.data.runId;
+        const newRunId = createRes.body.data.runData.runId;
 
         const res = await request(app)
           .patch(`/api/v1/runs/${newRunId}`)
@@ -454,7 +454,7 @@ describe("PATCH /api/v1/runs/:id", function () {
             distanceMeters: 4000,
           });
 
-        const newRunId = createRes.body.data.runId;
+        const newRunId = createRes.body.data.runData.runId;
 
         const res = await request(app)
           .patch(`/api/v1/runs/${newRunId}`)
@@ -484,7 +484,7 @@ describe("PATCH /api/v1/runs/:id", function () {
             distanceMeters: 4000,
           });
 
-        const newRunId = createRes.body.data.runId;
+        const newRunId = createRes.body.data.runData.runId;
 
         const res = await request(app)
           .patch(`/api/v1/runs/${newRunId}`)
@@ -510,7 +510,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 5000,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update it
       const res = await request(app)
@@ -537,7 +537,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: 4500,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update one field
       const res = await request(app)
@@ -568,7 +568,7 @@ describe("PATCH /api/v1/runs/:id", function () {
           distanceMeters: originalDistance,
         });
 
-      const newRunId = createRes.body.data.runId;
+      const newRunId = createRes.body.data.runData.runId;
 
       // Update only duration
       const res = await request(app)

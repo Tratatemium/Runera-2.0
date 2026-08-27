@@ -2,7 +2,7 @@
 # VARIABLES - Update these with your actual values
 # =================================================================================================
 
-@port = 3000
+@port = 4000
 
 @baseUrl = http://localhost:{{port}}
 
