@@ -227,9 +227,6 @@ importers:
       express:
         specifier: ^5.2.1
         version: 5.2.1(supports-color@8.1.1)
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -239,9 +236,6 @@ importers:
       mongoose:
         specifier: ^9.2.4
         version: 9.9.2
-      path:
-        specifier: ^0.12.7
-        version: 0.12.7
       serverless-http:
         specifier: ^4.0.0
         version: 4.0.0
@@ -2381,9 +2375,6 @@ packages:
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
-  fs@0.0.1-security:
-    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
-
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -2551,9 +2542,6 @@ packages:
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
-
-  inherits@2.0.3:
-    resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -3426,9 +3414,6 @@ packages:
   path-to-regexp@8.4.2:
     resolution: {integrity: sha512-qRcuIdP69NPm4qbACK+aDogI5CBDMi1jKe0ry5rSQJz8JVLsC7jV8XpiJjGRLLol3N+R5ihGYcrPLTno6pAdBA==}
 
-  path@0.12.7:
-    resolution: {integrity: sha512-aXXC6s+1w7otVF9UletFkFcDsJeO7lSZBPUQhtb5O0xJe8LtYhj/GxldoL09bBj9+ZmE2hNoHqQSFMN5fikh4Q==}
-
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
@@ -3470,10 +3455,6 @@ packages:
   pretty-format@30.4.1:
     resolution: {integrity: sha512-K6KiKMHTL4jjX4u3Kir2EW07nRfcqVTXIImx50wbjHQTcZPgg+gjVeNTIT3l3L1Rd4UefxfogquC9J37SoFyyw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  process@0.11.10:
-    resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
-    engines: {node: '>= 0.6.0'}
 
   prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -3987,9 +3968,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  util@0.10.4:
-    resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
 
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
@@ -6451,8 +6429,6 @@ snapshots:
 
   fs.realpath@1.0.0: {}
 
-  fs@0.0.1-security: {}
-
   fsevents@2.3.3:
     optional: true
 
@@ -6629,8 +6605,6 @@ snapshots:
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
-
-  inherits@2.0.3: {}
 
   inherits@2.0.4: {}
 
@@ -7930,11 +7904,6 @@ snapshots:
 
   path-to-regexp@8.4.2: {}
 
-  path@0.12.7:
-    dependencies:
-      process: 0.11.10
-      util: 0.10.4
-
   pend@1.2.0: {}
 
   picocolors@1.1.1: {}
@@ -7971,8 +7940,6 @@ snapshots:
       ansi-styles: 5.2.0
       react-is-18: react-is@18.3.1
       react-is-19: react-is@19.2.8
-
-  process@0.11.10: {}
 
   prompts@2.4.2:
     dependencies:
@@ -8651,10 +8618,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  util@0.10.4:
-    dependencies:
-      inherits: 2.0.3
 
   v8-compile-cache-lib@3.0.1: {}
 

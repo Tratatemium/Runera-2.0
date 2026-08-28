@@ -1,12 +1,12 @@
-# Runners API
+﻿# Runners API
 
 A RESTful API for tracking running activities and managing user profiles. Built with Node.js, Express, and MongoDB.
 
 ## Features
 
-- JWT-based authentication with bcrypt password hashing
+- Cookie-based JWT authentication with bcrypt password hashing
 - User registration, login, and session management
-- User profile and account management
+- User profile and account management (with current-password verification)
 - Running activity tracking (create, read, update, delete)
 - Admin-level access controls with permission guards
 - Input validation and error handling
@@ -17,7 +17,7 @@ A RESTful API for tracking running activities and managing user profiles. Built 
 - **Runtime**: Node.js
 - **Framework**: Express 5
 - **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT with token versioning
+- **Authentication**: JWT stored in HTTP-only cookies, with token versioning
 - **Password Security**: bcrypt
 - **Testing**: Jest, Supertest, MongoDB Memory Server
 - **Environment**: dotenv
@@ -55,17 +55,18 @@ See [API_DOCS.md](API_DOCS.md) for complete documentation.
 **Base URL**: `http://localhost:3000/api/v1`
 
 **Health Check** (no `/api/v1` prefix)
-- `GET /health` - Server status and uptime
+- `GET /health` - Server status, uptime, and DB connection state
 
-**Authentication**
+**Authentication** — token stored in HTTP-only cookie
 - `POST /api/v1/auth/signup` - Register new user
-- `POST /api/v1/auth/login` - Login and get JWT token
-- `POST /api/v1/auth/logout-all` - Invalidate all tokens
+- `POST /api/v1/auth/login` - Login and set session cookie
+- `POST /api/v1/auth/logout` - Clear session cookie
+- `POST /api/v1/auth/logoutAll` - Invalidate all sessions (requires auth)
 
 **Users**
 - `GET /api/v1/users/me` - Get current user
-- `PATCH /api/v1/users/me/profile` - Update profile (firstName, lastName, dateOfBirth, heightCm, weightKg)
-- `PATCH /api/v1/users/me/account` - Update account (username, email)
+- `PATCH /api/v1/users/me/profile` - Update profile (firstName, lastName, dateOfBirth, heightCm, weightKg) — body nested under `profile` key
+- `PATCH /api/v1/users/me/account` - Update account credentials (requires `currentPassword` + one of `newEmail`, `newUsername`, `newPassword`)
 - `GET /api/v1/users` - Get all users (admin only)
 - `GET /api/v1/users/:id` - Get user by ID (admin or self)
 
@@ -80,7 +81,7 @@ See [API_DOCS.md](API_DOCS.md) for complete documentation.
 
 **Layered Structure**
 - **Routers**: Route definitions and endpoint setup
-- **Middleware**: Auth, validation, guards, error handling
+- **Middleware**: Auth (cookie-based), validation, guards, error handling
 - **Controllers**: Request/response handling
 - **Services**: Business logic
 - **Repositories**: Database operations
@@ -88,16 +89,16 @@ See [API_DOCS.md](API_DOCS.md) for complete documentation.
 - **Utils**: Helpers (JWT, password, DB, response)
 
 **Key Features**
-- Token versioning for session management
+- Token versioning for session invalidation (`logoutAll`, account updates)
 - Permission-based guards (admin, owner-or-admin)
 - Comprehensive input validation
-- Password metadata tracking (failed attempts, lock)
-- UUID-based resource identifiers
+- Derived run fields (`date`, `paceSecPerKm`) computed on write
+- Role field on users (`user` | `admin`)
 
 ## Testing
 
 Tests cover all endpoints and include:
-- Auth (signup, login, session management)
+- Auth (signup, login, logout, session management)
 - Users (profile, account, admin operations)
 - Runs (CRUD operations)
 - Input validation and error handling
