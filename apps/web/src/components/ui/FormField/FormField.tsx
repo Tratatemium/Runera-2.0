@@ -1,7 +1,12 @@
-import styles from "./FormField.module.css";
+"use client";
+
 import type { CSSProperties, ReactNode } from "react";
+
 import { useState, useRef } from "react";
-import { icons } from "../icons/icons";
+
+import { icons } from "../../icons/icons";
+
+import styles from "./FormField.module.css";
 
 type FormFieldElement = HTMLInputElement | HTMLTextAreaElement;
 

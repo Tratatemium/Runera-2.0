@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
 import styles from "./Panel.module.css";
 
 interface PanelProps extends ComponentPropsWithoutRef<"div"> {
@@ -10,7 +11,9 @@ function Panel({ children, variant, className, ...divProps }: PanelProps) {
   return (
     <div
       {...divProps}
-      className={[styles.panel, styles[variant], className].filter(Boolean).join(" ")}
+      className={[styles.panel, styles[variant], className]
+        .filter(Boolean)
+        .join(" ")}
     >
       {children}
     </div>
