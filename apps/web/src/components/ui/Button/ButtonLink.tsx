@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import styles from "./Button.module.css";
 

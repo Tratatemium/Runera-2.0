@@ -1,3 +1,3 @@
-export { RequireAuth } from "./RequireAuth";
-export { AuthCard } from "./AuthCard";
-export { UserMenu } from "./UserMenu";
+export { RequireAuth } from "./RequreAuth/RequireAuth";
+export { AuthCard } from "./AuthCard/AuthCard";
+export { UserMenu } from "./UserMenu/UserMenu";

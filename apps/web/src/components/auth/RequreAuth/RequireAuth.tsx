@@ -1,17 +1,19 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-import { useAuthContext } from "../../context/AuthContext";
-import { useRuns } from "../../hooks/useRuns";
-import { useUser } from "../../hooks/useUser";
+import { useAuthContext } from "@/context/AuthContext";
+import { useRuns } from "@/hooks/useRuns";
+import { useUser } from "@/hooks/useUser";
+import { mapUserResponseToState } from "@/utils/user.utils";
+import { Loading } from "@/components/ui";
 
-import { mapUserResponseToState } from "../../utils/user.utils";
-
-import { Loading } from "../ui/";
-
-function RequireAuth() {
+function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loginUser } = useAuthContext();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { getMe } = useUser();
   const { getMyRuns } = useRuns();
 
@@ -46,10 +48,13 @@ function RequireAuth() {
   }
 
   if (!user) {
-    return <Navigate to="/" replace state={{ from: location }} />;
+    const from =
+      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+    router.replace(`/?from=${encodeURIComponent(from)}`);
+    return null;
   }
 
-  return <Outlet />;
+  return children;
 }
 
 export { RequireAuth };

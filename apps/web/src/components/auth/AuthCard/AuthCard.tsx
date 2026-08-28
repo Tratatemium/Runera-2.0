@@ -1,6 +1,8 @@
+"use cllient";
+
 import styles from "./AuthCard.module.css";
 
-import { Button, Logo } from "../ui/";
+import { Logo, Button } from "@/components/ui";
 
 interface AuthCardProps {
   children?: React.ReactNode;

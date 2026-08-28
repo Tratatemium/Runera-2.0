@@ -1,10 +1,12 @@
-import styles from "./UserMenu.module.css";
+"use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
-import { useAuth } from "../../hooks/useAuth";
 
-import { Link } from "react-router-dom";
+import { useAuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
+
+import styles from "./UserMenu.module.css";
 
 function UserMenu() {
   const menuId = useId();
@@ -73,7 +75,7 @@ function UserMenu() {
             aria-label="User account actions"
           >
             <li className={styles.menuItem}>
-              <Link to="/user/info" onClick={() => setIsOpen(false)}>
+              <Link href="/user/info" onClick={() => setIsOpen(false)}>
                 My Profile
               </Link>
             </li>
