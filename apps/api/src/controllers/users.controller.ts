@@ -3,10 +3,10 @@ import type { Request, Response } from "express";
 import * as usersService from "../services/users.service.js";
 import * as authService from "../services/auth.service.js";
 import { sendSuccess } from "../utils/response.utils.js";
-import { getIdFromReqestParams } from "../utils/general.utils.js";
+import { getIdFromRequestParams } from "../utils/general.utils.js";
 
 async function getUserById(req: Request, res: Response) {
-  const userId = getIdFromReqestParams(req);
+  const userId = getIdFromRequestParams(req);
   const userData = await usersService.getUser(userId);
   sendSuccess(res, { statusCode: 200, data: { userData } });
 }

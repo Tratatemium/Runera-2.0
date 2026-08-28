@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 
 import * as runsService from "../services/runs.service.js";
 import { sendSuccess } from "../utils/response.utils.js";
-import { getIdFromReqestParams } from "../utils/general.utils.js";
+import { getIdFromRequestParams } from "../utils/general.utils.js";
 
 async function postNewRun(req: Request, res: Response) {
   const userId = req.user.userId;
@@ -22,20 +22,20 @@ async function getMyRuns(req: Request, res: Response) {
 }
 
 async function getRunById(req: Request, res: Response) {
-  const runId = getIdFromReqestParams(req);
+  const runId = getIdFromRequestParams(req);
   const runData = await runsService.getRunById(runId);
   sendSuccess(res, { statusCode: 200, data: { runData } });
 }
 
 async function updateRunById(req: Request, res: Response) {
-  const runId = getIdFromReqestParams(req);
+  const runId = getIdFromRequestParams(req);
   const runUpdate = req.body;
   const runData = await runsService.updateRunById(runId, runUpdate);
   sendSuccess(res, { statusCode: 200, data: { runData } });
 }
 
 async function deleteRunById(req: Request, res: Response) {
-  const runId = getIdFromReqestParams(req);
+  const runId = getIdFromRequestParams(req);
   await runsService.deleteRunById(runId);
   res.sendStatus(204);
 }

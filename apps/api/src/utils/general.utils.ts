@@ -6,8 +6,8 @@ function getStartOfDay(date: string) {
   return d;
 }
 
-function getIdFromReqestParams(req: Request): string {
+function getIdFromRequestParams(req: Request): string {
   return Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 }
 
-export { getStartOfDay, getIdFromReqestParams };
+export { getStartOfDay, getIdFromRequestParams };
