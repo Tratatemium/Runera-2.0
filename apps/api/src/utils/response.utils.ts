@@ -1,10 +1,9 @@
-import type { Response } from "express";
-import type { CookieParseOptions } from "cookie-parser";
+import type { Response, CookieOptions } from "express";
 
 interface CookieData {
   name: string;
   value: string;
-  options?: CookieParseOptions & Record<string, unknown>;
+  options?: CookieOptions & Record<string, unknown>;
 }
 
 interface SuccessOptions {
