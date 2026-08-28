@@ -5,7 +5,7 @@ import { useRuns } from "../../hooks/useRuns";
 import { useRunsContext } from "../../context/RunsContext";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { Loading } from "../../components/ui/";
+import { Loading } from "../../components/ui";
 import { RunItem } from "../../components/runs/RunItem";
 import { Link } from "react-router-dom";
 

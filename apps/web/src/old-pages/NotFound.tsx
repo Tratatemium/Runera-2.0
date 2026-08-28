@@ -1,6 +1,6 @@
 import styles from "./NotFound.module.css";
 
-import { ButtonLink } from "../components/ui/";
+import { ButtonLink } from "../components/ui";
 
 function NotFound() {
   return (

@@ -8,7 +8,7 @@ import { useFormHandlers } from "../../hooks/form/useFormHandlers";
 import { inputFields } from "../../config/inputFields";
 import { getUserData } from "../../utils/user.utils";
 
-import { Button, ButtonLink, FormField, Panel } from "../../components/ui/";
+import { Button, ButtonLink, FormField, Panel } from "../../components/ui";
 
 const userFields = [
   inputFields.username,
@@ -67,7 +67,7 @@ function EditAccount() {
                 type="submit"
                 variant="primary"
                 isSubmitting={isSubmitting}
-                disabled= {true}
+                disabled={true}
                 title="Not implemented yet"
               />
               <ButtonLink

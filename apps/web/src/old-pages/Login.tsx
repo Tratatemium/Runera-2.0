@@ -8,7 +8,7 @@ import { useFormHandlers } from "../hooks/form/useFormHandlers";
 import { inputFields } from "../config/inputFields";
 
 import { Link } from "react-router-dom";
-import { FormField } from "../components/ui/";
+import { FormField } from "../components/ui";
 import { AuthCard } from "../components/auth";
 
 const loginFooter = (

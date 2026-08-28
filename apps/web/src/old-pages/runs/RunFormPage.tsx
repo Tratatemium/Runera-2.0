@@ -3,7 +3,7 @@ import { icons } from "../../components/icons/icons";
 
 import { inputFields } from "../../config/inputFields";
 
-import { Button, ButtonLink, FormField, Panel } from "../../components/ui/";
+import { Button, ButtonLink, FormField, Panel } from "../../components/ui";
 import { useFormState } from "../../hooks/form/useFormState";
 import { useFormHandlers } from "../../hooks/form/useFormHandlers";
 import { useRuns } from "../../hooks/useRuns";

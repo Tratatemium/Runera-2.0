@@ -8,7 +8,7 @@ import { useUser } from "../../hooks/useUser";
 import { inputFields } from "../../config/inputFields";
 import { getUserData } from "../../utils/user.utils";
 
-import { Button, ButtonLink, FormField, Panel } from "../../components/ui/";
+import { Button, ButtonLink, FormField, Panel } from "../../components/ui";
 
 const userFields = [
   inputFields.firstName,
