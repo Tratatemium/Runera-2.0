@@ -1,14 +1,14 @@
 "use client";
 
 import type { Run } from "@runera/shared";
-import type { LoadingState } from "../../../hooks/useRuns";
+import type { LoadingState } from "@/hooks/useRuns";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { icons } from "../../icons/icons";
-import { getWeatherIcon } from "../../../utils/icons.utils";
-import { useDialogContext } from "../../../context/DialogContext";
+import { icons } from "@/components/icons/icons";
+import { getWeatherIcon } from "@/utils/icons.utils";
+import { useDialogContext } from "@/context/DialogContext";
 
 import styles from "./RunItem.module.css";
 

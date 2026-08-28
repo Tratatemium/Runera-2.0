@@ -1,5 +1,4 @@
-export { Footer } from "./Footer";
-export { Header } from "./Header";
-export { PageLayout } from "./PageLayout";
+export { Footer } from "./Footer/Footer";
+export { Header } from "./Header/Header";
 export { UserPagesLayout } from "./UserPagesLayout";
-export { ScrollToTop } from "./ScrollToTop";
+export { ScrollToTop } from "./ScrollToTop/ScrollToTop";

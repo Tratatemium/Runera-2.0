@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 
 import { useState, useRef } from "react";
 
-import { icons } from "../../icons/icons";
+import { icons } from "@/components/icons/icons";
 
 import styles from "./FormField.module.css";
 

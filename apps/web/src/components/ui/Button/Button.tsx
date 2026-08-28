@@ -1,5 +1,5 @@
 import styles from "./Button.module.css";
-import { icons } from "../../icons/icons";
+import { icons } from "@/components/icons/icons";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;

@@ -1,14 +1,17 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { useAuthContext } from "@/context/AuthContext";
+import { icons } from "@/components/icons/icons";
+import { UserMenu } from "@/components/auth";
+import { Logo, ButtonLink } from "@/components/ui";
+
 import styles from "./Header.module.css";
-import { icons } from "../icons/icons";
-
-import { Link, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
-
-import { UserMenu } from "../auth";
-import { Logo, ButtonLink } from "../ui/";
 
 function Header() {
-  const location = useLocation();
+  const pathname = usePathname();
   const { user } = useAuthContext();
 
   const ListIcon = icons.list;
@@ -16,7 +19,7 @@ function Header() {
 
   return (
     <header className={styles.header}>
-      <Link to={"/"}>
+      <Link href={"/"}>
         <Logo variant="secondary" />
       </Link>
       <div className={styles.headerContent}>
@@ -24,7 +27,7 @@ function Header() {
           <>
             <ButtonLink
               linkDirection="/user/dashboard"
-              active={location.pathname === "/user/dashboard"}
+              active={pathname === "/user/dashboard"}
               linkText="Dashboard"
               variant="transparent"
               size="small"
@@ -34,7 +37,7 @@ function Header() {
 
             <ButtonLink
               linkDirection="/user/runs"
-              active={location.pathname === "/user/runs"}
+              active={pathname === "/user/runs"}
               linkText="My Runs"
               variant="transparent"
               size="small"

@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 
-import { Button } from "../Button/Button";
+import { Button } from "@/components/ui";
 
 import styles from "./Dialog.module.css";
 

@@ -1,7 +1,8 @@
-import styles from "./Footer.module.css";
+import Link from "next/link";
 
-import { Link } from "react-router-dom";
-import { Logo } from "../ui/";
+import { Logo } from "@/components/ui";
+
+import styles from "./Footer.module.css";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,7 +11,7 @@ function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brandBlock}>
-          <Link to="/" className={styles.brandLink} aria-label="Runera home">
+          <Link href="/" className={styles.brandLink} aria-label="Runera home">
             <Logo variant="primary" />
           </Link>
           <p className={styles.tagline}>
@@ -19,16 +20,16 @@ function Footer() {
         </div>
 
         <nav className={styles.nav} aria-label="Footer navigation">
-          <Link to="/" className={styles.navLink}>
+          <Link href="/" className={styles.navLink}>
             Home
           </Link>
-          <Link to="/signup" className={styles.navLink}>
+          <Link href="/signup" className={styles.navLink}>
             Sign Up
           </Link>
-          <Link to="/login" className={styles.navLink}>
+          <Link href="/login" className={styles.navLink}>
             Log In
           </Link>
-          <Link to="/user/dashboard" className={styles.navLink}>
+          <Link href="/user/dashboard" className={styles.navLink}>
             Dashboard
           </Link>
         </nav>

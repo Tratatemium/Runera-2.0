@@ -1,13 +1,12 @@
 import Image from "next/image";
 
+import runners1 from "@/assets/runners-1.jpg";
+import runners3 from "@/assets/runners-3.jpg";
+import { icons } from "@/components/icons/icons";
+import { useAuthContext } from "@/context/AuthContext";
+import { Logo, ButtonLink } from "@/components/ui";
+
 import styles from "./page.module.css";
-import { icons } from "../components/icons/icons";
-import runners1 from "../assets/runners-1.jpg";
-import runners3 from "../assets/runners-3.jpg";
-
-import { useAuthContext } from "../context/AuthContext";
-
-import { Logo, ButtonLink } from "../components/ui";
 
 function Home() {
   const { user } = useAuthContext();

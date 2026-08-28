@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
 
-import "../styles/reset.css";
-import "../styles/variables.css";
-import "../styles/global.css";
+import { Header, Footer, ScrollToTop } from "@/components/layout";
+
+import "@/styles/reset.css";
+import "@/styles/variables.css";
+import "@/styles/global.css";
+
+import styles from "./layout.module.css";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -25,7 +29,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
-      <body>{children}</body>
+      <body>
+        <div className={styles.layout}>
+          <ScrollToTop />
+          <Header />
+          <div className={styles.contentWrapper}>{children}</div>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }
