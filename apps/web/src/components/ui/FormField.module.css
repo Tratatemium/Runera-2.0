@@ -1,0 +1,271 @@
+.formRow {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  color: var(--primary-color);
+  gap: 0.5em;
+  margin-bottom: 1.6em;
+}
+
+.choiceRow {
+  margin-bottom: 0.45em;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  align-items: start;
+  text-align: left;
+}
+
+.formWrapper.column {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.formWrapper.columnReverse {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.formWrapper.row {
+  display: grid;
+  grid-template-columns: var(--form-label-width) minmax(0, 20rem);
+  align-items: center;
+  justify-content: left;
+  gap: 0;
+}
+
+.choiceField {
+  width: auto;
+}
+
+.error {
+  margin-bottom: 0em;
+}
+
+.formLabel {
+  display: block;
+  font-weight: var(--font-weight-bold);
+  width: var(--form-label-width);
+}
+
+.formWrapper.column .formLabel {
+  margin-left: 1em;
+  width: fit-content;
+}
+
+.formWrapper.columnReverse .formLabel {
+  margin: auto;
+  width: fit-content;
+  font-weight: var(--font-weight-regular);
+  font-size: 0.8em;
+}
+
+.formWrapper.column .choiceLabel {
+  margin-left: 0;
+}
+
+.formWrapper.row .formLabel {
+  margin-left: 0;
+}
+
+.choiceLabel {
+  position: relative;
+  margin-left: 0;
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: var(--font-weight-regular);
+  padding: 0.35rem 0.75rem;
+  border-radius: 1em;
+  background: color-mix(in srgb, var(--secondary-color) 86%, white);
+  border: 1px solid color-mix(in srgb, var(--accent-color-1) 22%, white);
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.inputWrapper {
+  position: relative;
+  width: min(100%, 26rem);
+}
+
+.formWrapper.row .inputWrapper {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.7em 2.8em 0.7em 0.9em;
+  border: 1px solid color-mix(in srgb, var(--accent-color-1) 25%, white);
+  border-radius: 0.55em;
+  background: color-mix(in srgb, var(--secondary-color) 85%, white);
+  color: var(--primary-color);
+  font: inherit;
+  line-height: 1.2;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease;
+}
+
+.textAreaInput {
+  min-height: 8.5rem;
+  padding: 0.8em 0.9em;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.formInput[type="range"] {
+  --range-progress: 0%;
+  width: 120%;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.formInput[type="range"]::-webkit-slider-runnable-track {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--accent-color-1) 0%,
+    var(--accent-color-1) var(--range-progress),
+    white var(--range-progress),
+    white 100%
+  );
+}
+
+.formInput[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.275rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: var(--accent-color-1);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent-color-1) 20%, black);
+}
+
+.formInput[type="range"]::-moz-range-track {
+  height: 0.45rem;
+  border: none;
+  border-radius: 999px;
+  background: white;
+}
+
+.formInput[type="range"]::-moz-range-progress {
+  height: 0.45rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent-color-1);
+}
+
+.formInput[type="range"]::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: var(--accent-color-1);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent-color-1) 20%, black);
+}
+
+.choiceInput {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.choiceLabel:focus-within {
+  border-color: color-mix(in srgb, var(--accent-color-1) 64%, white);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color-1) 22%, white);
+}
+
+.choiceChecked {
+  background: color-mix(in srgb, var(--accent-color-1) 10%, white);
+  border: 2px solid color-mix(in srgb, var(--accent-color-1) 90%, white);
+  box-shadow: 0 5px 14px
+    color-mix(in srgb, var(--accent-color-3) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+.formInput::placeholder {
+  color: color-mix(in srgb, var(--primary-color) 45%, white);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--accent-color-1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color-1) 20%, white);
+  background: white;
+}
+
+.formInput[type="range"]:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+.formInput[type="range"]:focus::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent-color-1) 20%, white),
+    0 2px 8px color-mix(in srgb, var(--accent-color-1) 20%, black);
+}
+
+.formInput[type="range"]:focus::-moz-range-thumb {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent-color-1) 20%, white),
+    0 2px 8px color-mix(in srgb, var(--accent-color-1) 20%, black);
+}
+
+.errorWrapper {
+  margin: 0;
+  padding: 0;
+  min-height: 1.1em;
+  max-width: 35ch;
+}
+
+.errorWrapper.row {
+  margin-left: var(--form-label-width);
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.1em;
+  text-align: left;
+  color: var(--error-color);
+}
+
+.showPasswordIcon {
+  position: absolute;
+  right: 0.8em;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent-color-1);
+}

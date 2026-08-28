@@ -1,0 +1,93 @@
+.wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: color-mix(in srgb, var(--primary-color) 55%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  animation: fadeIn 160ms ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wrapper > * {
+  animation: slideUp 200ms ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--accent-color-1);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--font-size-body);
+  color: color-mix(in srgb, var(--primary-color) 80%, transparent);
+  line-height: 1.55;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  width: min(min-content, 90vw);
+  min-width: 18rem;
+  max-width: 28rem;
+  padding: 2rem;
+
+  background: var(--secondary-color);
+  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 20px 48px color-mix(in srgb, var(--primary-color) 30%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
+}
+
+.actionsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .actionsWrapper {
+    flex-direction: column-reverse;
+  }
+
+  .actionsWrapper > * {
+    width: 100%;
+  }
+}
