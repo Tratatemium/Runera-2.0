@@ -8,19 +8,19 @@ type UpdateAccountRequest =
   | {
       currentPassword: string;
       newPassword: string;
-      newEmail: never;
-      newUsername: never;
+      newEmail?: never;
+      newUsername?: never;
     }
   | {
       currentPassword: string;
-      newPassword: never;
+      newPassword?: never;
       newEmail: string;
-      newUsername: never;
+      newUsername?: never;
     }
   | {
       currentPassword: string;
-      newPassword: never;
-      newEmail: never;
+      newPassword?: never;
+      newEmail?: never;
       newUsername: string;
     };
 
