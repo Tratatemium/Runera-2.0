@@ -1,0 +1,361 @@
+import type { DBRun } from "../../../src/models/runs.models.js";
+
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS, VALID_RUN_DATA } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
+  expect400WithMessage,
+  expect415Error,
+  expectJsonResponse,
+} from "../../helpers/assertions";
+import {
+  getAuthValidationTests,
+  getContentTypeTests,
+  getMissingFieldTests,
+} from "../../helpers/request.helpers";
+
+describe("POST /api/v1/users/me/runs", function () {
+  let user1Token: string;
+
+  beforeAll(async function () {
+    user1Token = await getAuthToken({
+      email: TEST_USERS.user1.email,
+      password: TEST_USERS.user1.password,
+    });
+  });
+
+  describe("Authentication", function () {
+    getAuthValidationTests().forEach(({ name, setupAuth }) => {
+      it(name, async function () {
+        const req = request(app)
+          .post("/api/v1/users/me/runs")
+          .send(VALID_RUN_DATA);
+        const res = await setupAuth(req);
+
+        expect(res.statusCode).toBe(401);
+        expect(res.body).toHaveProperty("error");
+      });
+    });
+  });
+
+  describe("Content-Type validation", function () {
+    getContentTypeTests().forEach(({ name, contentType, body }) => {
+      it(name, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .set("Content-Type", contentType)
+          .send(body);
+
+        expect415Error(res);
+      });
+    });
+  });
+
+  describe("Required fields validation", function () {
+    it("returns 400 for empty JSON", async function () {
+      const res = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({});
+
+      expect400WithMessage(
+        res,
+        "Run data is missing required fields: startTime, durationSec, distanceMeters.",
+      );
+    });
+
+    getMissingFieldTests(VALID_RUN_DATA, [
+      "startTime",
+      "durationSec",
+      "distanceMeters",
+    ]).forEach(({ name, data, field }) => {
+      it(name, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send(data);
+
+        expect400WithMessage(
+          res,
+          `Run data is missing required fields: ${field}.`,
+        );
+      });
+    });
+
+    it("returns 400 when field is null", async function () {
+      const res = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({ ...VALID_RUN_DATA, startTime: null });
+
+      expect400WithMessage(res, /startTime/);
+    });
+  });
+
+  describe("startTime validation", function () {
+    const invalidStartTimeCases = [
+      { value: 12345, message: "startTime must be a string." },
+      { value: "2026-01-19 12:25:44", message: /ISO 8601/ },
+      { value: "2026-02-30T12:25:44.822Z", message: /real calendar date/ },
+      { value: "", message: /ISO 8601/ },
+    ];
+
+    invalidStartTimeCases.forEach(({ value, message }) => {
+      it(`returns 400 for invalid startTime: ${JSON.stringify(value)}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, startTime: value });
+
+        expect400WithMessage(res, message);
+      });
+    });
+
+    const validStartTimeCases = [
+      { value: VALID_RUN_DATA.startTime, desc: "with milliseconds" },
+      { value: "2026-01-19T12:25:44Z", desc: "without milliseconds" },
+      { value: "  2024-01-15T10:30:00.000Z  ", desc: "with whitespace" },
+    ];
+
+    validStartTimeCases.forEach(({ value, desc }) => {
+      it(`accepts valid ISO 8601 format ${desc}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, startTime: value });
+
+        expectJsonResponse(res, 201);
+        expect(res.body.data.runData).toHaveProperty("runId");
+      });
+    });
+  });
+
+  describe("durationSec validation", function () {
+    const invalidDurationCases = [
+      { value: 0, message: "durationSec must be a positive number." },
+      { value: -100, message: "durationSec must be a positive number." },
+      {
+        value: "not-a-number",
+        message: "durationSec must be a positive number.",
+      },
+    ];
+
+    invalidDurationCases.forEach(({ value, message }) => {
+      it(`returns 400 for invalid durationSec: ${value}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, durationSec: value });
+
+        expect400WithMessage(res, message);
+      });
+    });
+
+    const validDurationCases = [
+      { value: 1800, desc: "positive number" },
+      { value: "1800", desc: "string number" },
+      { value: "  1800  ", desc: "string with whitespace" },
+      { value: 1800.5, desc: "decimal number" },
+    ];
+
+    validDurationCases.forEach(({ value, desc }) => {
+      it(`accepts valid durationSec: ${desc}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, durationSec: value });
+
+        expectJsonResponse(res, 201);
+        expect(res.body.data.runData).toHaveProperty("runId");
+      });
+    });
+  });
+
+  describe("distanceMeters validation", function () {
+    const invalidDistanceCases = [
+      { value: 0, message: "distanceMeters must be a positive number." },
+      { value: -5000, message: "distanceMeters must be a positive number." },
+      {
+        value: "invalid",
+        message: "distanceMeters must be a positive number.",
+      },
+    ];
+
+    invalidDistanceCases.forEach(({ value, message }) => {
+      it(`returns 400 for invalid distanceMeters: ${value}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, distanceMeters: value });
+
+        expect400WithMessage(res, message);
+      });
+    });
+
+    const validDistanceCases = [
+      { value: 5000, desc: "positive number" },
+      { value: "5000", desc: "string number" },
+      { value: "  5000  ", desc: "string with whitespace" },
+      { value: 5000.5, desc: "decimal number" },
+    ];
+
+    validDistanceCases.forEach(({ value, desc }) => {
+      it(`accepts valid distanceMeters: ${desc}`, async function () {
+        const res = await request(app)
+          .post("/api/v1/users/me/runs")
+          .set("Cookie", user1Token)
+          .send({ ...VALID_RUN_DATA, distanceMeters: value });
+
+        expectJsonResponse(res, 201);
+        expect(res.body.data.runData).toHaveProperty("runId");
+      });
+    });
+  });
+
+  describe("Successful validation", function () {
+    it("returns 201 for valid run data", async function () {
+      const res = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send(VALID_RUN_DATA);
+
+      expectJsonResponse(res, 201);
+      expect(res.body.data.runData).toHaveProperty("runId");
+    });
+
+    it("handles data with whitespace and string numbers", async function () {
+      const res = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "  2024-01-15T10:30:00.000Z  ",
+          durationSec: "  1800  ",
+          distanceMeters: "  5000  ",
+        });
+
+      expectJsonResponse(res, 201);
+      expect(res.body.data.runData).toHaveProperty("runId");
+    });
+  });
+});
+
+describe("GET /api/v1/users/me/runs", function () {
+  let user1Token: string;
+  let user2Token: string;
+
+  beforeAll(async function () {
+    user1Token = await getAuthToken({
+      email: TEST_USERS.user1.email,
+      password: TEST_USERS.user1.password,
+    });
+    user2Token = await getAuthToken({
+      email: TEST_USERS.user2.email,
+      password: TEST_USERS.user2.password,
+    });
+  });
+
+  describe("Authentication", function () {
+    getAuthValidationTests().forEach(({ name, setupAuth }) => {
+      it(name, async function () {
+        const req = request(app).get("/api/v1/users/me/runs");
+        const res = await setupAuth(req);
+
+        expect(res.statusCode).toBe(401);
+        expect(res.body).toHaveProperty("error");
+      });
+    });
+  });
+
+  describe("Successful retrieval", function () {
+    it("returns 200 and an array of runs for user1 (has multiple runs)", async function () {
+      const res = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user1Token);
+
+      expectJsonResponse(res, 200);
+      expect(res.body).toHaveProperty("status", "success");
+      expect(res.body).toHaveProperty("results");
+      expect(res.body).toHaveProperty("data");
+      expect(Array.isArray(res.body.data.myRuns)).toBe(true);
+      expect(res.body.data.myRuns.length).toBeGreaterThan(0);
+      expect(res.body.results).toBe(res.body.data.myRuns.length);
+
+      // Verify all returned runs belong to user1
+      res.body.data.myRuns.forEach((run: DBRun) => {
+        expect(run).toHaveProperty("userId", TEST_USERS.user1.userId);
+      });
+    });
+
+    it("returns 200 and an array of runs for user2", async function () {
+      const res = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user2Token);
+
+      expectJsonResponse(res, 200);
+      expect(res.body).toHaveProperty("status", "success");
+      expect(res.body).toHaveProperty("results");
+      expect(res.body).toHaveProperty("data");
+      expect(Array.isArray(res.body.data.myRuns)).toBe(true);
+      expect(res.body.data.myRuns.length).toBeGreaterThan(0);
+      expect(res.body.results).toBe(res.body.data.myRuns.length);
+
+      res.body.data.myRuns.forEach((run: DBRun) => {
+        expect(run).toHaveProperty("userId", TEST_USERS.user2.userId);
+      });
+    });
+
+    it("returns only the authenticated user's runs, not other users' runs", async function () {
+      const res1 = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user1Token);
+
+      const res2 = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user2Token);
+
+      expect(res1.statusCode).toBe(200);
+      expect(res2.statusCode).toBe(200);
+
+      res1.body.data.myRuns.forEach((run: DBRun) => {
+        expect(run.userId).toBe(TEST_USERS.user1.userId);
+        expect(run.userId).not.toBe(TEST_USERS.user2.userId);
+      });
+
+      res2.body.data.myRuns.forEach((run: DBRun) => {
+        expect(run.userId).toBe(TEST_USERS.user2.userId);
+        expect(run.userId).not.toBe(TEST_USERS.user1.userId);
+      });
+
+      expect(res1.body.data.myRuns).not.toEqual(res2.body.data.myRuns);
+    });
+
+    it("returns empty array for user with no runs", async function () {
+      const newUser = {
+        username: "runner_no_runs",
+        password: "NoRunsPass123!",
+        email: "noruns@test.com",
+      };
+
+      await request(app).post("/api/v1/auth/signup").send(newUser);
+
+      const noRunsToken = await getAuthToken({
+        email: newUser.email,
+        password: newUser.password,
+      });
+
+      const res = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", noRunsToken);
+
+      expectJsonResponse(res, 200);
+      expect(res.body).toHaveProperty("status", "success");
+      expect(res.body).toHaveProperty("results", 0);
+      expect(res.body).toHaveProperty("data");
+      expect(Array.isArray(res.body.data.myRuns)).toBe(true);
+      expect(res.body.data.myRuns.length).toBe(0);
+    });
+  });
+});

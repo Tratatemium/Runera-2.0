@@ -1,0 +1,31 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
+function requireEnv(key: string, purpose: string) {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(
+      `${key} environment variable is not set. Required ${purpose}.`,
+    );
+  }
+  return value;
+}
+
+function getPort() {
+  const portValue = requireEnv("PORT", "to run express API");
+  const port = Number(portValue);
+  const isValidPort = Number.isInteger(port) && port >= 0 && port < 65536;
+  if (!isValidPort) {
+    throw new Error(
+      `PORT environment variable must be an integer between 0 and 65535.`,
+    );
+  }
+  return port;
+}
+
+const MONGO_URI = requireEnv("MONGO_URI", "to connect to MongoDB");
+const TOKEN_KEY = requireEnv("TOKEN_KEY", "to sign and verify JWTs");
+const PORT = getPort();
+
+export { MONGO_URI, TOKEN_KEY, PORT };

@@ -1,0 +1,153 @@
+import request from "supertest";
+import { describe, it } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS } from "../../helpers/test-data";
+import { expectErrorResponse } from "../../helpers/request.helpers";
+import {
+  expectValidJwtToken,
+  expect400WithMessage,
+  expect401Error,
+  expect415Error,
+} from "../../helpers/assertions";
+
+describe("POST /api/v1/auth/login", function () {
+  describe("Content-Type validation", function () {
+    it("returns 415 when Content-Type is not JSON", async function () {
+      const res = await request(app)
+        .post("/api/v1/auth/login")
+        .set("Content-Type", "text/plain")
+        .send("not json");
+
+      expect415Error(res);
+    });
+  });
+});
+
+describe("Required fields validation", function () {
+  it("returns 400 for empty JSON", async function () {
+    const res = await request(app).post("/api/v1/auth/login").send({});
+
+    expect400WithMessage(res, "Login request must include password.");
+  });
+
+  it("returns 400 for missing password field", async function () {
+    const res = await request(app)
+      .post("/api/v1/auth/login")
+      .send({ username: TEST_USERS.user1.username });
+
+    expect400WithMessage(res, "Login request must include password.");
+  });
+
+  it("returns 400 when both username and email are missing", async function () {
+    const res = await request(app)
+      .post("/api/v1/auth/login")
+      .send({ password: TEST_USERS.user1.password });
+
+    expect400WithMessage(
+      res,
+      "Login request must have one of the required fields: username, email.",
+    );
+  });
+
+  it("returns 400 when both username and email are provided", async function () {
+    const res = await request(app).post("/api/v1/auth/login").send({
+      username: TEST_USERS.user1.username,
+      email: TEST_USERS.user1.email,
+      password: TEST_USERS.user1.password,
+    });
+
+    expect400WithMessage(
+      res,
+      "Provide either email or username, but not both.",
+    );
+  });
+
+  it.each([
+    { field: "username", value: "" },
+    { field: "email", value: "" },
+    { field: "password", value: "" },
+  ])("returns 400 for empty string $field", async ({ field, value }) => {
+    const data = { [field]: value };
+    if (field !== "password") data.password = TEST_USERS.user1.password;
+    if (field !== "username" && field !== "email")
+      data.username = TEST_USERS.user1.username;
+
+    const res = await request(app).post("/api/v1/auth/login").send(data);
+
+    expectErrorResponse(res, 400);
+  });
+});
+
+describe("Authentication validation", function () {
+  it.each([
+    { type: "username", identifier: TEST_USERS.user1.username },
+    { type: "email", identifier: TEST_USERS.user1.email },
+  ])(
+    "returns 401 for incorrect password with $type",
+    async ({ identifier, type }) => {
+      const data = {
+        [type]: identifier,
+        password: "WrongPassword123!",
+      };
+      const res = await request(app).post("/api/v1/auth/login").send(data);
+
+      expect401Error(res);
+    },
+  );
+
+  it.each([
+    { type: "username", identifier: "nonexistent_user" },
+    { type: "email", identifier: "nonexistent@example.com" },
+  ])("returns 401 for non-existent $type", async ({ identifier, type }) => {
+    const data = { [type]: identifier, password: "ValidPassword123!" };
+    const res = await request(app).post("/api/v1/auth/login").send(data);
+
+    expect401Error(res);
+  });
+});
+
+describe("Successful login", function () {
+  it.each([
+    {
+      name: "with username",
+      credentials: {
+        username: TEST_USERS.user1.username,
+        password: TEST_USERS.user1.password,
+      },
+    },
+    {
+      name: "with email",
+      credentials: {
+        email: TEST_USERS.user1.email,
+        password: TEST_USERS.user1.password,
+      },
+    },
+  ])("returns 200 and valid JWT token $name", async ({ credentials }) => {
+    const res = await request(app).post("/api/v1/auth/login").send(credentials);
+
+    expectValidJwtToken(res);
+  });
+
+  it("allows multiple logins with same credentials", async function () {
+    const loginData = {
+      username: TEST_USERS.user1.username,
+      password: TEST_USERS.user1.password,
+    };
+
+    const res1 = await request(app).post("/api/v1/auth/login").send(loginData);
+    const res2 = await request(app).post("/api/v1/auth/login").send(loginData);
+
+    expectValidJwtToken(res1);
+    expectValidJwtToken(res2);
+  });
+
+  it("allows login with case-insensitive email", async function () {
+    const email = TEST_USERS.user2.email.toLowerCase();
+    const res = await request(app).post("/api/v1/auth/login").send({
+      email,
+      password: TEST_USERS.user2.password,
+    });
+
+    expectValidJwtToken(res);
+  });
+});

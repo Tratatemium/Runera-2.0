@@ -1,14 +1,29 @@
-import express from "express";
+import type { Request, Response } from "express";
 
-const app = express();
-const PORT = 4000;
+import app from "./app.js";
+import { connectDB } from "./utils/db.utils.js";
+import { setServerStartTime } from "./utils/server.utils.js";
 
-app.use(express.json());
+setServerStartTime();
 
-app.get("api/health", (_req, res) => {
-  res.json({ status: "ok" });
-});
+let connected = false;
 
-app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`);
-});
+const initializeDB = async () => {
+  try {
+    if (!connected) {
+      await connectDB();
+      connected = true;
+    }
+  } catch (err) {
+    console.error("DB connection failed:", err);
+    connected = false;
+    throw err;
+  }
+};
+
+async function handler(req: Request, res: Response) {
+  await initializeDB();
+  app(req, res);
+}
+
+export default handler;

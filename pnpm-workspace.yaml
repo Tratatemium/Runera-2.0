@@ -2,5 +2,7 @@ packages:
   - "apps/*"
   - "packages/*"
 allowBuilds:
+  bcrypt: false
   esbuild: false
+  mongodb-memory-server: false
   unrs-resolver: false

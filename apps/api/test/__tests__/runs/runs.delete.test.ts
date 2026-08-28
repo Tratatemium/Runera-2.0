@@ -1,0 +1,344 @@
+import type { DBRun } from "../../../src/models/runs.models.js";
+
+import request from "supertest";
+import { describe, it, expect, beforeAll } from "@jest/globals";
+import app from "../../../src/app.js";
+import { TEST_USERS, TEST_RUN_IDS } from "../../helpers/test-data";
+import { getAuthToken } from "../../helpers/auth.helpers";
+import {
+  expect400WithMessage,
+  expect403Error,
+  expect404Error,
+} from "../../helpers/assertions";
+import { getAuthValidationTests } from "../../helpers/request.helpers";
+
+describe("DELETE /api/v1/runs/:id", function () {
+  let user1Token: string;
+  let user2Token: string;
+  let adminToken: string;
+
+  beforeAll(async function () {
+    user1Token = await getAuthToken({
+      email: TEST_USERS.user1.email,
+      password: TEST_USERS.user1.password,
+    });
+    user2Token = await getAuthToken({
+      email: TEST_USERS.user2.email,
+      password: TEST_USERS.user2.password,
+    });
+    adminToken = await getAuthToken({
+      email: TEST_USERS.admin.email,
+      password: TEST_USERS.admin.password,
+    });
+  });
+
+  describe("Authentication", function () {
+    getAuthValidationTests().forEach(({ name, setupAuth }) => {
+      it(name, async function () {
+        const runId = TEST_RUN_IDS.user1Run1;
+        const req = request(app).delete(`/api/v1/runs/${runId}`);
+        const res = await setupAuth(req);
+
+        expect(res.statusCode).toBe(401);
+        expect(res.body).toHaveProperty("error");
+      });
+    });
+  });
+
+  describe("Authorization (permissions)", function () {
+    it("returns 403 when user tries to delete another user's run", async function () {
+      const user1RunId = TEST_RUN_IDS.user1Run1;
+      const res = await request(app)
+        .delete(`/api/v1/runs/${user1RunId}`)
+        .set("Cookie", user2Token);
+
+      expect403Error(res);
+    });
+
+    it("returns 403 with appropriate error message for permission denial", async function () {
+      const user1RunId = TEST_RUN_IDS.user1Run1;
+      const res = await request(app)
+        .delete(`/api/v1/runs/${user1RunId}`)
+        .set("Cookie", user2Token);
+
+      expect403Error(res);
+      expect(res.body.error.message).toMatch(/not allowed/i);
+    });
+  });
+
+  describe("Admin permissions", function () {
+    it("allows admin to delete another user's run", async function () {
+      // Create a run as user1
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T09:00:00.000Z",
+          durationSec: 500,
+          distanceMeters: 1500,
+        });
+
+      const newRunId = createRes.body.data.runData.runId;
+
+      // Verify the run exists
+      const getBeforeDelete = await request(app).get(
+        `/api/v1/runs/${newRunId}`,
+      );
+      expect(getBeforeDelete.statusCode).toBe(200);
+
+      // Delete it as admin
+      const deleteRes = await request(app)
+        .delete(`/api/v1/runs/${newRunId}`)
+        .set("Cookie", adminToken);
+
+      expect(deleteRes.statusCode).toBe(204);
+      expect(deleteRes.body).toEqual({});
+    });
+
+    it("admin deletion actually removes the run from database", async function () {
+      // Create a run as user2
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user2Token)
+        .send({
+          startTime: "2026-02-03T09:30:00.000Z",
+          durationSec: 600,
+          distanceMeters: 2000,
+        });
+
+      const newRunId = createRes.body.data.runData.runId;
+
+      // Admin deletes the run
+      await request(app)
+        .delete(`/api/v1/runs/${newRunId}`)
+        .set("Cookie", adminToken);
+
+      // Verify it no longer exists
+      const getAfterDelete = await request(app).get(`/api/v1/runs/${newRunId}`);
+      expect404Error(getAfterDelete);
+    });
+
+    it("allows admin to delete their own runs", async function () {
+      // Create a run as admin
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", adminToken)
+        .send({
+          startTime: "2026-02-03T10:30:00.000Z",
+          durationSec: 700,
+          distanceMeters: 2500,
+        });
+
+      const adminRunId = createRes.body.data.runData.runId;
+
+      // Admin deletes their own run
+      const deleteRes = await request(app)
+        .delete(`/api/v1/runs/${adminRunId}`)
+        .set("Cookie", adminToken);
+
+      expect(deleteRes.statusCode).toBe(204);
+
+      // Verify it's deleted
+      const getAfterDelete = await request(app).get(
+        `/api/v1/runs/${adminRunId}`,
+      );
+      expect404Error(getAfterDelete);
+    });
+  });
+
+  describe("Validation", function () {
+    const invalidIdCases = [
+      { id: "not-a-valid-uuid", desc: "invalid UUID format" },
+      { id: "000000zdg000000000000000000", desc: "malformed UUID" },
+    ];
+
+    invalidIdCases.forEach(({ id, desc }) => {
+      it(`returns 400 for ${desc}`, async function () {
+        const res = await request(app)
+          .delete(`/api/v1/runs/${id}`)
+          .set("Cookie", user1Token);
+
+        expect400WithMessage(res, /invalid|UUID/i);
+      });
+    });
+  });
+
+  describe("Not found", function () {
+    it("returns 404 for non-existent run ID", async function () {
+      const nonExistentId = TEST_RUN_IDS.nonExistent;
+      const res = await request(app)
+        .delete(`/api/v1/runs/${nonExistentId}`)
+        .set("Cookie", user1Token);
+
+      expect404Error(res);
+    });
+  });
+
+  describe("Successful deletion", function () {
+    it("returns 204 when user successfully deletes their own run", async function () {
+      // First, create a new run to delete
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T10:00:00.000Z",
+          durationSec: 600,
+          distanceMeters: 2000,
+        });
+
+      const newRunId = createRes.body.data.runData.runId;
+
+      // Now delete it
+      const deleteRes = await request(app)
+        .delete(`/api/v1/runs/${newRunId}`)
+        .set("Cookie", user1Token);
+
+      expect(deleteRes.statusCode).toBe(204);
+      expect(deleteRes.body).toEqual({});
+    });
+
+    it("actually removes the run from the database", async function () {
+      // Create a run
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T11:00:00.000Z",
+          durationSec: 700,
+          distanceMeters: 2500,
+        });
+
+      const newRunId = createRes.body.data.runData.runId;
+
+      // Verify it exists
+      const getBeforeDelete = await request(app).get(
+        `/api/v1/runs/${newRunId}`,
+      );
+      expect(getBeforeDelete.statusCode).toBe(200);
+
+      // Delete it
+      await request(app)
+        .delete(`/api/v1/runs/${newRunId}`)
+        .set("Cookie", user1Token);
+
+      // Verify it no longer exists
+      const getAfterDelete = await request(app).get(`/api/v1/runs/${newRunId}`);
+      expect404Error(getAfterDelete);
+    });
+
+    it("removes the run from user's runs list", async function () {
+      // Create a run
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T12:00:00.000Z",
+          durationSec: 800,
+          distanceMeters: 3000,
+        });
+
+      const newRunId = createRes.body.data.runData.runId;
+
+      // Get runs before deletion
+      const getRunsBefore = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user1Token);
+
+      const countBefore = getRunsBefore.body.data.myRuns.length;
+
+      // Delete the run
+      await request(app)
+        .delete(`/api/v1/runs/${newRunId}`)
+        .set("Cookie", user1Token);
+
+      // Get runs after deletion
+      const getRunsAfter = await request(app)
+        .get("/api/v1/users/me/runs")
+        .set("Cookie", user1Token);
+
+      const countAfter = getRunsAfter.body.data.myRuns.length;
+
+      expect(countAfter).toBe(countBefore - 1);
+      expect(
+        getRunsAfter.body.data.myRuns.find(
+          (run: DBRun) => run.runId === newRunId,
+        ),
+      ).toBeUndefined();
+    });
+
+    it("allows user to delete multiple runs sequentially", async function () {
+      // Create two runs
+      const createRes1 = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T13:00:00.000Z",
+          durationSec: 900,
+          distanceMeters: 3500,
+        });
+
+      const createRes2 = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T14:00:00.000Z",
+          durationSec: 1000,
+          distanceMeters: 4000,
+        });
+
+      const runId1 = createRes1.body.data.runData.runId;
+      const runId2 = createRes2.body.data.runData.runId;
+
+      // Delete first run
+      const deleteRes1 = await request(app)
+        .delete(`/api/v1/runs/${runId1}`)
+        .set("Cookie", user1Token);
+
+      expect(deleteRes1.statusCode).toBe(204);
+
+      // Delete second run
+      const deleteRes2 = await request(app)
+        .delete(`/api/v1/runs/${runId2}`)
+        .set("Cookie", user1Token);
+
+      expect(deleteRes2.statusCode).toBe(204);
+
+      // Verify both are deleted
+      const get1 = await request(app).get(`/api/v1/runs/${runId1}`);
+      const get2 = await request(app).get(`/api/v1/runs/${runId2}`);
+
+      expect404Error(get1);
+      expect404Error(get2);
+    });
+  });
+
+  describe("Idempotency", function () {
+    it("returns 404 when trying to delete an already deleted run", async function () {
+      // Create a run
+      const createRes = await request(app)
+        .post("/api/v1/users/me/runs")
+        .set("Cookie", user1Token)
+        .send({
+          startTime: "2026-02-03T15:00:00.000Z",
+          durationSec: 1100,
+          distanceMeters: 4500,
+        });
+
+      const runId = createRes.body.data.runData.runId;
+
+      // Delete it once
+      const deleteRes1 = await request(app)
+        .delete(`/api/v1/runs/${runId}`)
+        .set("Cookie", user1Token);
+
+      expect(deleteRes1.statusCode).toBe(204);
+
+      // Try to delete it again
+      const deleteRes2 = await request(app)
+        .delete(`/api/v1/runs/${runId}`)
+        .set("Cookie", user1Token);
+
+      expect404Error(deleteRes2);
+    });
+  });
+});
