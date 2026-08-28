@@ -1,4 +1,4 @@
-import type { DialogProps } from "../components/ui/Dialog";
+import type { DialogProps } from "../components/ui/Dialog/Dialog";
 
 import {
   createContext,
@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { AppError } from "../errors/errors";
-import { Dialog } from "../components/ui/Dialog";
+import { Dialog } from "../components/ui/Dialog/Dialog";
 
 interface DialogContextValue {
   openDialog: (options: DialogProps) => void;

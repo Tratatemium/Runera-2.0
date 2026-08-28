@@ -1,7 +1,10 @@
-import { useEffect, useId, useRef } from "react";
-import styles from "./Dialog.module.css";
+"use client";
 
-import { Button } from "./Button";
+import { useEffect, useId, useRef } from "react";
+
+import { Button } from "../Button/Button";
+
+import styles from "./Dialog.module.css";
 
 export interface DialogProps {
   title: string;
@@ -74,7 +77,8 @@ function Dialog({
     }
 
     const firstFocusableElement = focusableElements[0];
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+    const lastFocusableElement =
+      focusableElements[focusableElements.length - 1];
 
     if (!event.shiftKey && document.activeElement === lastFocusableElement) {
       event.preventDefault();

@@ -1,9 +1,14 @@
-import { ComponentPropsWithoutRef } from "react";
-import styles from "./Button.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import type { ComponentPropsWithoutRef } from "react";
 
-interface ButtonLinkProps
-  extends Omit<ComponentPropsWithoutRef<typeof Link>, "to" | "children"> {
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import styles from "./Button.module.css";
+
+interface ButtonLinkProps extends Omit<
+  ComponentPropsWithoutRef<typeof Link>,
+  "to" | "href" | "children"
+> {
   children?: React.ReactNode;
   linkDirection: string;
   linkText: string;
@@ -27,11 +32,11 @@ function ButtonLink({
   onClick,
   ...linkProps
 }: ButtonLinkProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Link
-      to={goBack ? "." : linkDirection}
+      href={goBack ? "#" : linkDirection}
       aria-disabled={disabled}
       onClick={(e) => {
         if (disabled) {
@@ -41,7 +46,7 @@ function ButtonLink({
 
         if (goBack) {
           e.preventDefault();
-          navigate(-1);
+          router.back();
         }
 
         onClick?.(e);
