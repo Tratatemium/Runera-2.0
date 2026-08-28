@@ -1,13 +1,16 @@
-import type { Run } from "../../types/runs.types";
-import type { LoadingState } from "../../hooks/useRuns";
+"use client";
+
+import type { Run } from "@runera/shared";
+import type { LoadingState } from "../../../hooks/useRuns";
+
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+
+import { icons } from "../../icons/icons";
+import { getWeatherIcon } from "../../../utils/icons.utils";
+import { useDialogContext } from "../../../context/DialogContext";
 
 import styles from "./RunItem.module.css";
-import { icons } from "../icons/icons";
-
-import { getWeatherIcon } from "../../utils/icons.utils";
-import { useDialogContext } from "../../context/DialogContext";
-import { Link } from "react-router-dom";
 
 const {
   spinner: SpinnerIcon,
@@ -139,7 +142,7 @@ function RunItem({
           )}
         </button>
         <Link
-          to={`${run.runId}/edit`}
+          href={`${run.runId}/edit`}
           className={styles.actionButton}
           aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
           title="Edit run"
