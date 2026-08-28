@@ -20,11 +20,12 @@ function sendSuccess(
   res.status(statusCode);
 
   if (cookie) {
+    const isDev = process.env.NODE_ENV === "development";
     res.cookie(cookie.name, cookie.value, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      partitioned: true,
+      secure: !isDev,
+      sameSite: isDev ? "lax" : "none",
+      partitioned: isDev ? undefined : true,
       maxAge: 1000 * 60 * 60,
       ...cookie.options,
     });
