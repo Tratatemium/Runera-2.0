@@ -1,5 +1,8 @@
 // import type { Dispatch, SetStateAction } from "react";
 
+type SetStateAction<T> = T | ((previousState: T) => T);
+type Dispatch<T> = (value: T) => void;
+
 interface Run {
   runId: string;
   userId: string;
@@ -27,19 +30,15 @@ interface Run {
 
 type RunsState = Record<string, Run>;
 
-// interface RunsContextValue {
-//   runs: RunsState | undefined;
-//   isHydaratingRuns: boolean;
-//   setIsHydratingRuns: Dispatch<SetStateAction<boolean>>;
-//   hydrateRunsState: (runs: RunsState) => void;
-//   clearRunsState: () => void;
-//   postNewRunState: (newRun: Run) => void;
-//   updateRunState: (updatedRun: Run) => void;
-//   deleteRunState: (id: string) => void;
-// }
+interface RunsContextValue {
+  runs: RunsState | undefined;
+  isHydaratingRuns: boolean;
+  setIsHydratingRuns: Dispatch<SetStateAction<boolean>>;
+  hydrateRunsState: (runs: RunsState) => void;
+  clearRunsState: () => void;
+  postNewRunState: (newRun: Run) => void;
+  updateRunState: (updatedRun: Run) => void;
+  deleteRunState: (id: string) => void;
+}
 
-export type {
-  Run,
-  RunsState,
-  // RunsContextValue,
-};
+export type { Run, RunsState, RunsContextValue };

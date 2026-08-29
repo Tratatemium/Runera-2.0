@@ -1,4 +1,6 @@
-import type { DialogProps } from "../components/ui/Dialog/Dialog";
+"use client";
+
+import type { DialogProps } from "@/components/ui/";
 
 import {
   createContext,
@@ -8,8 +10,8 @@ import {
   useState,
 } from "react";
 
-import { AppError } from "../errors/errors";
-import { Dialog } from "../components/ui/Dialog/Dialog";
+import { AppError } from "@/errors/errors";
+import { Dialog } from "@/components/ui";
 
 interface DialogContextValue {
   openDialog: (options: DialogProps) => void;

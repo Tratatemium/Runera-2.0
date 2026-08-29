@@ -1,3 +1,5 @@
+export type { DialogProps } from "./Dialog/Dialog";
+
 export { Button } from "./Button/Button";
 export { ButtonLink } from "./Button/ButtonLink";
 export { FormField } from "./FormField/FormField";

@@ -1,11 +1,12 @@
-import type { Run, RunsState, RunsContextValue } from "../types/runs.types";
+"use client";
+
+import type { Run, RunsState, RunsContextValue } from "@runera/shared";
 
 import {
   createContext,
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -57,7 +58,8 @@ function RunsProvider({ children }: RunsProviderProps) {
         if (!prev) return prev;
         if (!runExists(prev, id)) return prev;
 
-        const { [id]: _, ...rest } = prev;
+        const { [id]: _removed, ...rest } = prev;
+        void _removed;
         return rest;
       });
     },
@@ -66,13 +68,9 @@ function RunsProvider({ children }: RunsProviderProps) {
 
   const { user } = useAuthContext();
 
-  useEffect(() => {
-    if (!user) clearRunsState();
-  }, [user, clearRunsState]);
-
   const value = useMemo(
     () => ({
-      runs,
+      runs: user ? runs : undefined,
       isHydaratingRuns,
       setIsHydratingRuns,
       hydrateRunsState,
@@ -82,6 +80,7 @@ function RunsProvider({ children }: RunsProviderProps) {
       deleteRunState,
     }),
     [
+      user,
       runs,
       isHydaratingRuns,
       setIsHydratingRuns,

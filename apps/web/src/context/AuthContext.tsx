@@ -1,5 +1,8 @@
-import type { AuthContextValue } from "../types/auth.types";
-import type { UserState } from "../types/users.types";
+"use client";
+
+import type { AuthContextValue, UserState } from "@runera/shared";
+
+import merge from "lodash/merge";
 
 import {
   createContext,
@@ -10,8 +13,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import merge from "lodash/merge";
-import { AppError } from "../errors/errors";
+import { AppError } from "@/errors/errors";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 

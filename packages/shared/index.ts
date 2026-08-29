@@ -1,4 +1,4 @@
-export type { Run, RunsState } from "./types/runs/runs.types";
+export type { Run, RunsState, RunsContextValue } from "./types/runs/runs.types";
 export type { RunRequest } from "./types/runs/runs.requests";
 export type {
   RunApi,

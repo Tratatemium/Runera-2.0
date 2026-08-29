@@ -1,6 +1,6 @@
-import type { InputFieldConfig } from "../types/forms.types";
+import type { InputFieldConfig } from "@runera/shared";
 
-import * as validators from "../validation/validators";
+import * as validators from "@/validation/validators";
 import {
   normalizeString,
   normalizeNumber,
@@ -8,7 +8,7 @@ import {
   normalizeLogin,
   normalizeLocalTime,
   normalizeWeather,
-} from "../utils/normalize.utils";
+} from "@/utils/normalize.utils";
 
 const inputFields: Record<string, InputFieldConfig> = {
   username: {
