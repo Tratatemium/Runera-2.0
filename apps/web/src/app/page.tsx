@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import runners1 from "@/assets/runners-1.jpg";
@@ -8,7 +10,7 @@ import { Logo, ButtonLink } from "@/components/ui";
 
 import styles from "./page.module.css";
 
-function Home() {
+export default function Home() {
   const { user } = useAuthContext();
   const { graph: GraphIcon, chart: ChartIcon, medal: MedalIcon } = icons;
 
@@ -96,5 +98,3 @@ function Home() {
     </main>
   );
 }
-
-export { Home };
