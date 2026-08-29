@@ -3,7 +3,7 @@ import type {
   FormStateValue,
   FormAction,
   UseFormStateReturn,
-} from "../../types/forms.types";
+} from "@runera/shared";
 
 import { useCallback, useReducer } from "react";
 
@@ -108,18 +108,18 @@ function useFormState(
   );
   const resetFormState = useCallback(
     () =>
-    dispatch({
-      type: "reset",
-      state: createInitialState(fields, initialValues),
-    }),
+      dispatch({
+        type: "reset",
+        state: createInitialState(fields, initialValues),
+      }),
     [fields, initialValues],
   );
   const resetWithValues = useCallback(
     (values?: Record<string, unknown>) =>
-    dispatch({
-      type: "reset",
-      state: createInitialState(fields, values),
-    }),
+      dispatch({
+        type: "reset",
+        state: createInitialState(fields, values),
+      }),
     [fields],
   );
   const clearErrors = useCallback(() => dispatch({ type: "clearErrors" }), []);

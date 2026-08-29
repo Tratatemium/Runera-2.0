@@ -2,13 +2,14 @@ import type {
   InputFieldConfig,
   UseFormHandlersReturn,
   UseFormStateReturn,
-} from "../../types/forms.types";
+} from "@runera/shared";
 
-import { validateField, validateForm } from "../../validation/formValidation";
 import { useMemo } from "react";
-import { getFormData } from "../../utils/form.utils";
-import { clampNumber } from "../../utils/normalize.utils";
-import { scrollToTop } from "../../utils/app.utils";
+
+import { validateField, validateForm } from "@/validation/formValidation";
+import { getFormData } from "@/utils/form.utils";
+import { clampNumber } from "@/utils/normalize.utils";
+import { scrollToTop } from "@/utils/app.utils";
 
 function useFormHandlers(
   fields: readonly InputFieldConfig[],
