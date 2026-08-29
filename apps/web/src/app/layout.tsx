@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
 
-import { Header, Footer, ScrollToTop } from "@/components/layout";
+import { Providers, Header, Footer, ScrollToTop } from "@/components/layout";
 
 import "@/styles/reset.css";
 import "@/styles/variables.css";
@@ -30,12 +30,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
       <body>
-        <div className={styles.layout}>
-          <ScrollToTop />
-          <Header />
-          <div className={styles.contentWrapper}>{children}</div>
-          <Footer />
-        </div>
+        <Providers>
+          <div className={styles.layout}>
+            <ScrollToTop />
+            <Header />
+            <div className={styles.contentWrapper}>{children}</div>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
