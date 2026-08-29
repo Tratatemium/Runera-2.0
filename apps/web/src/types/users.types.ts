@@ -13,7 +13,7 @@ interface UserState {
   role: "user" | "admin";
 }
 
-interface UserApiResponse {
+interface UserResponse {
   userData: {
     userId: string;
     account: {
@@ -39,12 +39,7 @@ interface UpdateUserPayload {
 }
 
 interface UserUpdateResponse {
-  savedProfile: UserApiResponse["userData"]["profile"];
+  savedProfile: UserResponse["userData"]["profile"];
 }
 
-export type {
-  UserState,
-  UserApiResponse,
-  UpdateUserPayload,
-  UserUpdateResponse,
-};
+export type { UserState, UserResponse, UpdateUserPayload, UserUpdateResponse };

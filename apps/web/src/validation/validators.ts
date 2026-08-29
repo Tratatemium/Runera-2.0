@@ -1,4 +1,4 @@
-import type { FormStateValue } from "../types/forms.types";
+import type { FormStateValue } from "@runera/shared";
 
 import {
   checkEmpty,

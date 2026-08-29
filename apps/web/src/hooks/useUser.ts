@@ -1,4 +1,4 @@
-import type { UpdateUserPayload, UserApiResponse } from "../types/users.types";
+import type { UpdateUserPayload, UserResponse } from "../types/users.types";
 
 import { apiGetMe, apiUpdateProfile } from "../api/users.api";
 import { useCallback, useState } from "react";
@@ -13,9 +13,7 @@ interface UseUserReturn {
   updateProfile: (
     payload: UpdateUserPayload,
   ) => Promise<Record<string, string> | undefined>;
-  getMe: (opts?: {
-    suppressUnauthorized?: boolean;
-  }) => Promise<UserApiResponse>;
+  getMe: (opts?: { suppressUnauthorized?: boolean }) => Promise<UserResponse>;
 }
 
 function useUser(): UseUserReturn {

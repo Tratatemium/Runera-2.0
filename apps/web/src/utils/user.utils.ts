@@ -1,7 +1,8 @@
-import type { UserState, UserApiResponse } from "../types/users.types";
+import type { UserState, UserResponse } from "@runera/shared";
+
 import { normalizeDate, normalizeFormValue } from "./normalize.utils";
 
-const mapUserResponseToState = (data: UserApiResponse): UserState => ({
+const mapUserResponseToState = (data: UserResponse): UserState => ({
   account: {
     email: data.userData.account.email,
     username: data.userData.account.username,
@@ -55,8 +56,8 @@ function normalizeProfile(profile: UserState["profile"]): UserState["profile"] {
   return normalized;
 }
 
-function normalizeUserResponse(data: UserApiResponse): UserApiResponse {
-  const normalized: UserApiResponse = {
+function normalizeUserResponse(data: UserResponse): UserResponse {
+  const normalized: UserResponse = {
     ...data,
     userData: {
       ...data.userData,

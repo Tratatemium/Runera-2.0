@@ -1,4 +1,4 @@
-import type { InputFieldConfig } from "../types/forms.types";
+import type { InputFieldConfig } from "@runera/shared";
 
 /* ────────────────────────────── */
 /* helpers                        */

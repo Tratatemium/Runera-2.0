@@ -3,7 +3,8 @@ import type {
   InputFieldConfig,
   NormalizedFormValue,
   FormData,
-} from "../types/forms.types";
+} from "@runera/shared";
+
 import { clampNumber } from "./normalize.utils";
 
 function normalizeEntry(

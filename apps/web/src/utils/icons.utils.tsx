@@ -1,6 +1,7 @@
-import type { Run } from "../types/runs.types";
-import { icons } from "../components/icons/icons";
 import type { ReactNode, SVGProps } from "react";
+import type { Run } from "@runera/shared";
+
+import { icons } from "@/components/icons/icons";
 
 const {
   sunny: SunnyIcon,

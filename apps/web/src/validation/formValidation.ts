@@ -1,5 +1,4 @@
-import type { InputFieldConfig } from "../types/forms.types";
-import type { FormStateValue } from "../types/forms.types";
+import type { InputFieldConfig, FormStateValue } from "@runera/shared";
 
 function validateField(
   field: InputFieldConfig,

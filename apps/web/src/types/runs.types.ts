@@ -62,10 +62,10 @@ interface RunApi {
     | "cold";
 }
 
-type RunApiResponse = { runData: RunApi };
-type MyRunsApiResponse = { myRuns: RunApi[] };
+type RunResponse = { runData: RunApi };
+type MyRunsResponse = { myRuns: RunApi[] };
 
-interface RunData {
+interface RunRequest {
   startTime: string;
   durationSec: number;
   distanceMeters: number;
@@ -88,7 +88,7 @@ export type {
   RunsState,
   RunsContextValue,
   RunApi,
-  RunApiResponse,
-  MyRunsApiResponse,
-  RunData,
+  RunResponse,
+  MyRunsResponse,
+  RunRequest,
 };

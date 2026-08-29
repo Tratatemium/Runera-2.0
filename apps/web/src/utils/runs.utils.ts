@@ -1,12 +1,13 @@
-import { FormData, FormStateValue } from "../types/forms.types";
 import type {
   Run,
   RunApi,
-  RunApiResponse,
-  MyRunsApiResponse,
+  RunResponse,
+  MyRunsResponse,
   RunsState,
-  RunData,
-} from "../types/runs.types";
+  RunRequest,
+  FormData,
+  FormStateValue,
+} from "@runera/shared";
 
 import {
   formatSeconds,
@@ -30,7 +31,7 @@ function normalizeRun(run: RunApi): Run {
   };
 }
 
-function normalizeMyRuns(rawResponse: MyRunsApiResponse): RunsState {
+function normalizeMyRuns(rawResponse: MyRunsResponse): RunsState {
   const entries = rawResponse.myRuns.map((run) => [
     run.runId,
     normalizeRun(run),
@@ -38,11 +39,11 @@ function normalizeMyRuns(rawResponse: MyRunsApiResponse): RunsState {
   return Object.fromEntries(entries);
 }
 
-function normalizeRunData(runData: RunApiResponse): Run {
+function normalizeRunData(runData: RunResponse): Run {
   return normalizeRun(runData.runData);
 }
 
-function getRunData(data: FormData): RunData {
+function getRunData(data: FormData): RunRequest {
   const { distanceKm, durationH, durationM, durationS, ...rest } = data;
 
   return {
@@ -50,7 +51,7 @@ function getRunData(data: FormData): RunData {
     distanceMeters: Number(distanceKm) * 1000,
     durationSec:
       Number(durationH) * 3600 + Number(durationM) * 60 + Number(durationS),
-  } as RunData;
+  } as RunRequest;
 }
 
 function splitDuration(durationSec: number) {

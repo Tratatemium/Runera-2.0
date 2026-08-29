@@ -1,6 +1,7 @@
 import type { SetStateAction } from "react";
-import { ApiResponse } from "../types/api.types";
-import { ApiError, ResponseError } from "../errors/errors";
+import type { ApiResponse } from "@runera/shared";
+
+import { ApiError, ResponseError } from "@/errors/errors";
 
 function joinUrl(urlPart1: string, urlPart2: string) {
   return `${urlPart1.replace(/\/+$/, "")}/${urlPart2.replace(/^\/+/, "")}`;

@@ -1,6 +1,6 @@
 import type {
   UserState,
-  UserApiResponse,
+  UserResponse,
   UserUpdateResponse,
 } from "../types/users.types";
 
@@ -9,7 +9,7 @@ import { API } from "../config/apiConfig";
 import { jsonOptions } from "../utils/api.utils";
 
 function apiGetMe(suppressUnauthorized: boolean) {
-  return apiRequest<UserApiResponse>({
+  return apiRequest<UserResponse>({
     path: API.users.me,
     assertData: true,
     suppressUnauthorized,

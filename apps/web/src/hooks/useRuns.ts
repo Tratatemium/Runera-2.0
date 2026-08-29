@@ -1,4 +1,4 @@
-import type { RunData } from "../types/runs.types";
+import type { RunRequest } from "../types/runs.types";
 
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +17,8 @@ interface UseRunsReturn {
   loadingRunId: string | null;
   formError: string | undefined;
   getMyRuns: () => Promise<void>;
-  postNewRun: (payload: RunData) => Promise<void>;
-  updateRun: (runId: string, payload: RunData) => Promise<void>;
+  postNewRun: (payload: RunRequest) => Promise<void>;
+  updateRun: (runId: string, payload: RunRequest) => Promise<void>;
   deleteRun: (runId: string) => Promise<void>;
 }
 
@@ -57,7 +57,7 @@ function useRuns(): UseRunsReturn {
   }, [hydrateRunsState, setIsHydratingRuns]);
 
   const postNewRun = useCallback(
-    async (payload: RunData) => {
+    async (payload: RunRequest) => {
       setLoading("creatingRun");
       setFormError(undefined);
       try {
@@ -74,7 +74,7 @@ function useRuns(): UseRunsReturn {
   );
 
   const updateRun = useCallback(
-    async (runId: string, payload: RunData) => {
+    async (runId: string, payload: RunRequest) => {
       setLoading("updatingRun");
       setLoadingRunId(runId);
       setFormError(undefined);
