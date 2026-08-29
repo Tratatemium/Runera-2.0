@@ -1,14 +1,14 @@
 import type {
-  SignupData,
+  SignupRequest,
   SignupResponse,
-  LoginData,
+  LoginRequest,
 } from "../types/auth.types";
 
 import { apiRequest } from "./client";
 import { API } from "../config/apiConfig";
 import { jsonOptions } from "../utils/api.utils";
 
-function apiSignup(data: SignupData) {
+function apiSignup(data: SignupRequest) {
   return apiRequest<SignupResponse>({
     path: API.auth.signup,
     assertData: false,
@@ -16,7 +16,7 @@ function apiSignup(data: SignupData) {
   });
 }
 
-function apiLogin(data: LoginData) {
+function apiLogin(data: LoginRequest) {
   return apiRequest<void>({
     path: API.auth.login,
     assertData: false,

@@ -34,7 +34,7 @@ interface UserResponse {
   };
 }
 
-interface UpdateUserPayload {
+interface UpdateProfileRequest {
   profile: UserState["profile"];
 }
 
@@ -42,4 +42,9 @@ interface UserUpdateResponse {
   savedProfile: UserResponse["userData"]["profile"];
 }
 
-export type { UserState, UserResponse, UpdateUserPayload, UserUpdateResponse };
+export type {
+  UserState,
+  UserResponse,
+  UpdateProfileRequest,
+  UserUpdateResponse,
+};

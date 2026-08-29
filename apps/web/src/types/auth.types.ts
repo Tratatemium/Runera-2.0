@@ -1,6 +1,6 @@
 import type { UserState } from "./users.types";
 
-interface SignupData {
+interface SignupRequest {
   username: string;
   email: string;
   password: string;
@@ -10,7 +10,7 @@ interface SignupResponse {
   userId: string;
 }
 
-interface LoginData {
+interface LoginRequest {
   username?: string;
   email?: string;
   password: string;
@@ -23,9 +23,4 @@ interface AuthContextValue {
   updateUser: (updates: Partial<UserState>) => void;
 }
 
-export type {
-  SignupData,
-  SignupResponse,
-  LoginData,
-  AuthContextValue,
-};
+export type { SignupRequest, SignupResponse, LoginRequest, AuthContextValue };

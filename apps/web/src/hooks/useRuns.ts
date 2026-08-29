@@ -1,16 +1,16 @@
-import type { RunRequest } from "../types/runs.types";
+import type { RunRequest } from "@runera/shared";
 
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRunsContext } from "../context/RunsContext";
+import { useRouter } from "next/navigation";
 
+import { useRunsContext } from "@/context/RunsContext";
 import {
   apiGetMyRuns,
   apiPostNewRun,
   apiUpdateRun,
   apiDeleteRun,
-} from "../api/runs.api";
-import { normalizeRunData, normalizeMyRuns } from "../utils/runs.utils";
+} from "@/api/runs.api";
+import { normalizeRunData, normalizeMyRuns } from "@/utils/runs.utils";
 
 interface UseRunsReturn {
   loading: LoadingState;
@@ -40,7 +40,7 @@ function useRuns(): UseRunsReturn {
     updateRunState,
     deleteRunState,
   } = useRunsContext();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const getMyRuns = useCallback(async () => {
     setLoading("fetchingRuns");
@@ -63,14 +63,14 @@ function useRuns(): UseRunsReturn {
       try {
         const response = await apiPostNewRun(payload);
         postNewRunState(normalizeRunData(response));
-        navigate("/user/runs");
+        router.push("/user/runs");
       } catch (err) {
         console.error(err);
       } finally {
         setLoading("idle");
       }
     },
-    [postNewRunState, navigate],
+    [postNewRunState, router],
   );
 
   const updateRun = useCallback(
@@ -81,7 +81,7 @@ function useRuns(): UseRunsReturn {
       try {
         const response = await apiUpdateRun(runId, payload);
         updateRunState(normalizeRunData(response));
-        navigate("/user/runs");
+        router.push("/user/runs");
       } catch (err) {
         console.error(err);
       } finally {
@@ -89,7 +89,7 @@ function useRuns(): UseRunsReturn {
         setLoadingRunId(null);
       }
     },
-    [updateRunState, navigate],
+    [updateRunState, router],
   );
 
   const deleteRun = useCallback(
