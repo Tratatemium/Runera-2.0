@@ -2,11 +2,11 @@ import type {
   SignupRequest,
   SignupResponse,
   LoginRequest,
-} from "../types/auth.types";
+} from "@runera/shared";
 
 import { apiRequest } from "./client";
-import { API } from "../config/apiConfig";
-import { jsonOptions } from "../utils/api.utils";
+import { API } from "@/config/apiConfig";
+import { jsonOptions } from "@/utils/api.utils";
 
 function apiSignup(data: SignupRequest) {
   return apiRequest<SignupResponse>({

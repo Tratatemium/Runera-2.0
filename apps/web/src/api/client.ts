@@ -1,12 +1,12 @@
-import type { ApiResponse } from "../types/api.types";
+import type { ApiResponse } from "@runera/shared";
 
-import { config } from "../config/appConfig";
+import { config } from "@/config/appConfig";
 import {
   joinUrl,
   getResponseData,
   handleServerErrors,
-} from "../utils/api.utils";
-import { ResponseError } from "../errors/errors";
+} from "@/utils/api.utils";
+import { ResponseError } from "@/errors/errors";
 
 interface ApiRequestOptions {
   path: string;

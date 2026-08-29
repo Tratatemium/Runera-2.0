@@ -2,11 +2,11 @@ import type {
   UserState,
   UserResponse,
   UserUpdateResponse,
-} from "../types/users.types";
+} from "@runera/shared";
 
 import { apiRequest } from "./client";
-import { API } from "../config/apiConfig";
-import { jsonOptions } from "../utils/api.utils";
+import { API } from "@/config/apiConfig";
+import { jsonOptions } from "@/utils/api.utils";
 
 function apiGetMe(suppressUnauthorized: boolean) {
   return apiRequest<UserResponse>({

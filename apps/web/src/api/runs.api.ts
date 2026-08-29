@@ -1,11 +1,7 @@
-import type {
-  RunResponse,
-  MyRunsResponse,
-  RunRequest,
-} from "../types/runs.types";
+import type { RunResponse, MyRunsResponse, RunRequest } from "@runera/shared";
 import { apiRequest } from "./client";
-import { API } from "../config/apiConfig";
-import { joinUrl, jsonOptions } from "../utils/api.utils";
+import { API } from "@/config/apiConfig";
+import { joinUrl, jsonOptions } from "@/utils/api.utils";
 
 function apiGetMyRuns() {
   return apiRequest<MyRunsResponse>({
