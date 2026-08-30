@@ -142,7 +142,7 @@ function RunItem({
           )}
         </button>
         <Link
-          href={`${run.runId}/edit`}
+          href={`/user/runs/${run.runId}/edit`}
           className={styles.actionButton}
           aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
           title="Edit run"
