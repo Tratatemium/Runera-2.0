@@ -1,15 +1,15 @@
 import styles from "./Login.module.css";
 import runners from "../assets/runners-wide-1.jpg";
 
-import { useAuth } from "../hooks/useAuth";
-import { useFormState } from "../hooks/form/useFormState";
-import { useFormHandlers } from "../hooks/form/useFormHandlers";
+import { useAuth } from "../../hooks/useAuth";
+import { useFormState } from "../../hooks/form/useFormState";
+import { useFormHandlers } from "../../hooks/form/useFormHandlers";
 
-import { inputFields } from "../config/inputFields";
+import { inputFields } from "../../config/inputFields";
 
 import { Link } from "react-router-dom";
-import { FormField } from "../components/ui";
-import { AuthCard } from "../components/auth";
+import { FormField } from "../../components/ui";
+import { AuthCard } from "../../components/auth";
 
 const loginFooter = (
   <>

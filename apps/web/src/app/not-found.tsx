@@ -1,8 +1,8 @@
-import styles from "./NotFound.module.css";
+import { ButtonLink } from "@/components/ui";
 
-import { ButtonLink } from "../components/ui";
+import styles from "./not-found.module.css";
 
-function NotFound() {
+export default function NotFound() {
   return (
     <div className={styles.wrapper}>
       <svg
@@ -83,5 +83,3 @@ function NotFound() {
     </div>
   );
 }
-
-export { NotFound };
