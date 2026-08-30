@@ -1,9 +1,11 @@
-import styles from "./Dashboard.module.css";
+"use client";
 
-import { useAuthContext } from "../../context/AuthContext";
-import { ButtonLink, Panel } from "../../components/ui";
+import { useAuthContext } from "@/context/AuthContext";
+import { ButtonLink, Panel } from "@/components/ui";
 
-function Dashboard() {
+import styles from "./page.module.css";
+
+export default function Dashboard() {
   const { user } = useAuthContext();
   if (!user) return null;
 
@@ -12,7 +14,7 @@ function Dashboard() {
       <Panel variant="frosted" className={styles.panel}>
         <div className={styles.greeting}>
           <h1>Welcome back, {user.account.username}!</h1>
-          <p>Here's a snapshot of your running journey.</p>
+          <p>Here&apos;s a snapshot of your running journey.</p>
         </div>
         <div className={styles.stats}>
           <div className={styles.card}>
@@ -49,5 +51,3 @@ function Dashboard() {
     </main>
   );
 }
-
-export { Dashboard };

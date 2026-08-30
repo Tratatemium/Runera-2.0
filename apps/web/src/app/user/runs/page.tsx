@@ -1,13 +1,15 @@
-import styles from "./MyRuns.module.css";
-import { icons } from "../../components/icons/icons";
+"use client";
 
-import { useRuns } from "../../hooks/useRuns";
-import { useRunsContext } from "../../context/RunsContext";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { Loading } from "../../components/ui";
-import { RunItem } from "../../components/runs/RunItem/RunItem";
-import { Link } from "react-router-dom";
+import { useRuns } from "@/hooks/useRuns";
+import { useRunsContext } from "@/context/RunsContext";
+import { icons } from "@/components/icons/icons";
+import { Loading } from "@/components/ui";
+import { RunItem } from "@/components/runs";
+
+import styles from "./page.module.css";
 
 const { spinner: SpinnerIcon, plus: PlusIcon } = icons;
 type SortOption =
@@ -16,7 +18,7 @@ type SortOption =
   | "distanceLongest"
   | "distanceShortest";
 
-function MyRuns() {
+export default function MyRuns() {
   const { runs, isHydaratingRuns } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
   const [sortBy, setSortBy] = useState<SortOption>("startTimeNewest");
@@ -117,7 +119,7 @@ function MyRuns() {
         ))}
       </div>
       <Link
-        to={"/user/runs/new"}
+        href={"/user/runs/new"}
         className={styles.addRunButton}
         aria-label="Add new run"
       >
@@ -128,5 +130,3 @@ function MyRuns() {
     <Loading />
   );
 }
-
-export { MyRuns };

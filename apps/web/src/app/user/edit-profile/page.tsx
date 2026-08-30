@@ -1,28 +1,27 @@
-import styles from "./EditAccount.module.css";
+"use client";
 
-import { useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
-import { useFormState } from "../../hooks/form/useFormState";
-import { useFormHandlers } from "../../hooks/form/useFormHandlers";
+import { useAuthContext } from "@/context/AuthContext";
+import { useFormState } from "@/hooks/form/useFormState";
+import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { useUser } from "@/hooks/useUser";
+import { inputFields } from "@/config/inputFields";
+import { getUserData } from "@/utils/user.utils";
+import { Button, ButtonLink, FormField, Panel } from "@/components/ui";
 
-import { inputFields } from "../../config/inputFields";
-import { getUserData } from "../../utils/user.utils";
-
-import { Button, ButtonLink, FormField, Panel } from "../../components/ui";
+import styles from "./page.module.css";
 
 const userFields = [
-  inputFields.username,
-  inputFields.email,
-  inputFields.password,
+  inputFields.firstName,
+  inputFields.lastName,
+  inputFields.dateOfBirth,
+  inputFields.heightCm,
+  inputFields.weightKg,
 ] as const;
 
-function EditAccount() {
-  const [isSubmitting] = useState(false);
-  const [formError] = useState<string | undefined>(undefined);
-
-  // type UserEditForm = {
-  //   [K in (typeof userFields)[number]["id"]]: string;
-  // };
+export default function EditProfile() {
+  type UserEditForm = {
+    [K in (typeof userFields)[number]["id"]]: string;
+  };
 
   const { user } = useAuthContext();
   const formStateHook = useFormState(userFields, getUserData(user));
@@ -32,7 +31,14 @@ function EditAccount() {
     formStateHook,
   );
 
-  function submitUserEdit() {}
+  const { isFetching, formError, updateProfile } = useUser();
+
+  async function submitUserEdit(data: UserEditForm) {
+    const payload = {
+      profile: data,
+    };
+    await updateProfile(payload);
+  }
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     handleSubmit(e, submitUserEdit);
@@ -44,8 +50,8 @@ function EditAccount() {
         <form className={styles.form} onSubmit={onSubmit} noValidate>
           {userFields.map((field) => (
             <FormField
-              key={field.id}
               {...field}
+              key={field.id}
               layout="row"
               value={formState[field.id].value}
               inputError={formState[field.id].error}
@@ -66,9 +72,7 @@ function EditAccount() {
                 buttonText="Save changes"
                 type="submit"
                 variant="primary"
-                isSubmitting={isSubmitting}
-                disabled={true}
-                title="Not implemented yet"
+                isSubmitting={isFetching}
               />
               <ButtonLink
                 linkDirection="."
@@ -83,5 +87,3 @@ function EditAccount() {
     </main>
   );
 }
-
-export { EditAccount };

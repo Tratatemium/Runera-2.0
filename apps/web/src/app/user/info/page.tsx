@@ -1,9 +1,11 @@
-import styles from "./UserInfo.module.css";
+"use client";
 
-import { useAuthContext } from "../../context/AuthContext";
-import { ButtonLink, Panel } from "../../components/ui";
+import { useAuthContext } from "@/context/AuthContext";
+import { ButtonLink, Panel } from "@/components/ui";
 
-function UserInfo() {
+import styles from "./page.module.css";
+
+export default function UserInfo() {
   const { user } = useAuthContext();
   if (!user) return null;
 
@@ -68,5 +70,3 @@ function UserInfo() {
     </main>
   );
 }
-
-export { UserInfo };

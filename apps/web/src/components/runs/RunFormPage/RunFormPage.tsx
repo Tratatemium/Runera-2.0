@@ -1,20 +1,22 @@
-import styles from "./RunFormPage.module.css";
-import { icons } from "../../components/icons/icons";
+"use client";
 
-import { inputFields } from "../../config/inputFields";
-
-import { Button, ButtonLink, FormField, Panel } from "../../components/ui";
-import { useFormState } from "../../hooks/form/useFormState";
-import { useFormHandlers } from "../../hooks/form/useFormHandlers";
-import { useRuns } from "../../hooks/useRuns";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useRunsContext } from "../../context/RunsContext";
+
+import { icons } from "@/components/icons/icons";
+import { Button, ButtonLink, FormField, Panel } from "@/components/ui";
+import { inputFields } from "@/config/inputFields";
+import { useFormState } from "@/hooks/form/useFormState";
+import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { useRuns } from "@/hooks/useRuns";
+import { useRunsContext } from "@/context/RunsContext";
 import {
   calculatePace,
   getRunData,
   prepareRunStateValues,
-} from "../../utils/runs.utils";
+} from "@/utils/runs.utils";
+
+import styles from "./RunFormPage.module.css";
 
 const durationFields = [
   inputFields.durationH,
@@ -63,14 +65,17 @@ const weatherIconsMap = {
   cold: icons.cold,
 } as const;
 
-function RunFormPage() {
-  const navigate = useNavigate();
+interface Props {
+  runId?: string;
+}
+
+function RunFormPage({ runId }: Props) {
+  const router = useRouter();
 
   /* ────────────────────────────── */
   /*  new or edit                   */
   /* ────────────────────────────── */
 
-  const { runId } = useParams();
   const { runs } = useRunsContext();
 
   const isEdit = !!runId;
@@ -89,12 +94,12 @@ function RunFormPage() {
   useEffect(() => {
     if (!runId || !runs) return;
     if (!runs[runId]) {
-      navigate("/not-found");
+      router.push("/not-found");
       return;
     }
     const values = prepareRunStateValues(runs[runId]);
     resetWithValues(values);
-  }, [runId, runs, resetWithValues, navigate]);
+  }, [runId, runs, resetWithValues, router]);
 
   const { inputHandlers, handleSubmit } = useFormHandlers(
     runFields,
