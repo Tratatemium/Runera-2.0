@@ -1,6 +1,6 @@
-# Runera
+# Runera Web
 
-Frontend app for tracking and managing runs.
+Frontend app for tracking and managing runs. Built with Next.js and React.
 
 Live: https://runera.vercel.app/
 
@@ -12,17 +12,37 @@ Live: https://runera.vercel.app/
 - Run form with pace preview, weather tags, effort level, and notes
 - Profile editing (name, date of birth, height, weight)
 
+## Tech Stack
+
+- **Framework**: Next.js 16
+- **UI**: React 19
+- **Language**: TypeScript
+- **Shared types**: `@runera/shared` workspace package
+
 ## Setup
 
-1. Install dependencies:
-	npm install
-2. Create a .env file in the project root:
-	REACT_APP_API_BASE_URL=https://runners-api-lac.vercel.app/api/v1/
-3. Start the app:
-	npm start
+> From the monorepo root, dependencies are managed with pnpm workspaces. Run setup from the root unless working on this app in isolation.
+
+1. Install dependencies (from monorepo root):
+   ```bash
+   pnpm install
+   ```
+2. Create a `.env.local` file in `apps/web/`:
+   ```env
+   NEXT_PUBLIC_API_BASE_URL=https://runners-api-lac.vercel.app/api/v1
+   ```
+3. Start the dev server:
+   ```bash
+   pnpm dev:web
+   ```
+   Or from within `apps/web/`:
+   ```bash
+   pnpm dev
+   ```
 
 ## Scripts
 
-- npm start: Run in development mode (http://localhost:3000)
-- npm test: Run tests
-- npm run build: Build production bundle
+- `pnpm dev` — Start development server (http://localhost:3000)
+- `pnpm build` — Build for production
+- `pnpm start` — Start production server
+- `pnpm lint` — Run ESLint
