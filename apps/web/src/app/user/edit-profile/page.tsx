@@ -25,7 +25,7 @@ export default function EditProfile() {
 
   const { user } = useAuthContext();
   const formStateHook = useFormState(userFields, getUserData(user));
-  const { formState } = formStateHook;
+  const { formState, mergeErrors } = formStateHook;
   const { inputHandlers, handleSubmit } = useFormHandlers(
     userFields,
     formStateHook,
@@ -37,7 +37,8 @@ export default function EditProfile() {
     const payload = {
       profile: data,
     };
-    await updateProfile(payload);
+    const fieldErrors = await updateProfile(payload);
+    if (fieldErrors) mergeErrors(fieldErrors);
   }
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
