@@ -29,7 +29,7 @@ type RunsState = Record<string, Run>;
 
 interface RunsContextValue {
   runs: RunsState | undefined;
-  isHydaratingRuns: boolean;
+  isHydratingRuns: boolean;
   setIsHydratingRuns: Dispatch<SetStateAction<boolean>>;
   hydrateRunsState: (runs: RunsState) => void;
   clearRunsState: () => void;

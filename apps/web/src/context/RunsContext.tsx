@@ -21,7 +21,7 @@ type RunsProviderProps = {
 
 function RunsProvider({ children }: RunsProviderProps) {
   const [runs, setRuns] = useState<RunsState | undefined>(undefined);
-  const [isHydaratingRuns, setIsHydratingRuns] = useState(false);
+  const [isHydratingRuns, setIsHydratingRuns] = useState(false);
 
   const runExists = useCallback((prev: RunsState | undefined, id: string) => {
     if (!prev) return false;
@@ -71,7 +71,7 @@ function RunsProvider({ children }: RunsProviderProps) {
   const value = useMemo(
     () => ({
       runs: user ? runs : undefined,
-      isHydaratingRuns,
+      isHydratingRuns,
       setIsHydratingRuns,
       hydrateRunsState,
       clearRunsState,
@@ -82,7 +82,7 @@ function RunsProvider({ children }: RunsProviderProps) {
     [
       user,
       runs,
-      isHydaratingRuns,
+      isHydratingRuns,
       setIsHydratingRuns,
       hydrateRunsState,
       clearRunsState,

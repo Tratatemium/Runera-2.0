@@ -19,7 +19,7 @@ type SortOption =
   | "distanceShortest";
 
 export default function MyRuns() {
-  const { runs, isHydaratingRuns } = useRunsContext();
+  const { runs, isHydratingRuns } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
   const [sortBy, setSortBy] = useState<SortOption>("startTimeNewest");
   const [enteringRunIds, setEnteringRunIds] = useState<Record<string, true>>(
@@ -88,7 +88,7 @@ export default function MyRuns() {
     prevRunIdsRef.current = currentRunIds;
   }, [runsArray]);
 
-  return !isHydaratingRuns ? (
+  return !isHydratingRuns ? (
     <main className={styles.main}>
       <div className={styles.sortingRow}>
         <label htmlFor="runs-sort" className={styles.sortingLabel}>
