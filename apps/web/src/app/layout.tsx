@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Poppins, Roboto } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import { Providers, Header, Footer, ScrollToTop } from "@/components/layout";
+
+import "@/styles/reset.css";
+import "@/styles/variables.css";
+import "@/styles/global.css";
+
+import styles from "./layout.module.css";
+
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-roboto",
   subsets: ["latin"],
 });
 
@@ -19,8 +28,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
+      <body>
+        <Providers>
+          <div className={styles.layout}>
+            <ScrollToTop />
+            <Header />
+            <div className={styles.contentWrapper}>{children}</div>
+            <Footer />
+          </div>
+        </Providers>
+      </body>
     </html>
   );
 }

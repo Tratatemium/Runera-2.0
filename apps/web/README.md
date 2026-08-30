@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Runera Web
 
-## Getting Started
+Frontend app for tracking and managing runs. Built with Next.js and React.
 
-First, run the development server:
+Live: https://runera.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Core Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Authentication flow (sign up, log in, protected user routes)
+- Personal dashboard and user info page
+- Run tracking: create, view, edit, and delete runs
+- Run form with pace preview, weather tags, effort level, and notes
+- Profile editing (name, date of birth, height, weight)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 16
+- **UI**: React 19
+- **Language**: TypeScript
+- **Shared types**: `@runera/shared` workspace package
 
-## Learn More
+## Setup
 
-To learn more about Next.js, take a look at the following resources:
+> From the monorepo root, dependencies are managed with pnpm workspaces. Run setup from the root unless working on this app in isolation.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Install dependencies (from monorepo root):
+   ```bash
+   pnpm install
+   ```
+2. Create a `.env.local` file in `apps/web/`:
+   ```env
+   NEXT_PUBLIC_API_BASE_URL=https://runners-api-lac.vercel.app/api/v1
+   ```
+3. Start the dev server:
+   ```bash
+   pnpm dev:web
+   ```
+   Or from within `apps/web/`:
+   ```bash
+   pnpm dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm dev` — Start development server (http://localhost:3000)
+- `pnpm build` — Build for production
+- `pnpm start` — Start production server
+- `pnpm lint` — Run ESLint

@@ -1,69 +1,100 @@
+"use client";
+
 import Image from "next/image";
+
+import runners1 from "@/assets/runners-1.jpg";
+import runners3 from "@/assets/runners-3.jpg";
+import { icons } from "@/components/icons/icons";
+import { useAuthContext } from "@/context/AuthContext";
+import { Logo, ButtonLink } from "@/components/ui";
+
 import styles from "./page.module.css";
 
 export default function Home() {
+  const { user } = useAuthContext();
+  const { graph: GraphIcon, chart: ChartIcon, medal: MedalIcon } = icons;
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main>
+      <section className={styles.hero}>
+        <Image src={runners1} alt="" className={styles.image} />
+        <section className={styles.cta}>
+          <Logo variant="primary" size="big"></Logo>
+          <h1 className={styles.title}>Track Every Step</h1>
+          <p className={styles.subtitle}>
+            Log your runs, monitor progress, and achieve your goals with Runera.
           </p>
+
+          <div className={styles.actions}>
+            {user ? (
+              <ButtonLink
+                linkDirection="/user/runs"
+                linkText="My runs"
+                variant="primary"
+              ></ButtonLink>
+            ) : (
+              <>
+                <ButtonLink
+                  linkDirection="/signup"
+                  linkText="Sign Up"
+                  variant="primary"
+                ></ButtonLink>
+                <ButtonLink
+                  linkDirection="/login"
+                  linkText="Log In"
+                  variant="secondary"
+                ></ButtonLink>
+              </>
+            )}
+          </div>
+        </section>
+        <Image src={runners3} alt="" className={styles.image} />
+      </section>
+
+      <section className={styles.highlights}>
+        <h2>Everything You Need</h2>
+        <div className={styles.featuresWrapper}>
+          <div className={`${styles.feature} ${styles.graph}`}>
+            <GraphIcon className={`${styles.icon} ${styles.graph}`} />
+            <h3 className={styles.graph}>Track Runs</h3>
+            <p>
+              Quickly log your distance, time, and pace with our simple
+              interface designed for speed.
+            </p>
+          </div>
+          <div className={`${styles.feature} ${styles.chart}`}>
+            <ChartIcon className={`${styles.icon} ${styles.chart}`} />
+            <h3 className={styles.chart}>View Statistics</h3>
+            <p>
+              Get clear insights into your total distance, average pace, and
+              weekly progress.
+            </p>
+          </div>
+          <div className={`${styles.feature} ${styles.medal}`}>
+            <MedalIcon className={`${styles.icon} ${styles.medal}`} />
+            <h3 className={styles.medal}>Monitor Progress</h3>
+            <p>
+              Stay motivated with performance tracking and see how you improve
+              over time.
+            </p>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+      {!user && (
+        <section className={styles.signupCta}>
+          <h2>Ready to Start Running?</h2>
+          <p>
+            Join runners who are tracking their progress and achieving their
+            goals.
+          </p>
+          <ButtonLink
+            linkDirection="/signup"
+            linkText="Create Free Account"
+            variant="primary"
+          ></ButtonLink>
+        </section>
+      )}
+    </main>
   );
 }

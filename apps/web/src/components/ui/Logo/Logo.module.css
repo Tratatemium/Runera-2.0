@@ -1,0 +1,59 @@
+.logoLockup {
+  --bg-logo: var(--accent-color-1);
+  --color-logo: var(--secondary-color);
+  --color-name: var(--accent-color-1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8em;
+  border-radius: 0.2em;
+}
+
+.small {
+  font-size: 1rem;
+}
+
+.big {
+  font-size: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 0.5em;
+  background-color: var(--bg-logo);
+  color: var(--color-logo);
+}
+.logo svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  width: 1em;
+  height: 1em;
+}
+
+.brandName {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.85em;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-name);
+}
+
+.primary {
+  --bg-logo: var(--accent-color-1);
+  --color-logo: var(--secondary-color);
+  --color-name: var(--accent-color-1);
+}
+
+.secondary {
+  --bg-logo: var(--secondary-color);
+  --color-logo: var(--accent-color-1);
+  --color-name: var(--secondary-color);
+}

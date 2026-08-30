@@ -12,16 +12,19 @@
     "@runera/shared": "workspace:*",
     "next": "16.3.1",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "lodash": "^4.18.1"
   },
   "devDependencies": {
     "@jest/globals": "^30.4.1",
+    "@types/lodash": "^4.17.25",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "jest": "^30.4.2",
+    "lodash": "^4.18.1",
     "typescript": "^5"
   },
   "packageManager": "pnpm@11.18.0"

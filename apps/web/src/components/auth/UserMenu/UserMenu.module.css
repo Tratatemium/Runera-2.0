@@ -1,0 +1,123 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.userButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 0.3em;
+  border-radius: 2rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  transition: background 0.15s ease;
+}
+
+.userButton:hover {
+  background-color: color-mix(in srgb, var(--secondary-color) 15%, transparent);
+}
+
+.userButton:focus-visible {
+  outline: 2px solid var(--accent-color-2);
+  outline-offset: 2px;
+}
+
+.userButton.open {
+  background-color: color-mix(in srgb, var(--secondary-color) 20%, transparent);
+  outline: 1.5px solid color-mix(in srgb, var(--secondary-color) 50%, transparent);
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  color: var(--accent-color-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.name {
+  margin: 0;
+  color: var(--secondary-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.menuWrapper {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 1000;
+
+  background-color: var(--secondary-color);
+  border: 1px solid rgba(0, 70, 67, 0.25);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(12, 22, 24, 0.18);
+
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.userMenu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.menuItem {
+  display: flex;
+}
+
+.menuItem a,
+.menuItem button {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 2rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-primary);
+  color: var(--primary-color);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menuItem a:hover,
+.menuItem button:hover {
+  background-color: color-mix(in srgb, var(--accent-color-1) 12%, transparent);
+  color: var(--accent-color-1);
+}
+
+.menuItem a:focus-visible,
+.menuItem button:focus-visible {
+  outline: 2px solid var(--accent-color-2);
+  outline-offset: -2px;
+  background-color: color-mix(in srgb, var(--accent-color-1) 12%, transparent);
+}
+
+.menuItem:last-child {
+  border-top: 1px solid rgba(0, 70, 67, 0.12);
+  margin-top: 0.25rem;
+}
+
+.menuItem:last-child button {
+  color: var(--color-chart);
+}
+
+.menuItem:last-child button:hover {
+  background-color: color-mix(in srgb, var(--color-chart) 10%, transparent);
+  color: var(--color-chart);
+}
