@@ -1,4 +1,4 @@
-"use cllient";
+"use client";
 
 import styles from "./AuthCard.module.css";
 
