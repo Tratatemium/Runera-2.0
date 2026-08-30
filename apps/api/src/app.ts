@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-const allowedOrigins = ["https://localhost:3000", "https://runera.vercel.app"];
+const allowedOrigins = ["http://localhost:3000", "https://runera.vercel.app"];
 const allowedVercelHostPattern = /^runera(?:-[a-z0-9-]+)?\.vercel\.app$/i;
 
 function checkAllowedVercelOrigin(origin: string) {
