@@ -1,20 +1,21 @@
-import styles from "./Signup.module.css";
-import runners from "../assets/runners-wide-3.jpg";
+"use client";
 
-import { useAuth } from "../../hooks/useAuth";
-import { useFormState } from "../../hooks/form/useFormState";
-import { useFormHandlers } from "../../hooks/form/useFormHandlers";
+import Link from "next/link";
 
-import { inputFields } from "../../config/inputFields";
+import { useAuth } from "@/hooks/useAuth";
+import { useFormState } from "@/hooks/form/useFormState";
+import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { inputFields } from "@/config/inputFields";
+import { FormField } from "@/components/ui";
+import { AuthCard } from "@/components/auth";
+import runners from "@/assets/runners-wide-3.jpg";
 
-import { Link } from "react-router-dom";
-import { FormField } from "../../components/ui";
-import { AuthCard } from "../../components/auth";
+import styles from "./page.module.css";
 
 const signupFooter = (
   <>
     <p>Already have an account?</p>
-    <Link to="/login">Log in</Link>
+    <Link href="/login">Log in</Link>
   </>
 );
 
@@ -25,7 +26,7 @@ const signupFields = [
   inputFields.confirmPassword,
 ] as const;
 
-function Signup() {
+export default function Signup() {
   type SignupForm = {
     [K in (typeof signupFields)[number]["id"]]: string;
   };
@@ -77,5 +78,3 @@ function Signup() {
     </main>
   );
 }
-
-export { Signup };

@@ -1,26 +1,27 @@
-import styles from "./Login.module.css";
-import runners from "../assets/runners-wide-1.jpg";
+"use client";
 
-import { useAuth } from "../../hooks/useAuth";
-import { useFormState } from "../../hooks/form/useFormState";
-import { useFormHandlers } from "../../hooks/form/useFormHandlers";
+import Link from "next/link";
 
-import { inputFields } from "../../config/inputFields";
+import { useAuth } from "@/hooks/useAuth";
+import { useFormState } from "@/hooks/form/useFormState";
+import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { inputFields } from "@/config/inputFields";
+import { FormField } from "@/components/ui";
+import { AuthCard } from "@/components/auth";
+import runners from "@/assets/runners-wide-1.jpg";
 
-import { Link } from "react-router-dom";
-import { FormField } from "../../components/ui";
-import { AuthCard } from "../../components/auth";
+import styles from "./page.module.css";
 
 const loginFooter = (
   <>
-    <p>Don't have an account?</p>
-    <Link to="/signup">Sign Up</Link>
+    <p>Don&apos;t have an account?</p>
+    <Link href="/signup">Sign Up</Link>
   </>
 );
 
 const loginFields = [inputFields.login, inputFields.password] as const;
 
-function Login() {
+export default function Login() {
   type LoginForm = {
     [K in (typeof loginFields)[number]["id"]]: string;
   };
@@ -73,5 +74,3 @@ function Login() {
     </main>
   );
 }
-
-export { Login };
