@@ -1,4 +1,10 @@
 import type { Request } from "express";
+import type { UserStatsResponse } from "@runera/shared";
+import type { DBRun } from "../models/runs.models.js";
+import type {
+  AggregatedStats,
+  AggregatedPeriodStats,
+} from "../repositories/users.repository.js";
 
 import { startOfWeek, endOfWeek, startOfYear, endOfYear } from "date-fns";
 
@@ -22,4 +28,54 @@ function getTimeIntervals() {
   };
 }
 
-export { getStartOfDay, getIdFromRequestParams, getTimeIntervals };
+function normalizePeriod(period: [] | AggregatedPeriodStats[]) {
+  const emptyPeriod = {
+    totalRuns: null,
+    totalTimeSec: null,
+    totalDistanceMeters: null,
+    avgPaceSecPerKm: null,
+  };
+
+  if (period.length === 0) return emptyPeriod;
+  else
+    return {
+      ...period[0],
+      avgPaceSecPerKm:
+        period[0].totalTimeSec / (period[0].totalDistanceMeters / 1000),
+    };
+}
+
+function normalizeFastest(fastest: [] | DBRun[]) {
+  if (fastest.length === 0) return null;
+  const { runId, durationSec, distanceMeters, paceSecPerKm, date } = fastest[0];
+  return {
+    runId,
+    durationSec,
+    distanceMeters,
+    paceSecPerKm,
+    date: date.toISOString(),
+  };
+}
+
+function normalizeStats(rawStats: AggregatedStats): UserStatsResponse {
+  const result = {
+    week: normalizePeriod(rawStats.week),
+    year: normalizePeriod(rawStats.year),
+    allTime: normalizePeriod(rawStats.allTime),
+    fastest: {
+      "1k": normalizeFastest(rawStats["1k"]),
+      "5k": normalizeFastest(rawStats["5k"]),
+      "10k": normalizeFastest(rawStats["10k"]),
+      halfMarathon: normalizeFastest(rawStats.halfMarathon),
+      marathon: normalizeFastest(rawStats.marathon),
+    },
+  };
+  return result;
+}
+
+export {
+  getStartOfDay,
+  getIdFromRequestParams,
+  getTimeIntervals,
+  normalizeStats,
+};

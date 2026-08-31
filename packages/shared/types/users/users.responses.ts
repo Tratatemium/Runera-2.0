@@ -23,18 +23,26 @@ interface UserUpdateResponse {
   savedProfile: UserResponse["userData"]["profile"];
 }
 
-interface PeriodStats {
-  totalRuns: number | null;
-  totalTimeSec: number | null;
-  totalDistanceMeters: number | null;
-  avgPaceSecPerKm: number | null;
-}
+type PeriodStats =
+  | {
+      totalRuns: null;
+      totalTimeSec: null;
+      totalDistanceMeters: null;
+      avgPaceSecPerKm: null;
+    }
+  | {
+      avgPaceSecPerKm: number;
+      totalRuns: number;
+      totalTimeSec: number;
+      totalDistanceMeters: number;
+    };
 
 interface FastestRun {
-  timeSec: number;
+  runId: string;
+  durationSec: number;
+  distanceMeters: number;
   paceSecPerKm: number;
   date: string;
-  runId: string;
 }
 
 interface FastestRuns {

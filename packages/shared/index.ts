@@ -14,6 +14,7 @@ export type {
 export type {
   UserResponse,
   UserUpdateResponse,
+  UserStatsResponse,
 } from "./types/users/users.responses";
 
 export type { ApiResponse } from "./types/api.types";
