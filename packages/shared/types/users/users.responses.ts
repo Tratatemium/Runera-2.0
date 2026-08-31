@@ -23,4 +23,33 @@ interface UserUpdateResponse {
   savedProfile: UserResponse["userData"]["profile"];
 }
 
-export type { UserResponse, UserUpdateResponse };
+interface PeriodStats {
+  totalRuns: number | null;
+  totalTimeSec: number | null;
+  totalDistanceMeters: number | null;
+  avgPaceSecPerKm: number | null;
+}
+
+interface FastestRun {
+  timeSec: number;
+  paceSecPerKm: number;
+  date: string;
+  runId: string;
+}
+
+interface FastestRuns {
+  "1k": FastestRun | null;
+  "5k": FastestRun | null;
+  "10k": FastestRun | null;
+  halfMarathon: FastestRun | null;
+  marathon: FastestRun | null;
+}
+
+interface UserStatsResponse {
+  allTime: PeriodStats;
+  year: PeriodStats;
+  week: PeriodStats;
+  fastest: FastestRuns;
+}
+
+export type { UserResponse, UserUpdateResponse, UserStatsResponse };
