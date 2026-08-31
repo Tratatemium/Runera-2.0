@@ -4,6 +4,8 @@ import type { UpdateProfileRequest } from "@runera/shared";
 import { randomUUID } from "crypto";
 
 import User from "../models/users.models.js";
+import Run from "../models/runs.models.js";
+import { getTimeIntervals } from "../utils/general.utils.js";
 
 async function findUserById(userId: string) {
   const selectedUser = await User.findOne({ userId });
@@ -92,6 +94,68 @@ async function incrementAccessTokenVersion(userId: string) {
 }
 
 /* ================================================================================================= */
+/*  STATS                                                                                            */
+/* ================================================================================================= */
+
+async function getUserStats(userId: string) {
+  const { weekStart, weekEnd, yearStart, yearEnd } = getTimeIntervals();
+
+  const stats = Run.aggregate([
+    { $match: { userId } },
+    {
+      $facet: {
+        week: [
+          {
+            $match: {
+              date: {
+                $gte: weekStart,
+                $lt: weekEnd,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+        ],
+        year: [
+          {
+            $match: {
+              date: {
+                $gte: yearStart,
+                $lt: yearEnd,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+        ],
+        allTime: [
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+        ],
+      },
+    },
+  ]);
+}
+
+/* ================================================================================================= */
 /*  EXPORTS                                                                                          */
 /* ================================================================================================= */
 
@@ -106,4 +170,5 @@ export {
   updateAccount,
   updateCredentials,
   incrementAccessTokenVersion,
+  getUserStats,
 };
