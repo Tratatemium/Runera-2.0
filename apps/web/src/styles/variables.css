@@ -1,5 +1,6 @@
 :root {
-  --font-primary: var(--font-poppins);
+  --font-primary: var(--font-outfit);
+  --font-secondary: var(--font-barlow);
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
