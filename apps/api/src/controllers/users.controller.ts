@@ -47,4 +47,17 @@ async function updateAccount(req: Request, res: Response) {
   res.sendStatus(200);
 }
 
-export { getUserById, getAllUsers, getMe, updateProfile, updateAccount };
+async function getUserStats(req: Request, res: Response) {
+  const userId = req.user.userId;
+  const stats = await usersService.getUserStats(userId);
+  sendSuccess(res, { statusCode: 200, data: { stats } });
+}
+
+export {
+  getUserById,
+  getAllUsers,
+  getMe,
+  updateProfile,
+  updateAccount,
+  getUserStats,
+};

@@ -17,6 +17,12 @@ const usersRouter = express.Router();
 
 usersRouter.get("/me", authMiddleware.checkAuth, usersController.getMe);
 
+usersRouter.get(
+  "/me/stats",
+  authMiddleware.checkAuth,
+  usersController.getUserStats,
+);
+
 usersRouter.patch(
   "/me/profile",
   usersValidation.validateProfileUpdate,
