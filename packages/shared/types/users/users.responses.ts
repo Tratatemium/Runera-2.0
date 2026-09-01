@@ -60,4 +60,34 @@ interface UserStatsResponse {
   fastest: FastestRuns;
 }
 
+const nullUserStats: UserStatsResponse = {
+  allTime: {
+    totalRuns: null,
+    totalTimeSec: null,
+    totalDistanceMeters: null,
+    avgPaceSecPerKm: null,
+  },
+  year: {
+    totalRuns: null,
+    totalTimeSec: null,
+    totalDistanceMeters: null,
+    avgPaceSecPerKm: null,
+  },
+  week: {
+    totalRuns: null,
+    totalTimeSec: null,
+    totalDistanceMeters: null,
+    avgPaceSecPerKm: null,
+  },
+  fastest: {
+    "1k": null,
+    "5k": null,
+    "10k": null,
+    halfMarathon: null,
+    marathon: null,
+  },
+};
+
+export { nullUserStats };
+
 export type { UserResponse, UserUpdateResponse, UserStatsResponse };

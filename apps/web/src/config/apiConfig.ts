@@ -8,6 +8,7 @@ const API = {
     me: "users/me",
     account: "users/me/account",
     profile: "users/me/profile",
+    stats: "users/me/stats",
   },
   runs: {
     myRuns: "users/me/runs",
