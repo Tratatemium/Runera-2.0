@@ -2,11 +2,15 @@
 
 import { useAuthContext } from "@/context/AuthContext";
 import { ButtonLink, Panel } from "@/components/ui";
+import { useEffect } from "react";
 
 import styles from "./page.module.css";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
   if (!user) return null;
 
   return (

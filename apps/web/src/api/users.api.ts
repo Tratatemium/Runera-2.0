@@ -28,7 +28,7 @@ function apiUpdateProfile(data: { profile: UserState["profile"] }) {
 
 function apiGetMyStats() {
   return apiRequest<UserStatsResponse>({
-    path: API.users.me,
+    path: API.users.stats,
     assertData: true,
     options: { method: "GET" },
   });

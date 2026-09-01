@@ -14,7 +14,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { getMe } = useUser();
+  const { getMe, updateStats } = useUser();
   const { getMyRuns } = useRuns();
 
   const [checking, setChecking] = useState(!user);
@@ -29,6 +29,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
         if (!mounted) return;
         loginUser(mapUserResponseToState(userData));
         void getMyRuns();
+        void updateStats();
       } catch {
         // Expected: user not authenticated, nothing to do
       } finally {
@@ -41,7 +42,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
     return () => {
       mounted = false;
     };
-  }, [user, getMe, loginUser, getMyRuns]);
+  }, [user, getMe, updateStats, loginUser, getMyRuns]);
 
   if (checking) {
     return <Loading />;
