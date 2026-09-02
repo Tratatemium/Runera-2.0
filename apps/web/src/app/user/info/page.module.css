@@ -69,14 +69,14 @@
 
 .name {
   margin: 0;
-  font-size: var(--font-size-h2);
+  font-size: var(--font-size-heading-lg);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
 
 .username {
   margin: 0 0 1.05rem;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   color: color-mix(in srgb, var(--primary-color) 72%, white);
 }
 
@@ -118,7 +118,7 @@
 }
 
 .infoLabel {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
   color: var(--accent-color-1);
   text-transform: uppercase;
@@ -126,7 +126,6 @@
 }
 
 .infoValue {
-  font-size: var(--font-size-body);
   font-weight: var(--font-weight-semibold);
   color: var(--primary-color);
   text-align: left;

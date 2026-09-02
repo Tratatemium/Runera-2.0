@@ -45,7 +45,7 @@
 
 .greeting h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 1.1rem + 2.2vw, var(--font-size-h1));
+  /* font-size: clamp(1.8rem, 1.1rem + 2.2vw, var(--font-size-h1)); */
   font-weight: var(--font-weight-bold);
   line-height: 1.15;
   letter-spacing: 0.01em;
@@ -54,7 +54,6 @@
 .greeting p {
   margin: 0;
   color: color-mix(in srgb, var(--accent-color-1) 86%, var(--primary-color));
-  font-size: var(--font-size-body);
 }
 
 .stats {
@@ -137,7 +136,7 @@
 }
 
 .cardLabel {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
   color: rgba(12, 22, 24, 0.62);
   text-transform: uppercase;
@@ -152,7 +151,7 @@
 }
 
 .cardUnit {
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   color: rgba(12, 22, 24, 0.56);
 }
 
@@ -178,7 +177,7 @@
 
 .cta h2 {
   margin: 0;
-  font-size: var(--font-size-h3);
+  font-size: var(--font-size-heading);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -207,7 +206,7 @@
 
 @media (max-width: 620px) {
   .greeting h1 {
-    font-size: var(--font-size-h2);
+    font-size: var(--font-size-heading-lg);
   }
 
   .stats {

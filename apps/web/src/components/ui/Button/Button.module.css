@@ -133,6 +133,6 @@
 
 .small {
   padding: 0.55em 1.2em;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   border-radius: 0.6em;
 }

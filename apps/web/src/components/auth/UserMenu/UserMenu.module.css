@@ -84,7 +84,7 @@
   display: block;
   width: 100%;
   padding: 0.8rem 2rem;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
   font-family: var(--font-primary);
   color: var(--primary-color);

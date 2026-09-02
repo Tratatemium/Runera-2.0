@@ -41,14 +41,13 @@
 .title {
   margin: 0 0 0.5rem;
   text-align: center;
-  font-size: var(--font-size-h3);
+  font-size: var(--font-size-heading);
   font-weight: var(--font-weight-semibold);
   color: var(--accent-color-1);
 }
 
 .text {
   margin: 0;
-  font-size: var(--font-size-body);
   color: color-mix(in srgb, var(--primary-color) 80%, transparent);
   line-height: 1.55;
 }
