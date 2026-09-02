@@ -19,7 +19,7 @@
 }
 
 .userButton:hover {
-  background-color: color-mix(in srgb, var(--secondary-color) 15%, transparent);
+  background-color: color-mix(in srgb, var(--color-secondary) 15%, transparent);
 }
 
 .userButton:focus-visible {
@@ -28,9 +28,9 @@
 }
 
 .userButton.open {
-  background-color: color-mix(in srgb, var(--secondary-color) 20%, transparent);
+  background-color: color-mix(in srgb, var(--color-secondary) 20%, transparent);
   outline: 1.5px solid
-    color-mix(in srgb, var(--secondary-color) 50%, transparent);
+    color-mix(in srgb, var(--color-secondary) 50%, transparent);
 }
 
 .avatar {
@@ -38,7 +38,7 @@
   height: 2rem;
   border-radius: 50%;
   background: var(--accent-color-4);
-  color: var(--secondary-color);
+  color: var(--color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@
 
 .name {
   margin: 0;
-  color: var(--secondary-color);
+  color: var(--color-secondary);
   font-weight: var(--font-weight-bold);
 }
 
@@ -58,7 +58,7 @@
   right: 0;
   z-index: 1000;
 
-  background-color: var(--secondary-color);
+  background-color: var(--color-secondary);
   border: 1px solid rgba(0, 70, 67, 0.25);
   border-radius: 0.75rem;
   box-shadow: 0 8px 24px rgba(12, 22, 24, 0.18);
@@ -87,7 +87,7 @@
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
   font-family: var(--font-primary);
-  color: var(--primary-color);
+  color: var(--color-primary);
   text-decoration: none;
   background: none;
   border: none;
@@ -117,10 +117,10 @@
 }
 
 .menuItem:last-child button {
-  color: var(--color-chart);
+  color: var(--accent-color-4);
 }
 
 .menuItem:last-child button:hover {
-  background-color: color-mix(in srgb, var(--color-chart) 10%, transparent);
-  color: var(--color-chart);
+  background-color: color-mix(in srgb, var(--accent-color-4) 10%, transparent);
+  color: var(--accent-color-4);
 }

@@ -21,7 +21,7 @@
 
 .frosted {
   border: 1px solid rgba(255, 255, 255, 0.45);
-  background: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   box-shadow:

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
 
-  background: color-mix(in srgb, var(--primary-color) 55%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 55%, transparent);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 
@@ -48,7 +48,7 @@
 
 .text {
   margin: 0;
-  color: color-mix(in srgb, var(--primary-color) 80%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
   line-height: 1.55;
 }
 
@@ -62,11 +62,11 @@
   max-width: 28rem;
   padding: 2rem;
 
-  background: var(--secondary-color);
+  background: var(--color-secondary);
   border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
   border-radius: 1.25rem;
   box-shadow:
-    0 20px 48px color-mix(in srgb, var(--primary-color) 30%, transparent),
+    0 20px 48px color-mix(in srgb, var(--color-primary) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
 }
 

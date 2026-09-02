@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: start;
-  color: var(--primary-color);
+  color: var(--color-primary);
   gap: 0.5em;
   margin-bottom: 1.6em;
 }
@@ -83,7 +83,7 @@
   font-weight: var(--font-weight-regular);
   padding: 0.35rem 0.75rem;
   border-radius: 1em;
-  background: color-mix(in srgb, var(--secondary-color) 86%, white);
+  background: color-mix(in srgb, var(--color-secondary) 86%, white);
   border: 1px solid color-mix(in srgb, var(--accent-color-1) 22%, white);
   cursor: pointer;
   transition:
@@ -109,8 +109,8 @@
   padding: 0.7em 2.8em 0.7em 0.9em;
   border: 1px solid color-mix(in srgb, var(--accent-color-1) 25%, white);
   border-radius: 0.55em;
-  background: color-mix(in srgb, var(--secondary-color) 85%, white);
-  color: var(--primary-color);
+  background: color-mix(in srgb, var(--color-secondary) 85%, white);
+  color: var(--color-primary);
   font: inherit;
   line-height: 1.2;
   transition:
@@ -209,7 +209,7 @@
 }
 
 .formInput::placeholder {
-  color: color-mix(in srgb, var(--primary-color) 45%, white);
+  color: color-mix(in srgb, var(--color-primary) 45%, white);
 }
 
 .formInput:focus {

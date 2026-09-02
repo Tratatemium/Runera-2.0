@@ -48,7 +48,7 @@
   margin: 0;
   padding: 3em 2em;
   margin: 1.5em 0;
-  background: color-mix(in srgb, var(--secondary-color) 55%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 55%, transparent);
   border-top: 1px solid rgba(12, 22, 24, 0.08);
   border-bottom: 1px solid rgba(12, 22, 24, 0.08);
 }
@@ -90,11 +90,11 @@
 }
 
 .feature.chart {
-  border-top-color: var(--color-chart);
+  border-top-color: var(--accent-color-4);
 }
 
 .feature.medal {
-  border-top-color: var(--color-medal);
+  border-top-color: var(--accent-color-5);
 }
 
 .feature h3 {
@@ -103,7 +103,7 @@
 
 .feature p {
   margin: 0;
-  color: var(--primary-color);
+  color: var(--color-primary);
   line-height: 1.6;
 }
 
@@ -120,11 +120,11 @@
 }
 
 .chart {
-  color: var(--color-chart);
+  color: var(--accent-color-4);
 }
 
 .medal {
-  color: var(--color-medal);
+  color: var(--accent-color-5);
 }
 
 .signupCta {
@@ -136,7 +136,7 @@
   padding: 3em 2em;
   margin: 1.5em 0;
   gap: 1.5em;
-  background: color-mix(in srgb, var(--secondary-color) 55%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 55%, transparent);
   border-top: 1px solid rgba(12, 22, 24, 0.08);
   border-bottom: 1px solid rgba(12, 22, 24, 0.08);
 }
