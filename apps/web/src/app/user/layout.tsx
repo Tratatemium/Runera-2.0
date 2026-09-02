@@ -6,7 +6,7 @@ import styles from "./layout.module.css";
 export default function UserLayout({ children }: LayoutProps<"/user">) {
   return (
     <RequireAuth>
-      <div className={styles.layout} style={{ backgroundImage: `url(${bg})` }}>
+      <div className={styles.layout} style={{ backgroundImage: `url(${bg.src})` }}>
         {children}
       </div>
     </RequireAuth>
