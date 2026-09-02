@@ -1,25 +1,43 @@
 "use client";
 
+import { FaRegCalendar, FaPlus } from "react-icons/fa";
 import { useAuthContext } from "@/context/AuthContext";
 import { ButtonLink, Panel } from "@/components/ui";
-import { useEffect } from "react";
 
 import styles from "./page.module.css";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
   if (!user) return null;
 
   return (
     <main className={styles.main}>
-      <Panel variant="frosted" className={styles.panel}>
+      <Panel variant="light" className={styles.panel}>
         <div className={styles.greeting}>
           <h1>Welcome back, {user.account.username}!</h1>
           <p>Here&apos;s a snapshot of your running journey.</p>
         </div>
+
+        <Panel variant="frosted" className={styles.cta}>
+          <h2>Ready to run?</h2>
+          <div className={styles.ctaButtons}>
+            <ButtonLink
+              linkDirection="/user/runs/new"
+              linkText="Log a Run"
+              variant="primary"
+            >
+              <FaPlus />
+            </ButtonLink>
+            <ButtonLink
+              linkDirection="/user/runs/new"
+              linkText="Plan Training"
+              variant="tertiary"
+            >
+              <FaRegCalendar />
+            </ButtonLink>
+          </div>
+        </Panel>
+
         <div className={styles.stats}>
           <div className={styles.card}>
             <span className={styles.cardLabel}>Total Runs</span>
@@ -41,15 +59,6 @@ export default function Dashboard() {
             <span className={styles.cardValue}>—</span>
             <span className={styles.cardUnit}>km</span>
           </div>
-        </div>
-
-        <div className={styles.cta}>
-          <h2>Ready to run?</h2>
-          <ButtonLink
-            linkDirection="/user/runs/new"
-            linkText="+ Log a Run"
-            variant="primary"
-          />
         </div>
       </Panel>
     </main>

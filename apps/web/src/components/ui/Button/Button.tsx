@@ -4,7 +4,12 @@ import { icons } from "@/components/icons/icons";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   buttonText: string;
-  variant: "primary" | "secondary" | "transparent" | "transparentAccent";
+  variant:
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "transparent"
+    | "transparentAccent";
   isSubmitting?: boolean;
   size?: "small";
 }
