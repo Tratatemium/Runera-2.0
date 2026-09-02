@@ -32,6 +32,7 @@
   --accent-color-1: var(--pine-teal);
   --accent-color-2: var(--metallic-gold);
   --accent-color-3: var(--peach-glow);
+  --accent-color-4: var(--burnt-orange);
   --accent-mix-1: color-mix(
     in srgb,
     var(--accent-color-1),

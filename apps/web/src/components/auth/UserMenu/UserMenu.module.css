@@ -29,15 +29,16 @@
 
 .userButton.open {
   background-color: color-mix(in srgb, var(--secondary-color) 20%, transparent);
-  outline: 1.5px solid color-mix(in srgb, var(--secondary-color) 50%, transparent);
+  outline: 1.5px solid
+    color-mix(in srgb, var(--secondary-color) 50%, transparent);
 }
 
 .avatar {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: var(--secondary-color);
-  color: var(--accent-color-1);
+  background: var(--accent-color-4);
+  color: var(--secondary-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +93,9 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .menuItem a:hover,
