@@ -1,0 +1,56 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 8rem;
+
+  padding: var(--gap-lg-plus);
+  gap: var(--gap-sm);
+  border-radius: var(--border-radius-xl);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+  animation: cardFadeUp 440ms ease both;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: var(--gap-xs);
+  background: linear-gradient(
+    90deg,
+    var(--accent-color-1),
+    var(--accent-color-2)
+  );
+  opacity: 0.8;
+}
+
+.label {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.value {
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-bold);
+  color: var(--accent-color-1);
+  line-height: 1.05;
+}
+
+.unit {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-primary);
+}
+
+.light {
+  background: var(--color-secondary);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(12, 22, 24, 0.1);
+}

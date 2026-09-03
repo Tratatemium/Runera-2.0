@@ -2,7 +2,7 @@
 
 import { FaRegCalendar, FaPlus } from "react-icons/fa";
 import { useAuthContext } from "@/context/AuthContext";
-import { ButtonLink, Panel } from "@/components/ui";
+import { ButtonLink, Panel, Card } from "@/components/ui";
 
 import styles from "./page.module.css";
 
@@ -18,7 +18,7 @@ export default function Dashboard() {
           <p>Here&apos;s a snapshot of your running journey.</p>
         </div>
 
-        <Panel variant="frosted" className={styles.cta}>
+        <Panel variant="frosted" className={styles.ctaPanel}>
           <h2>Ready to run?</h2>
           <div className={styles.ctaButtons}>
             <ButtonLink
@@ -38,28 +38,26 @@ export default function Dashboard() {
           </div>
         </Panel>
 
-        <div className={styles.stats}>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Total Runs</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>runs logged</span>
+        <Panel variant="frosted" className={styles.statsPanel}>
+          <div className={styles.statsPanelHeader}>
+            <h3>Your stats</h3>
+            <div>switch</div>
           </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Distance</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>km total</span>
+          <div className={styles.cardsWrapper}>
+            <Card
+              cardLabel="Total runs"
+              cardValue="—"
+              cardUnit="runs logged"
+            ></Card>
+            <Card cardLabel="Total distance" cardValue="—" cardUnit="km"></Card>
+            <Card cardLabel="Total time" cardValue="—" cardUnit=" "></Card>
+            <Card
+              cardLabel="Average pace"
+              cardValue="—"
+              cardUnit="min/km"
+            ></Card>
           </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Best Pace</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>min / km</span>
-          </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>This Week</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>km</span>
-          </div>
-        </div>
+        </Panel>
       </Panel>
     </main>
   );

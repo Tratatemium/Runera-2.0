@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import styles from "./Panel.module.css";
 
 interface PanelProps extends ComponentPropsWithoutRef<"div"> {
-  children: ReactNode;
+  children?: ReactNode;
   variant: "light" | "frosted" | "frostedWarm";
 }
 

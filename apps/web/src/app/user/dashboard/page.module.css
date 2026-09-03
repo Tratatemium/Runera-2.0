@@ -45,10 +45,8 @@
 
 .greeting h1 {
   margin: 0;
-  /* font-size: clamp(1.8rem, 1.1rem + 2.2vw, var(--font-size-h1)); */
+  font-size: var(--font-size-display-lg);
   font-weight: var(--font-weight-bold);
-  line-height: 1.15;
-  letter-spacing: 0.01em;
 }
 
 .greeting p {
@@ -56,116 +54,18 @@
   color: color-mix(in srgb, var(--accent-color-1) 86%, var(--color-primary));
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(11.5rem, 1fr));
-  gap: 0.95rem;
-}
-
-.card {
-  position: relative;
-  overflow: hidden;
-  background: rgba(250, 244, 211, 0.78);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(12, 22, 24, 0.1);
-  border-radius: 1rem;
-  padding: 1.15rem 1.15rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  min-height: 9.4rem;
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
-  animation: cardFadeUp 440ms ease both;
-}
-
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 0.3rem;
-  background: linear-gradient(
-    90deg,
-    var(--accent-color-1),
-    var(--accent-color-2)
-  );
-  opacity: 0.8;
-}
-
-.card:nth-child(2)::before {
-  background: linear-gradient(
-    90deg,
-    var(--accent-color-2),
-    var(--accent-color-3)
-  );
-}
-
-.card:nth-child(3)::before {
-  background: linear-gradient(
-    90deg,
-    var(--accent-color-3),
-    var(--accent-color-1)
-  );
-}
-
-.card:nth-child(4)::before {
-  background: linear-gradient(
-    90deg,
-    var(--accent-color-1),
-    var(--accent-mix-2)
-  );
-}
-
-.card:nth-child(2) {
-  animation-delay: 70ms;
-}
-
-.card:nth-child(3) {
-  animation-delay: 140ms;
-}
-
-.card:nth-child(4) {
-  animation-delay: 210ms;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0, 70, 67, 0.16);
-}
-
-.cardLabel {
-  font-size: var(--font-size-body-sm);
-  font-weight: var(--font-weight-medium);
-  color: rgba(12, 22, 24, 0.62);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.cardValue {
-  font-size: clamp(1.75rem, 1.1rem + 1.2vw, 2.2rem);
-  font-weight: var(--font-weight-bold);
-  color: var(--accent-color-1);
-  line-height: 1.05;
-}
-
-.cardUnit {
-  font-size: var(--font-size-body-sm);
-  color: rgba(12, 22, 24, 0.56);
-}
-
-.cta {
+.ctaPanel {
   width: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  /* gap: 1rem;
-  border-radius: 0.95rem;
-  border: 1px solid rgba(12, 22, 24, 0.1);
-  background: color-mix(in srgb, var(--color-secondary) 78%, transparent);
-  padding: 1rem 1.1rem; */
+}
+
+.ctaPanel h2 {
+  margin: 0;
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-semibold);
 }
 
 .ctaButtons {
@@ -175,10 +75,30 @@
   gap: 1rem;
 }
 
-.cta h2 {
+.statsPanel {
+  width: auto;
+  gap: var(--gap-md);
+  padding-top: var(--gap-md);
+}
+
+.statsPanelHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardsWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(11.5rem, 1fr));
+  gap: var(--gap-lg);
+}
+
+.main h3 {
   margin: 0;
-  font-size: var(--font-size-heading);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-heading-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @keyframes cardFadeUp {
@@ -194,13 +114,14 @@
 }
 
 @media (max-width: 920px) {
-  .stats {
+  .cardsWrapper {
     grid-template-columns: repeat(2, minmax(10.2rem, 1fr));
   }
 
-  .cta {
+  .ctaPanel {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    gap: var(--gap-lg);
   }
 }
 
@@ -209,11 +130,11 @@
     font-size: var(--font-size-heading-lg);
   }
 
-  .stats {
-    grid-template-columns: 1fr;
+  .ctaButtons {
+    flex-direction: column;
   }
 
-  .card {
-    min-height: 8.6rem;
+  .cardsWrapper {
+    grid-template-columns: 1fr;
   }
 }
