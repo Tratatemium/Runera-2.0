@@ -15,9 +15,6 @@ function StatsPanel({ type }: StatsPanelProps) {
   const [period, setPeriod] = useState<"week" | "year" | "allTime">("week");
 
   const { user } = useAuthContext();
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
   if (!user) return null;
   const stats = user.stats;
 
@@ -59,11 +56,19 @@ function StatsPanel({ type }: StatsPanelProps) {
             cardValue={stats[period].totalRuns?.toString() ?? "—"}
             cardUnit="runs logged"
           ></Card>
-          <Card cardLabel="Total distance" cardValue="—" cardUnit="km"></Card>
-          <Card cardLabel="Total time" cardValue="—" cardUnit=" "></Card>
+          <Card
+            cardLabel="Total distance"
+            cardValue={stats[period].totalDistanceMeters?.toString() ?? "—"}
+            cardUnit="km"
+          ></Card>
+          <Card
+            cardLabel="Total time"
+            cardValue={stats[period].totalTimeSec?.toString() ?? "—"}
+            cardUnit=" "
+          ></Card>
           <Card
             cardLabel="Average pace"
-            cardValue="—"
+            cardValue={stats[period].avgPaceSecPerKm?.toString() ?? "—"}
             cardUnit="min/km"
           ></Card>{" "}
         </div>
