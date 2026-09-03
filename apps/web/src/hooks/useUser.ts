@@ -54,9 +54,13 @@ function useUser(): UseUserReturn {
 
   const updateStats = useCallback(async () => {
     setIsFetching(true);
-    const stats = await apiGetMyStats();
-    updateUser({ stats });
-    setIsFetching(false);
+
+    try {
+      const data = await apiGetMyStats();
+      updateUser({ stats: data.stats });
+    } finally {
+      setIsFetching(false);
+    }
   }, [updateUser]);
 
   return { isFetching, formError, getMe, updateProfile, updateStats };

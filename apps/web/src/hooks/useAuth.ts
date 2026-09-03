@@ -23,7 +23,7 @@ interface UseAuthReturn {
 function useAuth(): UseAuthReturn {
   const router = useRouter();
   const { loginUser, logoutUser } = useAuthContext();
-  const { getMe } = useUser();
+  const { getMe, updateStats } = useUser();
   const { getMyRuns } = useRuns();
 
   const [isFetching, setIsFetching] = useState(false);
@@ -54,6 +54,7 @@ function useAuth(): UseAuthReturn {
       const userData = await getMe();
       loginUser(mapUserResponseToState(userData));
       await getMyRuns();
+      await updateStats();
       router.push("/user/dashboard");
     } catch (err) {
       handleApiFormError(err, setFormError);

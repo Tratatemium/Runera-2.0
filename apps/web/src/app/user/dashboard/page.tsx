@@ -2,7 +2,8 @@
 
 import { FaRegCalendar, FaPlus } from "react-icons/fa";
 import { useAuthContext } from "@/context/AuthContext";
-import { ButtonLink, Panel, Card } from "@/components/ui";
+import { ButtonLink, Panel } from "@/components/ui";
+import { StatsPanel } from "@/components/user";
 
 import styles from "./page.module.css";
 
@@ -38,26 +39,8 @@ export default function Dashboard() {
           </div>
         </Panel>
 
-        <Panel variant="frosted" className={styles.statsPanel}>
-          <div className={styles.statsPanelHeader}>
-            <h3>Your stats</h3>
-            <div>switch</div>
-          </div>
-          <div className={styles.cardsWrapper}>
-            <Card
-              cardLabel="Total runs"
-              cardValue="—"
-              cardUnit="runs logged"
-            ></Card>
-            <Card cardLabel="Total distance" cardValue="—" cardUnit="km"></Card>
-            <Card cardLabel="Total time" cardValue="—" cardUnit=" "></Card>
-            <Card
-              cardLabel="Average pace"
-              cardValue="—"
-              cardUnit="min/km"
-            ></Card>
-          </div>
-        </Panel>
+        <StatsPanel type="stats"></StatsPanel>
+        <StatsPanel type="records"></StatsPanel>
       </Panel>
     </main>
   );
