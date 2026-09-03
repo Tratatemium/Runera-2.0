@@ -44,14 +44,19 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
     };
   }, [user, getMe, updateStats, loginUser, getMyRuns]);
 
+  useEffect(() => {
+    if (checking || user) return;
+
+    const from =
+      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+    router.replace(`/?from=${encodeURIComponent(from)}`);
+  }, [checking, user, pathname, searchParams, router]);
+
   if (checking) {
     return <Loading />;
   }
 
   if (!user) {
-    const from =
-      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
-    router.replace(`/?from=${encodeURIComponent(from)}`);
     return null;
   }
 
