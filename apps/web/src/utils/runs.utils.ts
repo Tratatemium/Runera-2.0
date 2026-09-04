@@ -10,7 +10,7 @@ import type {
 } from "@runera/shared";
 
 import {
-  formatSeconds,
+  formatDuration,
   normalizeDate,
   normalizeFormValue,
   normalizeTime,
@@ -23,11 +23,11 @@ function normalizeRun(run: RunApi): Run {
     startTime: normalizeTime(run.startTime),
     date: normalizeDate(run.date),
 
-    formattedDuration: formatSeconds(run.durationSec, "compact"),
+    formattedDuration: formatDuration(run.durationSec, "compact"),
     distanceKm: Math.round(run.distanceMeters / 10) / 100,
 
     paceSecPerKm: Math.round(run.paceSecPerKm),
-    formattedPace: `${formatSeconds(run.paceSecPerKm, "compact")} /km`,
+    formattedPace: `${formatDuration(run.paceSecPerKm, "compact")} /km`,
   };
 }
 
@@ -80,7 +80,7 @@ function calculatePace(formState: FormStateValue) {
   if (!Number.isFinite(pace) || Number.isNaN(pace)) {
     return "";
   }
-  return formatSeconds(pace, "compact");
+  return formatDuration(pace, "compact");
 }
 
 export {

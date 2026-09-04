@@ -6,7 +6,11 @@ import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
 
 import styles from "./StatsPanel.module.css";
-import { formatSeconds } from "@/utils/normalize.utils";
+import {
+  formatDuration,
+  formatDistance,
+  formatPace,
+} from "@/utils/normalize.utils";
 
 interface StatsPanelProps {
   type: "stats" | "records";
@@ -22,12 +26,14 @@ function StatsPanel({ type }: StatsPanelProps) {
   const cardValues = {
     totalRuns: stats[period].totalRuns?.toString() ?? "—",
     totalDistance: stats[period].totalDistanceMeters
-      ? stats[period].totalDistanceMeters.toString()
+      ? formatDistance(stats[period].totalDistanceMeters)
       : "—",
     totalTime: stats[period].totalTimeSec
-      ? formatSeconds(stats[period].totalTimeSec, "human")
+      ? formatDuration(stats[period].totalTimeSec, "human")
       : "—",
-    avgPace: stats[period].avgPaceSecPerKm?.toString() ?? "—",
+    avgPace: stats[period].avgPaceSecPerKm
+      ? formatPace(stats[period].avgPaceSecPerKm)
+      : "—",
   };
 
   return (
@@ -65,12 +71,12 @@ function StatsPanel({ type }: StatsPanelProps) {
         <div className={styles.cardsWrapper}>
           <Card
             cardLabel="Total runs"
-            cardValue={stats[period].totalRuns?.toString() ?? "—"}
+            cardValue={cardValues.totalRuns}
             cardUnit="runs logged"
           ></Card>
           <Card
             cardLabel="Total distance"
-            cardValue={stats[period].totalDistanceMeters?.toString() ?? "—"}
+            cardValue={cardValues.totalDistance}
             cardUnit="km"
           ></Card>
           <Card
@@ -81,9 +87,9 @@ function StatsPanel({ type }: StatsPanelProps) {
           ></Card>
           <Card
             cardLabel="Average pace"
-            cardValue={stats[period].avgPaceSecPerKm?.toString() ?? "—"}
+            cardValue={cardValues.avgPace}
             cardUnit="min/km"
-          ></Card>{" "}
+          ></Card>
         </div>
       ) : (
         <div className={styles.cardsWrapper}>
