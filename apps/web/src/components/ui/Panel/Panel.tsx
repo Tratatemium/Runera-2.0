@@ -4,7 +4,7 @@ import styles from "./Panel.module.css";
 
 interface PanelProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
-  variant: "light" | "frosted" | "frostedWarm";
+  variant: "light" | "frosted" | "frostedWarm" | "cloudy" | "cloudyWarm";
 }
 
 function Panel({ children, variant, className, ...divProps }: PanelProps) {
