@@ -37,7 +37,7 @@ type PeriodStats =
       totalDistanceMeters: number;
     };
 
-interface FastestRun {
+interface RecordRun {
   runId: string;
   durationSec: number;
   distanceMeters: number;
@@ -46,18 +46,29 @@ interface FastestRun {
 }
 
 interface FastestRuns {
-  "1k": FastestRun | null;
-  "5k": FastestRun | null;
-  "10k": FastestRun | null;
-  halfMarathon: FastestRun | null;
-  marathon: FastestRun | null;
+  "1k": RecordRun | null;
+  "5k": RecordRun | null;
+  "10k": RecordRun | null;
+  halfMarathon: RecordRun | null;
+  marathon: RecordRun | null;
+}
+
+interface Records {
+  longestRun: RecordRun | null;
+  longestRunDuration: RecordRun | null;
+  FastestPace: RecordRun | null;
+  "1k": RecordRun | null;
+  "5k": RecordRun | null;
+  "10k": RecordRun | null;
+  halfMarathon: RecordRun | null;
+  marathon: RecordRun | null;
 }
 
 interface UserStatsResponse {
   allTime: PeriodStats;
   year: PeriodStats;
   week: PeriodStats;
-  fastest: FastestRuns;
+  records: Records;
 }
 
 const nullUserStats: UserStatsResponse = {
@@ -79,7 +90,10 @@ const nullUserStats: UserStatsResponse = {
     totalDistanceMeters: null,
     avgPaceSecPerKm: null,
   },
-  fastest: {
+  records: {
+    longestRun: null,
+    longestRunDuration: null,
+    FastestPace: null,
     "1k": null,
     "5k": null,
     "10k": null,
