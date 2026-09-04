@@ -27,7 +27,7 @@ function StatsPanel({ type }: StatsPanelProps) {
     {
       cardLabel: "Total runs",
       cardValue: stats[period].totalRuns?.toString() ?? "—",
-      cardUnit: "runs logged",
+      cardUnit: "",
     },
     {
       cardLabel: "Total distance",
@@ -41,7 +41,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardValue: stats[period].totalTimeSec
         ? formatDuration(stats[period].totalTimeSec, "human")
         : "—",
-      cardUnit: " ",
+      cardUnit: "",
       type: "duration" as const,
     },
     {
@@ -52,6 +52,8 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardUnit: "min/km",
     },
   ];
+
+  const runDistances = ["1k", "5k", "10k", "halfMarathon", "marathon"] as const;
 
   const recordsCards = [
     {
@@ -76,6 +78,16 @@ function StatsPanel({ type }: StatsPanelProps) {
         : "—",
       cardUnit: "min/km",
     },
+    ...runDistances.map(
+      (el) =>
+        stats.records[el] && {
+          cardLabel: `Best ${el}`,
+          cardValue: stats.records[el]
+            ? formatPace(stats.records[el].paceSecPerKm)
+            : "—",
+          cardUnit: "min/km",
+        },
+    ),
   ];
 
   return (
@@ -119,9 +131,9 @@ function StatsPanel({ type }: StatsPanelProps) {
         </div>
       ) : (
         <div className={styles.cardsWrapper}>
-          {recordsCards.map((card) => (
-            <Card key={card.cardLabel} {...card} />
-          ))}
+          {recordsCards.map(
+            (card) => card && <Card key={card.cardLabel} {...card} />,
+          )}
         </div>
       )}
     </Panel>

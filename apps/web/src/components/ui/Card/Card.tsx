@@ -35,8 +35,8 @@ function Card({
           <span className={styles.value}>
             {cardValue.split(/(\s?[hms]\b)/).map((part, index) =>
               /[hms]\b/.test(part) ? (
-                <span className={styles.durationUnit} key={index}>
-                  {part}
+                <span className={styles.unit} key={index}>
+                  {` ${part}`}
                 </span>
               ) : (
                 part
@@ -44,9 +44,11 @@ function Card({
             )}
           </span>
         ) : (
-          <span className={styles.value}>{cardValue}</span>
+          <span className={styles.value}>
+            {cardValue}
+            {cardUnit && <span className={styles.unit}>{` ${cardUnit}`}</span>}
+          </span>
         ))}
-      {cardUnit && <span className={styles.unit}>{cardUnit}</span>}
     </div>
   );
 }
