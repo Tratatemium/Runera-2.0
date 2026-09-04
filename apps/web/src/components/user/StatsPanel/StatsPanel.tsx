@@ -23,18 +23,35 @@ function StatsPanel({ type }: StatsPanelProps) {
   if (!user) return null;
   const stats = user.stats;
 
-  const cardValues = {
-    totalRuns: stats[period].totalRuns?.toString() ?? "—",
-    totalDistance: stats[period].totalDistanceMeters
-      ? formatDistance(stats[period].totalDistanceMeters)
-      : "—",
-    totalTime: stats[period].totalTimeSec
-      ? formatDuration(stats[period].totalTimeSec, "human")
-      : "—",
-    avgPace: stats[period].avgPaceSecPerKm
-      ? formatPace(stats[period].avgPaceSecPerKm)
-      : "—",
-  };
+  const statsCards = [
+    {
+      cardLabel: "Total runs",
+      cardValue: stats[period].totalRuns?.toString() ?? "—",
+      cardUnit: "runs logged",
+    },
+    {
+      cardLabel: "Total distance",
+      cardValue: stats[period].totalDistanceMeters
+        ? formatDistance(stats[period].totalDistanceMeters)
+        : "—",
+      cardUnit: "km",
+    },
+    {
+      cardLabel: "Total time",
+      cardValue: stats[period].totalTimeSec
+        ? formatDuration(stats[period].totalTimeSec, "human")
+        : "—",
+      cardUnit: " ",
+      type: "duration" as const,
+    },
+    {
+      cardLabel: "Average pace",
+      cardValue: stats[period].avgPaceSecPerKm
+        ? formatPace(stats[period].avgPaceSecPerKm)
+        : "—",
+      cardUnit: "min/km",
+    },
+  ];
 
   return (
     <Panel
@@ -69,27 +86,9 @@ function StatsPanel({ type }: StatsPanelProps) {
 
       {type === "stats" ? (
         <div className={styles.cardsWrapper}>
-          <Card
-            cardLabel="Total runs"
-            cardValue={cardValues.totalRuns}
-            cardUnit="runs logged"
-          ></Card>
-          <Card
-            cardLabel="Total distance"
-            cardValue={cardValues.totalDistance}
-            cardUnit="km"
-          ></Card>
-          <Card
-            cardLabel="Total time"
-            cardValue={cardValues.totalTime}
-            cardUnit=" "
-            type="duration"
-          ></Card>
-          <Card
-            cardLabel="Average pace"
-            cardValue={cardValues.avgPace}
-            cardUnit="min/km"
-          ></Card>
+          {statsCards.map((card) => (
+            <Card key={card.cardLabel} {...card} />
+          ))}
         </div>
       ) : (
         <div className={styles.cardsWrapper}>
