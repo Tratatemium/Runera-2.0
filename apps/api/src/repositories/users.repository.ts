@@ -172,8 +172,8 @@ async function getUserStats(userId: string) {
             },
           },
         ],
-        longestRun: [{ $sort: { distanceMeters: 1 } }, { $limit: 1 }],
-        longestRunDuration: [{ $sort: { durationSec: 1 } }, { $limit: 1 }],
+        longestRun: [{ $sort: { distanceMeters: -1 } }, { $limit: 1 }],
+        longestRunDuration: [{ $sort: { durationSec: -1 } }, { $limit: 1 }],
         fastestPace: [{ $sort: { paceSecPerKm: 1 } }, { $limit: 1 }],
         "1k": [
           {

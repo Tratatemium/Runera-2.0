@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
@@ -20,9 +20,6 @@ function StatsPanel({ type }: StatsPanelProps) {
   const [period, setPeriod] = useState<"week" | "year" | "allTime">("week");
 
   const { user } = useAuthContext();
-  useEffect(() => {
-    console.log(user?.stats);
-  }, [user]);
   if (!user) return null;
   const stats = user.stats;
 
