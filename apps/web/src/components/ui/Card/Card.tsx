@@ -8,11 +8,13 @@ interface CardProps extends ComponentPropsWithoutRef<"div"> {
   cardValue?: string;
   cardUnit?: string;
   variant?: "light" | "frosted" | "frostedWarm";
+  type?: "duration";
 }
 
 function Card({
   children,
   variant = "light",
+  type,
   className,
   cardLabel,
   cardValue,
@@ -28,7 +30,22 @@ function Card({
     >
       {children}
       {cardLabel && <span className={styles.label}>{cardLabel}</span>}
-      {cardValue && <span className={styles.value}>{cardValue}</span>}
+      {cardValue &&
+        (type === "duration" ? (
+          <span className={styles.value}>
+            {cardValue.split(/(\s?[hms]\b)/).map((part, index) =>
+              /[hms]\b/.test(part) ? (
+                <span className={styles.durationUnit} key={index}>
+                  {part}
+                </span>
+              ) : (
+                part
+              ),
+            )}
+          </span>
+        ) : (
+          <span className={styles.value}>{cardValue}</span>
+        ))}
       {cardUnit && <span className={styles.unit}>{cardUnit}</span>}
     </div>
   );

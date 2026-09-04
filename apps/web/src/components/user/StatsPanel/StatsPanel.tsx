@@ -25,7 +25,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       ? stats[period].totalDistanceMeters.toString()
       : "—",
     totalTime: stats[period].totalTimeSec
-      ? formatSeconds(stats[period].totalTimeSec)
+      ? formatSeconds(stats[period].totalTimeSec, "human")
       : "—",
     avgPace: stats[period].avgPaceSecPerKm?.toString() ?? "—",
   };
@@ -77,6 +77,7 @@ function StatsPanel({ type }: StatsPanelProps) {
             cardLabel="Total time"
             cardValue={cardValues.totalTime}
             cardUnit=" "
+            type="duration"
           ></Card>
           <Card
             cardLabel="Average pace"

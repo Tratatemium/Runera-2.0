@@ -44,9 +44,14 @@
   line-height: 1.05;
 }
 
+.durationUnit {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
 .unit {
-  font-size: var(--font-size-body-sm);
-  color: var(--color-primary);
+  font-size: var(--font-size-body);
+  color: var(--accent-color-1);
 }
 
 .light {
