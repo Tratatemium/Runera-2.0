@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
@@ -20,6 +20,9 @@ function StatsPanel({ type }: StatsPanelProps) {
   const [period, setPeriod] = useState<"week" | "year" | "allTime">("week");
 
   const { user } = useAuthContext();
+  useEffect(() => {
+    console.log(user?.stats);
+  }, [user]);
   if (!user) return null;
   const stats = user.stats;
 
@@ -53,6 +56,31 @@ function StatsPanel({ type }: StatsPanelProps) {
     },
   ];
 
+  const recordsCards = [
+    {
+      cardLabel: "Longest distance",
+      cardValue: stats.records.longestRun
+        ? formatDistance(stats.records.longestRun.distanceMeters)
+        : "—",
+      cardUnit: "km",
+    },
+    {
+      cardLabel: "Longest duration",
+      cardValue: stats.records.longestRunDuration
+        ? formatDuration(stats.records.longestRunDuration.durationSec, "human")
+        : "—",
+      cardUnit: " ",
+      type: "duration" as const,
+    },
+    {
+      cardLabel: "Best pace",
+      cardValue: stats.records.fastestPace
+        ? formatPace(stats.records.fastestPace.paceSecPerKm)
+        : "—",
+      cardUnit: "min/km",
+    },
+  ];
+
   return (
     <Panel
       variant="frosted"
@@ -60,28 +88,30 @@ function StatsPanel({ type }: StatsPanelProps) {
     >
       <div className={styles.statsPanelHeader}>
         <h3>Your {type}</h3>
-        <div className={styles.periodSwitch}>
-          <button
-            className={period === "week" ? styles.active : ""}
-            onClick={() => setPeriod("week")}
-          >
-            This week
-          </button>
+        {type === "stats" && (
+          <div className={styles.periodSwitch}>
+            <button
+              className={period === "week" ? styles.active : ""}
+              onClick={() => setPeriod("week")}
+            >
+              This week
+            </button>
 
-          <button
-            className={period === "year" ? styles.active : ""}
-            onClick={() => setPeriod("year")}
-          >
-            This year
-          </button>
+            <button
+              className={period === "year" ? styles.active : ""}
+              onClick={() => setPeriod("year")}
+            >
+              This year
+            </button>
 
-          <button
-            className={period === "allTime" ? styles.active : ""}
-            onClick={() => setPeriod("allTime")}
-          >
-            All time
-          </button>
-        </div>
+            <button
+              className={period === "allTime" ? styles.active : ""}
+              onClick={() => setPeriod("allTime")}
+            >
+              All time
+            </button>
+          </div>
+        )}
       </div>
 
       {type === "stats" ? (
@@ -92,18 +122,9 @@ function StatsPanel({ type }: StatsPanelProps) {
         </div>
       ) : (
         <div className={styles.cardsWrapper}>
-          <Card
-            cardLabel="Total runs"
-            cardValue="—"
-            cardUnit="runs logged"
-          ></Card>
-          <Card cardLabel="Total distance" cardValue="—" cardUnit="km"></Card>
-          <Card cardLabel="Total time" cardValue="—" cardUnit=" "></Card>
-          <Card
-            cardLabel="Average pace"
-            cardValue="—"
-            cardUnit="min/km"
-          ></Card>{" "}
+          {recordsCards.map((card) => (
+            <Card key={card.cardLabel} {...card} />
+          ))}
         </div>
       )}
     </Panel>
