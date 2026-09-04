@@ -45,7 +45,7 @@ function normalizePeriod(period: [] | AggregatedPeriodStats[]) {
     };
 }
 
-function normalizeFastest(fastest: [] | DBRun[]) {
+function normalizeRecord(fastest: [] | DBRun[]) {
   if (fastest.length === 0) return null;
   const { runId, durationSec, distanceMeters, paceSecPerKm, date } = fastest[0];
   return {
@@ -62,12 +62,15 @@ function normalizeStats(rawStats: AggregatedStats): UserStatsResponse {
     week: normalizePeriod(rawStats.week),
     year: normalizePeriod(rawStats.year),
     allTime: normalizePeriod(rawStats.allTime),
-    fastest: {
-      "1k": normalizeFastest(rawStats["1k"]),
-      "5k": normalizeFastest(rawStats["5k"]),
-      "10k": normalizeFastest(rawStats["10k"]),
-      halfMarathon: normalizeFastest(rawStats.halfMarathon),
-      marathon: normalizeFastest(rawStats.marathon),
+    records: {
+      longestRun: normalizeRecord(rawStats.longestRun),
+      longestRunDuration: normalizeRecord(rawStats.longestRunDuration),
+      fastestPace: normalizeRecord(rawStats.fastestPace),
+      "1k": normalizeRecord(rawStats["1k"]),
+      "5k": normalizeRecord(rawStats["5k"]),
+      "10k": normalizeRecord(rawStats["10k"]),
+      halfMarathon: normalizeRecord(rawStats.halfMarathon),
+      marathon: normalizeRecord(rawStats.marathon),
     },
   };
   return result;

@@ -56,7 +56,7 @@ interface FastestRuns {
 interface Records {
   longestRun: RecordRun | null;
   longestRunDuration: RecordRun | null;
-  FastestPace: RecordRun | null;
+  fastestPace: RecordRun | null;
   "1k": RecordRun | null;
   "5k": RecordRun | null;
   "10k": RecordRun | null;
@@ -93,7 +93,7 @@ const nullUserStats: UserStatsResponse = {
   records: {
     longestRun: null,
     longestRunDuration: null,
-    FastestPace: null,
+    fastestPace: null,
     "1k": null,
     "5k": null,
     "10k": null,
