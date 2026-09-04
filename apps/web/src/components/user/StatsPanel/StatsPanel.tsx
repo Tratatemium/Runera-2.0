@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
 
 import styles from "./StatsPanel.module.css";
+import { formatSeconds } from "@/utils/normalize.utils";
 
 interface StatsPanelProps {
   type: "stats" | "records";
@@ -17,6 +18,17 @@ function StatsPanel({ type }: StatsPanelProps) {
   const { user } = useAuthContext();
   if (!user) return null;
   const stats = user.stats;
+
+  const cardValues = {
+    totalRuns: stats[period].totalRuns?.toString() ?? "—",
+    totalDistance: stats[period].totalDistanceMeters
+      ? stats[period].totalDistanceMeters.toString()
+      : "—",
+    totalTime: stats[period].totalTimeSec
+      ? formatSeconds(stats[period].totalTimeSec)
+      : "—",
+    avgPace: stats[period].avgPaceSecPerKm?.toString() ?? "—",
+  };
 
   return (
     <Panel
@@ -63,7 +75,7 @@ function StatsPanel({ type }: StatsPanelProps) {
           ></Card>
           <Card
             cardLabel="Total time"
-            cardValue={stats[period].totalTimeSec?.toString() ?? "—"}
+            cardValue={cardValues.totalTime}
             cardUnit=" "
           ></Card>
           <Card
