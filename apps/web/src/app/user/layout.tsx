@@ -6,7 +6,10 @@ import styles from "./layout.module.css";
 export default function UserLayout({ children }: LayoutProps<"/user">) {
   return (
     <RequireAuth>
-      <div className={styles.layout} style={{ backgroundImage: `url(${bg.src})` }}>
+      <div
+        className={styles.layout}
+        style={{ "--layout-background-image": `url(${bg.src})` } as React.CSSProperties}
+      >
         {children}
       </div>
     </RequireAuth>

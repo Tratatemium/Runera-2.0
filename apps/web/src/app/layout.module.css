@@ -3,7 +3,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--gradient-1);
+  /* background: var(--gradient-1); */
+  background: white;
   color: var(--color-primary);
 }
 

@@ -123,7 +123,7 @@ function StatsPanel({ type }: StatsPanelProps) {
 
   return (
     <Panel
-      variant="frosted"
+      variant="frostedAccent"
       className={[styles.statsPanel, styles[type]].filter(Boolean).join(" ")}
     >
       <div className={styles.statsPanelHeader}>

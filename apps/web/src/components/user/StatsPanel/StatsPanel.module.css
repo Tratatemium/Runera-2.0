@@ -24,7 +24,7 @@
   cursor: pointer;
 
   color: var(--accent-color-1);
-  background-color: var(--color-secondary);
+  background-color: color-mix(in srgb, var(--color-secondary) 50%, white);
   border: var(--border-width-thin) solid var(--color-secondary);
 }
 

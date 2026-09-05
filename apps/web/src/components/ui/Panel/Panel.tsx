@@ -4,7 +4,14 @@ import styles from "./Panel.module.css";
 
 interface PanelProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
-  variant: "light" | "frosted" | "frostedWarm" | "cloudy" | "cloudyWarm";
+  variant:
+    | "light"
+    | "frosted"
+    | "frostedAccent"
+    | "frostedWarm"
+    | "cloudy"
+    | "cloudyWarm"
+    | "opaqueAccent";
 }
 
 function Panel({ children, variant, className, ...divProps }: PanelProps) {

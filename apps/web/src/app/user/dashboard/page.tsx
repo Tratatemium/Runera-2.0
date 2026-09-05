@@ -13,13 +13,13 @@ export default function Dashboard() {
 
   return (
     <main className={styles.main}>
-      <Panel variant="light" className={styles.panel}>
+      <Panel variant="opaqueAccent" className={styles.panel}>
         <div className={styles.greeting}>
           <h1>Welcome back, {user.account.username}!</h1>
           <p>Here&apos;s a snapshot of your running journey.</p>
         </div>
 
-        <Panel variant="frosted" className={styles.ctaPanel}>
+        <Panel variant="frostedAccent" className={styles.ctaPanel}>
           <h2>Ready to run?</h2>
           <div className={styles.ctaButtons}>
             <ButtonLink
