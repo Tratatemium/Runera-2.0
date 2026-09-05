@@ -34,10 +34,17 @@
   border: var(--border-width-thin) solid var(--accent-color-1);
 }
 
-.cardsWrapper {
+.statsWrapper {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(11.5rem, 1fr));
+  gap: var(--gap-lg);
+}
+
+.recordsWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(11.5rem, 1fr));
   gap: var(--gap-lg);
 }
 
@@ -61,13 +68,19 @@
 }
 
 @media (max-width: 920px) {
-  .cardsWrapper {
+  .statsWrapper {
+    grid-template-columns: repeat(3, minmax(10.2rem, 1fr));
+  }
+  .recordsWrapper {
     grid-template-columns: repeat(2, minmax(10.2rem, 1fr));
   }
 }
 
 @media (max-width: 620px) {
-  .cardsWrapper {
+  .statsWrapper {
+    grid-template-columns: 1fr;
+  }
+  .recordsWrapper {
     grid-template-columns: 1fr;
   }
 }

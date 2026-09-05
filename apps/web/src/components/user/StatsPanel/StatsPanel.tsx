@@ -10,6 +10,7 @@ import {
   formatDuration,
   formatDistance,
   formatPace,
+  normalizeDate,
 } from "@/utils/normalize.utils";
 
 interface StatsPanelProps {
@@ -58,6 +59,9 @@ function StatsPanel({ type }: StatsPanelProps) {
   const recordsCards = [
     {
       cardLabel: "Longest distance",
+      cardDate: stats.records.longestRun?.date
+        ? normalizeDate(stats.records.longestRun.date)
+        : "",
       cardValue: stats.records.longestRun
         ? formatDistance(stats.records.longestRun.distanceMeters)
         : "—",
@@ -65,6 +69,9 @@ function StatsPanel({ type }: StatsPanelProps) {
     },
     {
       cardLabel: "Longest duration",
+      cardDate: stats.records.longestRunDuration?.date
+        ? normalizeDate(stats.records.longestRunDuration.date)
+        : "",
       cardValue: stats.records.longestRunDuration
         ? formatDuration(stats.records.longestRunDuration.durationSec, "human")
         : "—",
@@ -73,6 +80,9 @@ function StatsPanel({ type }: StatsPanelProps) {
     },
     {
       cardLabel: "Best pace",
+      cardDate: stats.records.fastestPace?.date
+        ? normalizeDate(stats.records.fastestPace.date)
+        : "",
       cardValue: stats.records.fastestPace
         ? formatPace(stats.records.fastestPace.paceSecPerKm)
         : "—",
@@ -82,6 +92,9 @@ function StatsPanel({ type }: StatsPanelProps) {
       (el) =>
         stats.records[el] && {
           cardLabel: `Best ${el}`,
+          cardDate: stats.records[el]?.date
+            ? normalizeDate(stats.records[el].date)
+            : "",
           cardValue: stats.records[el]
             ? formatPace(stats.records[el].paceSecPerKm)
             : "—",
@@ -124,13 +137,13 @@ function StatsPanel({ type }: StatsPanelProps) {
       </div>
 
       {type === "stats" ? (
-        <div className={styles.cardsWrapper}>
+        <div className={styles.statsWrapper}>
           {statsCards.map((card) => (
             <Card key={card.cardLabel} {...card} />
           ))}
         </div>
       ) : (
-        <div className={styles.cardsWrapper}>
+        <div className={styles.recordsWrapper}>
           {recordsCards.map(
             (card) => card && <Card key={card.cardLabel} {...card} />,
           )}

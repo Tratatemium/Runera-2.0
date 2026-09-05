@@ -5,6 +5,7 @@ import styles from "./Card.module.css";
 interface CardProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
   cardLabel?: string;
+  cardDate?: string;
   cardValue?: string;
   cardUnit?: string;
   variant?: "light" | "frosted" | "frostedWarm";
@@ -17,6 +18,7 @@ function Card({
   type,
   className,
   cardLabel,
+  cardDate,
   cardValue,
   cardUnit,
   ...divProps
@@ -30,6 +32,7 @@ function Card({
     >
       {children}
       {cardLabel && <span className={styles.label}>{cardLabel}</span>}
+      {cardDate && <span className={styles.date}>{cardDate}</span>}
       {cardValue &&
         (type === "duration" ? (
           <span className={styles.value}>
