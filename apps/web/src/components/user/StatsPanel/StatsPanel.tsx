@@ -1,6 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import {
+  TbNumber1Small,
+  TbNumber5Small,
+  TbNumber10Small,
+  TbNumber21Small,
+  TbNumber42Small,
+} from "react-icons/tb";
+import { GiPathDistance, GiSpeedometer } from "react-icons/gi";
+import { FiClock } from "react-icons/fi";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
@@ -54,7 +63,13 @@ function StatsPanel({ type }: StatsPanelProps) {
     },
   ];
 
-  const runDistances = ["1k", "5k", "10k", "halfMarathon", "marathon"] as const;
+  const runDistances = [
+    { label: "1k", icon: TbNumber1Small },
+    { label: "5k", icon: TbNumber5Small },
+    { label: "10k", icon: TbNumber10Small },
+    { label: "halfMarathon", icon: TbNumber21Small },
+    { label: "marathon", icon: TbNumber42Small },
+  ] as const;
 
   const recordsCards = [
     {
@@ -66,6 +81,7 @@ function StatsPanel({ type }: StatsPanelProps) {
         ? formatDistance(stats.records.longestRun.distanceMeters)
         : "—",
       cardUnit: "km",
+      icon: GiPathDistance,
     },
     {
       cardLabel: "Longest duration",
@@ -77,6 +93,7 @@ function StatsPanel({ type }: StatsPanelProps) {
         : "—",
       cardUnit: " ",
       type: "duration" as const,
+      icon: FiClock,
     },
     {
       cardLabel: "Best pace",
@@ -87,20 +104,21 @@ function StatsPanel({ type }: StatsPanelProps) {
         ? formatPace(stats.records.fastestPace.paceSecPerKm)
         : "—",
       cardUnit: "min/km",
+      icon: GiSpeedometer,
     },
-    ...runDistances.map(
-      (el) =>
-        stats.records[el] && {
-          cardLabel: `Best ${el}`,
-          cardDate: stats.records[el]?.date
-            ? normalizeDate(stats.records[el].date)
-            : "",
-          cardValue: stats.records[el]
-            ? formatPace(stats.records[el].paceSecPerKm)
-            : "—",
+    ...runDistances.map((el) => {
+      const record = stats.records[el.label];
+
+      return (
+        record && {
+          cardLabel: `Best ${el.label}`,
+          cardDate: record.date ? normalizeDate(record.date) : "",
+          cardValue: formatPace(record.paceSecPerKm),
           cardUnit: "min/km",
-        },
-    ),
+          icon: el.icon,
+        }
+      );
+    }),
   ];
 
   return (
@@ -138,14 +156,15 @@ function StatsPanel({ type }: StatsPanelProps) {
 
       {type === "stats" ? (
         <div className={styles.statsWrapper}>
-          {statsCards.map((card) => (
-            <Card key={card.cardLabel} {...card} />
+          {statsCards.map((card, i) => (
+            <Card key={card.cardLabel} {...card} decorVariant={i} />
           ))}
         </div>
       ) : (
         <div className={styles.recordsWrapper}>
           {recordsCards.map(
-            (card) => card && <Card key={card.cardLabel} {...card} />,
+            (card, i) =>
+              card && <Card key={card.cardLabel} {...card} decorVariant={i} />,
           )}
         </div>
       )}

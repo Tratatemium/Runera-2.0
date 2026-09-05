@@ -2,10 +2,10 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   padding: var(--gap-lg-plus);
-  gap: var(--gap-sm);
   border-radius: var(--border-radius-xl);
 
   transition:
@@ -22,15 +22,37 @@
   height: var(--gap-xs);
   background: linear-gradient(
     90deg,
-    var(--accent-color-1),
-    var(--accent-color-2)
+    var(--grdient-color-1),
+    var(--grdient-color-2)
   );
   opacity: 0.8;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.iconBG {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+  clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%);
+}
+
+.icon {
+  height: 2.7rem;
+  width: 2.7rem;
+  color: var(--color-secondary);
+}
+
 .label {
   font-family: var(--font-secondary);
-  font-size: var(--font-size-body-sm);
+  font-size: var(--font-size-body-xs);
   font-weight: var(--font-weight-medium);
   color: var(--color-primary);
   text-transform: uppercase;
@@ -38,19 +60,19 @@
 }
 
 .date {
-  font-size: var(--font-size-body-sm);
+  font-size: var(--font-size-body-xs);
   color: var(--accent-mix-3);
 }
 
 .value {
-  font-size: var(--font-size-heading);
+  font-size: var(--font-size-heading-lg);
   font-weight: var(--font-weight-bold);
   color: var(--accent-color-1);
   line-height: 1.05;
 }
 
 .unit {
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
 }
 
@@ -58,4 +80,44 @@
   background: var(--color-secondary);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(12, 22, 24, 0.1);
+}
+
+.variant1 {
+  --grdient-color-1: #0f766e;
+  --grdient-color-2: #22c55e;
+}
+
+.variant2 {
+  --grdient-color-1: #0284c7;
+  --grdient-color-2: #38bdf8;
+}
+
+.variant3 {
+  --grdient-color-1: #4f46e5;
+  --grdient-color-2: #a855f7;
+}
+
+.variant4 {
+  --grdient-color-1: #be123c;
+  --grdient-color-2: #fb7185;
+}
+
+.variant5 {
+  --grdient-color-1: #c2410c;
+  --grdient-color-2: #facc15;
+}
+
+.variant6 {
+  --grdient-color-1: #65a30d;
+  --grdient-color-2: #84cc16;
+}
+
+.variant7 {
+  --grdient-color-1: #0e7490;
+  --grdient-color-2: #2dd4bf;
+}
+
+.variant8 {
+  --grdient-color-1: #7c2d12;
+  --grdient-color-2: #fb923c;
 }

@@ -1,6 +1,8 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { IconType } from "react-icons/lib";
 
 import styles from "./Card.module.css";
+import { TbNumber42Small } from "react-icons/tb";
 
 interface CardProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
@@ -8,14 +10,18 @@ interface CardProps extends ComponentPropsWithoutRef<"div"> {
   cardDate?: string;
   cardValue?: string;
   cardUnit?: string;
-  variant?: "light" | "frosted" | "frostedWarm";
+  variant?: "light";
+  decorVariant?: number;
   type?: "duration";
+  icon?: IconType;
 }
 
 function Card({
   children,
   variant = "light",
+  decorVariant = 1,
   type,
+  icon: Icon,
   className,
   cardLabel,
   cardDate,
@@ -26,32 +32,46 @@ function Card({
   return (
     <div
       {...divProps}
-      className={[styles.card, styles[variant], className]
+      className={[
+        styles.card,
+        styles[`variant${(decorVariant % 8) + 1}`],
+        styles[variant],
+        className,
+      ]
         .filter(Boolean)
         .join(" ")}
     >
       {children}
-      {cardLabel && <span className={styles.label}>{cardLabel}</span>}
-      {cardDate && <span className={styles.date}>{cardDate}</span>}
-      {cardValue &&
-        (type === "duration" ? (
-          <span className={styles.value}>
-            {cardValue.split(/(\s?[hms]\b)/).map((part, index) =>
-              /[hms]\b/.test(part) ? (
-                <span className={styles.unit} key={index}>
-                  {` ${part}`}
-                </span>
-              ) : (
-                part
-              ),
-            )}
-          </span>
-        ) : (
-          <span className={styles.value}>
-            {cardValue}
-            {cardUnit && <span className={styles.unit}>{` ${cardUnit}`}</span>}
-          </span>
-        ))}
+      <div className={styles.content}>
+        {cardLabel && <span className={styles.label}>{cardLabel}</span>}
+        {cardValue &&
+          (type === "duration" ? (
+            <span className={styles.value}>
+              {cardValue.split(/(\s?[hms]\b)/).map((part, index) =>
+                /[hms]\b/.test(part) ? (
+                  <span className={styles.unit} key={index}>
+                    {` ${part}`}
+                  </span>
+                ) : (
+                  part
+                ),
+              )}
+            </span>
+          ) : (
+            <span className={styles.value}>
+              {cardValue}
+              {cardUnit && (
+                <span className={styles.unit}>{` ${cardUnit}`}</span>
+              )}
+            </span>
+          ))}
+        {cardDate && <span className={styles.date}>{cardDate}</span>}
+      </div>
+      {Icon && (
+        <div className={styles.iconBG}>
+          <Icon className={styles.icon} />
+        </div>
+      )}
     </div>
   );
 }

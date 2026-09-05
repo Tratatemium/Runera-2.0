@@ -8,13 +8,15 @@
   --font-weight-bold: 700;
 
   /* Typography */
+  --font-size-body-xs: 0.75rem; /* 14px */
   --font-size-body-sm: 0.875rem; /* 14px */
   --font-size-body: 1rem; /* 16px */
   --font-size-body-lg: 1.125rem; /* 18px */
 
   --font-size-heading-sm: 1.25rem; /* 20px */
   --font-size-heading: 1.5rem; /* 24px */
-  --font-size-heading-lg: 1.875rem; /* 30px */
+  --font-size-heading-lg: 1.75rem; /* 28px */
+  --font-size-heading-xl: 1.875rem; /* 30px */
   --font-size-display: 2.25rem; /* 36px */
   --font-size-display-lg: 3rem; /* 36px */
 

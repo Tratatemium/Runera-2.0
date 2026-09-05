@@ -85,7 +85,7 @@
 
 @media (max-width: 620px) {
   .greeting h1 {
-    font-size: var(--font-size-heading-lg);
+    font-size: var(--font-size-heading-xl);
   }
 
   .ctaButtons {

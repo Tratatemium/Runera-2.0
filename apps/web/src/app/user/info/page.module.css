@@ -69,7 +69,7 @@
 
 .name {
   margin: 0;
-  font-size: var(--font-size-heading-lg);
+  font-size: var(--font-size-heading-xl);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
