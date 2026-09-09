@@ -7,7 +7,6 @@ import { randomUUID } from "crypto";
 import User from "../models/users.models.js";
 import Run from "../models/runs.models.js";
 import { getTimeIntervals } from "../utils/general.utils.js";
-import { match } from "assert";
 
 async function findUserById(userId: string) {
   const selectedUser = await User.findOne({ userId });
