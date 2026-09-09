@@ -2,7 +2,6 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import type { IconType } from "react-icons/lib";
 
 import styles from "./Card.module.css";
-import { TbNumber42Small } from "react-icons/tb";
 
 interface CardProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;

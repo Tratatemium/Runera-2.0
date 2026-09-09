@@ -44,7 +44,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardValue: stats[period].totalDistanceMeters
         ? formatDistance(stats[period].totalDistanceMeters)
         : "—",
-      cardUnit: "km",
+      cardUnit: stats[period].totalDistanceMeters ? "km" : "",
     },
     {
       cardLabel: "Total time",
@@ -59,7 +59,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardValue: stats[period].avgPaceSecPerKm
         ? formatPace(stats[period].avgPaceSecPerKm)
         : "—",
-      cardUnit: "min/km",
+      cardUnit: stats[period].avgPaceSecPerKm ? "min/km" : "",
     },
   ];
 
@@ -80,7 +80,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardValue: stats.records.longestRun
         ? formatDistance(stats.records.longestRun.distanceMeters)
         : "—",
-      cardUnit: "km",
+      cardUnit: stats.records.longestRun ? "km" : "",
       icon: GiPathDistance,
     },
     {
@@ -103,7 +103,7 @@ function StatsPanel({ type }: StatsPanelProps) {
       cardValue: stats.records.fastestPace
         ? formatPace(stats.records.fastestPace.paceSecPerKm)
         : "—",
-      cardUnit: "min/km",
+      cardUnit: stats.records.fastestPace ? "min/km" : "",
       icon: GiSpeedometer,
     },
     ...runDistances.map((el) => {
