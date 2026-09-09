@@ -1,9 +1,10 @@
 "use client";
 
 import { FaRegCalendar, FaPlus } from "react-icons/fa";
+
 import { useAuthContext } from "@/context/AuthContext";
 import { ButtonLink, Panel } from "@/components/ui";
-import { StatsPanel } from "@/components/user";
+import { StatsPanel, Calendar } from "@/components/user";
 
 import styles from "./page.module.css";
 
@@ -56,6 +57,8 @@ export default function Dashboard() {
             variant="tertiary"
           />
         </Panel>
+
+        <Calendar />
 
         <StatsPanel type="records"></StatsPanel>
       </Panel>

@@ -1,0 +1,57 @@
+.day {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: left;
+  padding: var(--gap-md);
+  width: 6rem;
+  height: 6rem;
+
+  background: var(--bg);
+  color: var(--color);
+  border: var(--border-width-thin) solid var(--border);
+
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.day {
+  --bg: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+  --border: transparent;
+  --color: var(--color-primary);
+}
+
+.day:hover {
+  /* --bg: color-mix(in srgb, var(--accent-color-1) 18%, transparent); */
+  transform: translateY(-2px);
+}
+
+:global(.rdp-today) .day {
+  --bg: var(--accent-color-1);
+  --border: var(--accent-color-1);
+  --color: var(--color-secondary);
+}
+
+:global(.rdp-selected) .day {
+  --bg: var(--accent-color-1);
+  --border: var(--accent-color-1);
+  --color: var(--color-secondary);
+  box-shadow: 0 6px 14px
+    color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+}
+
+:global(.rdp-outside) .day {
+  opacity: 0.35;
+}
+
+:global(.rdp-disabled) .day {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
