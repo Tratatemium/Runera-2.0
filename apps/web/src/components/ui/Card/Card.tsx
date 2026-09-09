@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import type { IconType } from "react-icons/lib";
+import type { IconType } from "react-icons";
 
 import styles from "./Card.module.css";
 
