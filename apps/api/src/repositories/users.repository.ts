@@ -143,6 +143,14 @@ async function getUserStats(userId: string) {
               totalTimeSec: { $sum: "$durationSec" },
             },
           },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
+            },
+          },
         ],
         year: [
           {
@@ -161,6 +169,14 @@ async function getUserStats(userId: string) {
               totalTimeSec: { $sum: "$durationSec" },
             },
           },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
+            },
+          },
         ],
         allTime: [
           {
@@ -169,6 +185,14 @@ async function getUserStats(userId: string) {
               totalRuns: { $sum: 1 },
               totalDistanceMeters: { $sum: "$distanceMeters" },
               totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
             },
           },
         ],
