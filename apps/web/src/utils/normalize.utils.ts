@@ -1,5 +1,4 @@
 import type { InputFieldConfig } from "@runera/shared";
-import { error } from "console";
 
 /* ────────────────────────────── */
 /* helpers                        */
