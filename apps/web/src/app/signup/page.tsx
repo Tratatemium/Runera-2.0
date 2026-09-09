@@ -54,7 +54,7 @@ export default function Signup() {
   return (
     <main
       className={styles.main}
-      style={{ backgroundImage: `url(${runners})` }}
+      style={{ backgroundImage: `url(${runners.src})` }}
     >
       <AuthCard
         onSubmit={onSubmit}
