@@ -7,11 +7,6 @@
   align-items: center;
   padding: var(--gap-lg-plus);
   border-radius: var(--border-radius-xl);
-
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
-  animation: cardFadeUp 440ms ease both;
 }
 
 .card::before {
