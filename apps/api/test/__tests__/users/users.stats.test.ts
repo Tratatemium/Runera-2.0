@@ -61,23 +61,32 @@ describe("GET /api/v1/users/me/stats", function () {
         }
       }
 
-      // fastest runs keys
-      expect(stats).toHaveProperty("fastest");
-      for (const dist of ["1k", "5k", "10k", "halfMarathon", "marathon"]) {
-        expect(stats.fastest).toHaveProperty(dist);
-        const fastest = stats.fastest[dist];
-        if (fastest !== null) {
-          expect(typeof fastest.runId).toBe("string");
-          expect(typeof fastest.durationSec).toBe("number");
-          expect(typeof fastest.distanceMeters).toBe("number");
-          expect(typeof fastest.paceSecPerKm).toBe("number");
-          expect(typeof fastest.date).toBe("string");
-          expect(new Date(fastest.date).toString()).not.toBe("Invalid Date");
+      // record runs keys
+      expect(stats).toHaveProperty("records");
+      for (const dist of [
+        "longestRun",
+        "longestRunDuration",
+        "fastestPace",
+        "1k",
+        "5k",
+        "10k",
+        "halfMarathon",
+        "marathon",
+      ]) {
+        expect(stats.records).toHaveProperty(dist);
+        const record = stats.records[dist];
+        if (record !== null) {
+          expect(typeof record.runId).toBe("string");
+          expect(typeof record.durationSec).toBe("number");
+          expect(typeof record.distanceMeters).toBe("number");
+          expect(typeof record.paceSecPerKm).toBe("number");
+          expect(typeof record.date).toBe("string");
+          expect(new Date(record.date).toString()).not.toBe("Invalid Date");
         }
       }
     });
 
-    it("returns null periods and fastest runs when user has no runs", async function () {
+    it("returns null periods and records when user has no runs", async function () {
       const res = await request(app)
         .get("/api/v1/users/me/stats")
         .set("Cookie", user2Token);
@@ -88,7 +97,7 @@ describe("GET /api/v1/users/me/stats", function () {
 
       // allTime may have data but shape must still be valid
       expect(stats).toHaveProperty("allTime");
-      expect(stats).toHaveProperty("fastest");
+      expect(stats).toHaveProperty("records");
     });
 
     it("only returns stats for the authenticated user", async function () {
