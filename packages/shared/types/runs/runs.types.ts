@@ -39,6 +39,7 @@ interface RunsContextValue {
   postNewRunState: (newRun: Run) => void;
   updateRunState: (updatedRun: Run) => void;
   deleteRunState: (id: string) => void;
+  getRunsByDate: (date: Date) => Run[] | null;
 }
 
 export type { Run, RunsState, RunsContextValue };
