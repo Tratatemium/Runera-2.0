@@ -35,7 +35,8 @@
   color: color-mix(in srgb, var(--accent-color-1) 86%, var(--color-primary));
 }
 
-.ctaPanel {
+.ctaPanel,
+.planningPanel {
   width: auto;
   display: flex;
   flex-direction: row;
@@ -56,8 +57,35 @@
   gap: 1rem;
 }
 
+.planningText {
+  display: flex;
+  flex-direction: column;
+  width: 40ch;
+  gap: var(--gap-lg);
+}
+
+.planningText h2 {
+  margin: 0;
+  color: color-mix(in srgb, var(--accent-color-1) 30%, var(--color-secondary));
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.planningText h3 {
+  margin: 0;
+  font-size: var(--font-size-display);
+  color: var(--color-secondary);
+}
+.planningText p {
+  margin: 0;
+  font-size: var(--font-size-body-sm);
+  color: color-mix(in srgb, var(--accent-color-1) 30%, var(--color-secondary));
+}
+
 @media (max-width: 920px) {
-  .ctaPanel {
+  .ctaPanel,
+  .planningPanel {
     flex-direction: column;
     align-items: center;
     gap: var(--gap-lg);
@@ -71,5 +99,9 @@
 
   .ctaButtons {
     flex-direction: column;
+  }
+
+  .planningText {
+    width: auto;
   }
 }
