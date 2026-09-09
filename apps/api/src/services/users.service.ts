@@ -1,11 +1,13 @@
 import type {
   UpdateProfileRequest,
   UpdateAccountRequest,
+  UserStatsResponse,
 } from "@runera/shared";
 
 import { NotFoundError } from "../errors/errors.js";
 import * as usersRepo from "../repositories/users.repository.js";
 import * as authService from "./auth.service.js";
+import { normalizeStats } from "../utils/general.utils.js";
 
 function throwUserNotFoundError(userId: string) {
   throw new NotFoundError(`No user with ID ${userId} found!`);
@@ -40,16 +42,20 @@ async function updateAccount(
 
   switch (fieldToUpdate) {
     case "password":
-      result = await authService.updatePassword(userId, reqBody.newPassword);
+      result = await authService.updatePassword(userId, reqBody.newPassword!);
       break;
     case "email":
-      result = await usersRepo.updateAccount(userId, "email", reqBody.newEmail);
+      result = await usersRepo.updateAccount(
+        userId,
+        "email",
+        reqBody.newEmail!,
+      );
       break;
     case "username":
       result = await usersRepo.updateAccount(
         userId,
         "username",
-        reqBody.newUsername,
+        reqBody.newUsername!,
       );
       break;
   }
@@ -57,4 +63,12 @@ async function updateAccount(
   if (result?.matchedCount === 0) throwUserNotFoundError(userId);
 }
 
-export { getUser, getAllUsers, updateProfile, updateAccount };
+async function getUserStats(userId: string): Promise<UserStatsResponse> {
+  const user = await usersRepo.findUserById(userId);
+  if (!user) throwUserNotFoundError(userId);
+  const rawStats = await usersRepo.getUserStats(userId);
+  const normalizedStats = normalizeStats(rawStats);
+  return normalizedStats;
+}
+
+export { getUser, getAllUsers, updateProfile, updateAccount, getUserStats };

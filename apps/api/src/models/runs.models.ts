@@ -79,6 +79,7 @@ const RunSchema = new mongoose.Schema<DBRun>(
 RunSchema.index({ runId: 1 }, { unique: true });
 // Optional compound index for user + startTime queries
 RunSchema.index({ userId: 1, startTime: -1 });
+RunSchema.index({ userId: 1, date: -1 });
 
 export default mongoose.model("Run", RunSchema);
 

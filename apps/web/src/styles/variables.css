@@ -1,56 +1,91 @@
 :root {
-  --font-primary: var(--font-poppins);
+  --font-primary: var(--font-outfit);
+  --font-secondary: var(--font-barlow);
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  --font-size-h1: 2.25em; /* ~36px if body = 16px */
-  --font-size-h2: 1.75em; /* ~28px */
-  --font-size-h3: 1.375em; /* ~22px */
-  --font-size-body: 1em; /* 16px */
-  --font-size-small: 0.875em; /* 14px */
+  /* Typography */
+  --font-size-body-xs: 0.75rem; /* 14px */
+  --font-size-body-sm: 0.875rem; /* 14px */
+  --font-size-body: 1rem; /* 16px */
+  --font-size-body-lg: 1.125rem; /* 18px */
+
+  --font-size-heading-sm: 1.25rem; /* 20px */
+  --font-size-heading: 1.5rem; /* 24px */
+  --font-size-heading-lg: 1.75rem; /* 28px */
+  --font-size-heading-xl: 1.875rem; /* 30px */
+  --font-size-display: 2.25rem; /* 36px */
+  --font-size-display-lg: 3rem; /* 36px */
+
+  /* Spacing */
+  --gap-xs: 0.25rem; /* 4px */
+  --gap-sm: 0.5rem; /* 8px */
+  --gap-md: 0.75rem; /* 12px */
+  --gap-lg: 1rem; /* 16px */
+  --gap-lg-plus: 1.25rem; /* 20px */
+  --gap-xl: 1.5rem; /* 24px */
+  --gap-2xl: 2rem; /* 32px */
+  --gap-3xl: 3rem; /* 48px */
+  --gap-4xl: 4rem; /* 64px */
+
+  /* Borders */
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 3px;
+
+  --border-radius-sm: 0.25rem; /* 4px */
+  --border-radius-md: 0.5rem; /* 8px */
+  --border-radius-lg: 0.75rem; /* 12px */
+  --border-radius-xl: 1rem; /* 16px */
+  --border-radius-2xl: 1.25rem; /* 20px */
+  --border-radius-full: 9999px;
+
+  --border-color-primary: color-mix(in srgb, var(--accent-color-1) 25%, white);
+
   --form-label-width: 8rem;
+
+  /* Colors */
 
   --ink-black: #0c1618;
   --pine-teal: #004643;
   --cornsilk: #faf4d3;
   --metallic-gold: #d1ac00;
   --peach-glow: #f6be9a;
-  --burnt-orange: #b93e00;
+  --burnt-orange: #d05518;
   --dark-gold: #a97c02;
 
-  --primary-color: var(--ink-black);
-  --secondary-color: var(--cornsilk);
-  --text-color-primary: var(--primary-color);
-  --surface-color-1: var(--secondary-color);
-  --surface-color-2: var(--secondary-color);
-  --border-color-primary: color-mix(in srgb, var(--accent-color-1) 25%, white);
-  --small-border-radius: 0.75rem;
+  --color-primary: var(--ink-black);
+  --color-secondary: var(--cornsilk);
+
+  --success-color: #2e7d32;
+  --error-color: #c62828;
+  --warning-color: #ed6c02;
+
   --accent-color-1: var(--pine-teal);
   --accent-color-2: var(--metallic-gold);
   --accent-color-3: var(--peach-glow);
+  --accent-color-4: var(--burnt-orange);
+  --accent-color-5: var(--dark-gold);
+
   --accent-mix-1: color-mix(
     in srgb,
     var(--accent-color-1),
-    var(--primary-color) 20%
+    var(--color-primary) 20%
   );
   --accent-mix-2: color-mix(
     in srgb,
     var(--accent-color-2),
-    var(--primary-color) 70%
+    var(--color-primary) 70%
   );
   --accent-mix-3: color-mix(
     in srgb,
     var(--accent-color-3),
-    var(--primary-color) 60%
+    var(--color-primary) 60%
   );
-  --color-chart: var(--burnt-orange);
-  --color-medal: var(--dark-gold);
-  --success-color: #2e7d32;
-  --error-color: #c62828;
-  --warning-color: #ed6c02;
 
   --gradient-1:
     radial-gradient(

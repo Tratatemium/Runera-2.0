@@ -1,7 +1,9 @@
 "use client";
 
+import { FaRegCalendar, FaPlus } from "react-icons/fa";
 import { useAuthContext } from "@/context/AuthContext";
 import { ButtonLink, Panel } from "@/components/ui";
+import { StatsPanel } from "@/components/user";
 
 import styles from "./page.module.css";
 
@@ -11,42 +13,34 @@ export default function Dashboard() {
 
   return (
     <main className={styles.main}>
-      <Panel variant="frosted" className={styles.panel}>
+      <Panel variant="opaqueAccent" className={styles.panel}>
         <div className={styles.greeting}>
           <h1>Welcome back, {user.account.username}!</h1>
           <p>Here&apos;s a snapshot of your running journey.</p>
         </div>
-        <div className={styles.stats}>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Total Runs</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>runs logged</span>
-          </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Distance</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>km total</span>
-          </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>Best Pace</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>min / km</span>
-          </div>
-          <div className={styles.card}>
-            <span className={styles.cardLabel}>This Week</span>
-            <span className={styles.cardValue}>—</span>
-            <span className={styles.cardUnit}>km</span>
-          </div>
-        </div>
 
-        <div className={styles.cta}>
+        <Panel variant="frostedAccent" className={styles.ctaPanel}>
           <h2>Ready to run?</h2>
-          <ButtonLink
-            linkDirection="/user/runs/new"
-            linkText="+ Log a Run"
-            variant="primary"
-          />
-        </div>
+          <div className={styles.ctaButtons}>
+            <ButtonLink
+              linkDirection="/user/runs/new"
+              linkText="Log a Run"
+              variant="primary"
+            >
+              <FaPlus />
+            </ButtonLink>
+            <ButtonLink
+              linkDirection="/user/runs/new"
+              linkText="Plan Training"
+              variant="tertiary"
+            >
+              <FaRegCalendar />
+            </ButtonLink>
+          </div>
+        </Panel>
+
+        <StatsPanel type="stats"></StatsPanel>
+        <StatsPanel type="records"></StatsPanel>
       </Panel>
     </main>
   );

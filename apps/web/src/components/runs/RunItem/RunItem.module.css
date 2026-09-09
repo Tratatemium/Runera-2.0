@@ -9,14 +9,14 @@
   gap: 1em;
   background: linear-gradient(
     130deg,
-    color-mix(in srgb, var(--accent-color-3) 38%, var(--secondary-color)) 0%,
-    color-mix(in srgb, var(--secondary-color) 82%, var(--accent-color-2)) 55%,
-    color-mix(in srgb, var(--secondary-color) 70%, var(--primary-color)) 100%
+    color-mix(in srgb, var(--accent-color-3) 38%, var(--color-secondary)) 0%,
+    color-mix(in srgb, var(--color-secondary) 82%, var(--accent-color-2)) 55%,
+    color-mix(in srgb, var(--color-secondary) 70%, var(--color-primary)) 100%
   );
   border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
   border-radius: 1em;
   box-shadow: 0 10px 24px
-    color-mix(in srgb, var(--primary-color) 88%, transparent);
+    color-mix(in srgb, var(--color-primary) 88%, transparent);
   transition:
     transform 160ms ease,
     box-shadow 200ms ease,
@@ -74,7 +74,7 @@
     var(--accent-color-3)
   );
   box-shadow: 0 14px 28px
-    color-mix(in srgb, var(--primary-color) 82%, transparent);
+    color-mix(in srgb, var(--color-primary) 82%, transparent);
 }
 
 .runInfo {
@@ -171,7 +171,7 @@
   font-size: 1.1em;
   color: var(--accent-mix-2);
   border-radius: 0.6em;
-  background: color-mix(in srgb, var(--secondary-color) 92%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 92%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
   cursor: pointer;
   transition:
@@ -187,7 +187,7 @@
   background: color-mix(
     in srgb,
     var(--accent-color-2) 18%,
-    var(--secondary-color)
+    var(--color-secondary)
   );
   border-color: var(--accent-mix-1);
 }

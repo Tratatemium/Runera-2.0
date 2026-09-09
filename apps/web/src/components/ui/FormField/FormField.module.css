@@ -2,19 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: start;
-  color: var(--primary-color);
-  gap: 0.5em;
-  margin-bottom: 1.6em;
+  color: var(--color-primary);
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-xl);
 }
 
 .choiceRow {
-  margin-bottom: 0.45em;
+  margin-bottom: var(--gap-sm);
 }
 
 .formWrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: var(--gap-sm);
   align-items: start;
   text-align: left;
 }
@@ -54,7 +54,7 @@
 }
 
 .formWrapper.column .formLabel {
-  margin-left: 1em;
+  margin-left: var(--gap-lg);
   width: fit-content;
 }
 
@@ -62,7 +62,7 @@
   margin: auto;
   width: fit-content;
   font-weight: var(--font-weight-regular);
-  font-size: 0.8em;
+  font-size: var(--font-size-body-sm);
 }
 
 .formWrapper.column .choiceLabel {
@@ -79,12 +79,13 @@
   width: auto;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--gap-sm);
   font-weight: var(--font-weight-regular);
-  padding: 0.35rem 0.75rem;
-  border-radius: 1em;
-  background: color-mix(in srgb, var(--secondary-color) 86%, white);
-  border: 1px solid color-mix(in srgb, var(--accent-color-1) 22%, white);
+  padding: var(--gap-sm) var(--gap-md);
+  border-radius: var(--border-radius-xl);
+  background: color-mix(in srgb, var(--color-secondary) 86%, white);
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--accent-color-1) 22%, white);
   cursor: pointer;
   transition:
     border-color 140ms ease,
@@ -109,8 +110,8 @@
   padding: 0.7em 2.8em 0.7em 0.9em;
   border: 1px solid color-mix(in srgb, var(--accent-color-1) 25%, white);
   border-radius: 0.55em;
-  background: color-mix(in srgb, var(--secondary-color) 85%, white);
-  color: var(--primary-color);
+  background: color-mix(in srgb, var(--color-secondary) 85%, white);
+  color: var(--color-primary);
   font: inherit;
   line-height: 1.2;
   transition:
@@ -209,7 +210,7 @@
 }
 
 .formInput::placeholder {
-  color: color-mix(in srgb, var(--primary-color) 45%, white);
+  color: color-mix(in srgb, var(--color-primary) 45%, white);
 }
 
 .formInput:focus {

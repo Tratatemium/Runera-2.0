@@ -74,7 +74,15 @@ function validateDistance(value: string, _formState: FormStateValue) {
 }
 
 function validateStartTime(value: string, _formState: FormStateValue) {
-  return checkEmpty(value, "Start time");
+  const emptyError = checkEmpty(value, "Start time");
+  if (emptyError) {
+    return emptyError;
+  }
+
+  const startTime = new Date(value);
+  if (startTime > new Date()) {
+    return "Start time cannot be in the future";
+  }
 }
 
 function validateDuration(_value: string, formState: FormStateValue) {

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
 
-  background: color-mix(in srgb, var(--primary-color) 55%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 55%, transparent);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 
@@ -39,35 +39,35 @@
 }
 
 .title {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--gap-sm);
   text-align: center;
-  font-size: var(--font-size-h3);
+  font-size: var(--font-size-heading);
   font-weight: var(--font-weight-semibold);
   color: var(--accent-color-1);
 }
 
 .text {
   margin: 0;
-  font-size: var(--font-size-body);
-  color: color-mix(in srgb, var(--primary-color) 80%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
   line-height: 1.55;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 
   width: min(min-content, 90vw);
   min-width: 18rem;
   max-width: 28rem;
-  padding: 2rem;
+  gap: var(--gap-xl);
+  padding: var(--gap-2xl);
 
-  background: var(--secondary-color);
-  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
-  border-radius: 1.25rem;
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--accent-color-3) 70%, transparent);
+  border-radius: var(--border-radius-2xl);
+  background: var(--color-secondary);
   box-shadow:
-    0 20px 48px color-mix(in srgb, var(--primary-color) 30%, transparent),
+    0 20px 48px color-mix(in srgb, var(--color-primary) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
 }
 
@@ -75,12 +75,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 0.75rem;
+  gap: var(--gap-md);
 }
 
 @media (max-width: 480px) {
   .card {
-    padding: 1.5rem;
+    padding: var(--gap-xl);
   }
 
   .actionsWrapper {

@@ -1,14 +1,14 @@
 .button {
   --bg: var(--accent-color-1);
-  --color: var(--secondary-color);
+  --color: var(--color-secondary);
   --border: var(--accent-color-1);
 
   --bg-hover: var(--accent-color-2);
-  --color-hover: var(--secondary-color);
+  --color-hover: var(--color-secondary);
   --border-hover: var(--accent-color-2);
 
   --bg-active: var(--accent-color-2);
-  --color-active: var(--secondary-color);
+  --color-active: var(--color-secondary);
   --border-active: var(--accent-color-2);
 
   display: flex;
@@ -19,11 +19,11 @@
 
   background: var(--bg);
   color: var(--color);
-  border: 1px solid var(--border);
+  border: var(--border-width-thin) solid var(--border);
 
-  gap: 0.75em;
-  padding: 1em 3em;
-  border-radius: 0.7em;
+  gap: var(--gap-md);
+  padding: var(--gap-lg) var(--gap-3xl);
+  border-radius: var(--border-radius-lg);
   text-decoration: none;
   cursor: pointer;
   line-height: 1;
@@ -38,14 +38,14 @@
 .button:not(:disabled):not(.disabled):hover {
   background-color: var(--bg-hover);
   color: var(--color-hover);
-  border: 1px solid var(--border-hover);
+  border: var(--border-width-thin) solid var(--border-hover);
 }
 
 .button:not(:disabled):not(.disabled):active,
 .button:not(:disabled):not(.disabled).active {
   background-color: var(--bg-active);
   color: var(--color-active);
-  border: 1px solid var(--border-active);
+  border: var(--border-width-thin) solid var(--border-active);
   transform: translateY(1px);
   cursor: default;
 }
@@ -59,44 +59,58 @@
 
 .primary {
   --bg: var(--accent-color-1);
-  --color: var(--secondary-color);
+  --color: var(--color-secondary);
   --border: var(--accent-color-1);
 
   --bg-hover: var(--accent-color-2);
-  --color-hover: var(--secondary-color);
+  --color-hover: var(--color-secondary);
   --border-hover: var(--accent-color-2);
 
   --bg-active: var(--accent-color-2);
-  --color-active: var(--secondary-color);
+  --color-active: var(--color-secondary);
   --border-active: var(--accent-color-2);
 }
 
 .secondary {
-  --bg: var(--secondary-color);
+  --bg: var(--color-secondary);
   --color: var(--accent-color-1);
   --border: var(--accent-color-1);
 
   --bg-hover: var(--accent-color-2);
-  --color-hover: var(--secondary-color);
+  --color-hover: var(--color-secondary);
   --border-hover: var(--accent-color-2);
 
   --bg-active: var(--accent-color-2);
-  --color-active: var(--secondary-color);
+  --color-active: var(--color-secondary);
+  --border-active: var(--accent-color-2);
+}
+
+.tertiary {
+  --bg: var(--accent-color-4);
+  --color: var(--color-secondary);
+  --border: var(--accent-color-4);
+
+  --bg-hover: var(--accent-color-2);
+  --color-hover: var(--color-secondary);
+  --border-hover: var(--accent-color-2);
+
+  --bg-active: var(--accent-color-2);
+  --color-active: var(--color-secondary);
   --border-active: var(--accent-color-2);
 }
 
 .transparent {
   --bg: transparent;
-  --color: var(--secondary-color);
+  --color: var(--color-secondary);
   --border: transparent;
 
-  --bg-hover: color-mix(in srgb, var(--secondary-color) 10%, transparent);
-  --color-hover: var(--secondary-color);
-  --border-hover: color-mix(in srgb, var(--secondary-color) 10%, transparent);
+  --bg-hover: color-mix(in srgb, var(--color-secondary) 10%, transparent);
+  --color-hover: var(--color-secondary);
+  --border-hover: color-mix(in srgb, var(--color-secondary) 10%, transparent);
 
-  --bg-active: color-mix(in srgb, var(--secondary-color) 20%, transparent);
-  --color-active: var(--secondary-color);
-  --border-active: color-mix(in srgb, var(--secondary-color) 20%, transparent);
+  --bg-active: color-mix(in srgb, var(--color-secondary) 20%, transparent);
+  --color-active: var(--color-secondary);
+  --border-active: color-mix(in srgb, var(--color-secondary) 20%, transparent);
 }
 
 .transparentAccent {
@@ -104,21 +118,17 @@
   --color: var(--accent-color-1);
   --border: transparent;
 
-  --bg-hover: color-mix(in srgb, var(--secondary-color) 10%, transparent);
+  --bg-hover: color-mix(in srgb, var(--color-secondary) 10%, transparent);
   --color-hover: var(--accent-color-1);
-  --border-hover: color-mix(in srgb, var(--secondary-color) 10%, transparent);
+  --border-hover: color-mix(in srgb, var(--color-secondary) 10%, transparent);
 
-  --bg-active: color-mix(in srgb, var(--secondary-color) 20%, transparent);
+  --bg-active: color-mix(in srgb, var(--color-secondary) 20%, transparent);
   --color-active: var(--accent-color-1);
-  --border-active: color-mix(in srgb, var(--secondary-color) 20%, transparent);
-}
-
-.transparentAccent svg {
-  font-size: 1.5em;
+  --border-active: color-mix(in srgb, var(--color-secondary) 20%, transparent);
 }
 
 .small {
-  padding: 0.55em 1.2em;
-  font-size: var(--font-size-small);
-  border-radius: 0.6em;
+  padding: var(--gap-sm) var(--gap-xl);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-md);
 }

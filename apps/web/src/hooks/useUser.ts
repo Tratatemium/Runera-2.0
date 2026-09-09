@@ -3,7 +3,7 @@ import type { UpdateProfileRequest, UserResponse } from "@runera/shared";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { apiGetMe, apiUpdateProfile } from "@/api/users.api";
+import { apiGetMe, apiUpdateProfile, apiGetMyStats } from "@/api/users.api";
 import { useAuthContext } from "@/context/AuthContext";
 import { handleApiFormError } from "@/utils/api.utils";
 import { normalizeProfile, normalizeUserResponse } from "@/utils/user.utils";
@@ -15,6 +15,7 @@ interface UseUserReturn {
     payload: UpdateProfileRequest,
   ) => Promise<Record<string, string> | undefined>;
   getMe: (opts?: { suppressUnauthorized?: boolean }) => Promise<UserResponse>;
+  updateStats: () => Promise<void>;
 }
 
 function useUser(): UseUserReturn {
@@ -51,7 +52,18 @@ function useUser(): UseUserReturn {
     [router, updateUser],
   );
 
-  return { isFetching, formError, getMe, updateProfile };
+  const updateStats = useCallback(async () => {
+    setIsFetching(true);
+
+    try {
+      const data = await apiGetMyStats();
+      updateUser({ stats: data.stats });
+    } finally {
+      setIsFetching(false);
+    }
+  }, [updateUser]);
+
+  return { isFetching, formError, getMe, updateProfile, updateStats };
 }
 
 export { useUser };

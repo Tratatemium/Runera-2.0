@@ -1,9 +1,12 @@
 import type { DBUser, DBCredentials } from "../models/users.models.js";
+import type { DBRun } from "../models/runs.models.js";
 import type { UpdateProfileRequest } from "@runera/shared";
 
 import { randomUUID } from "crypto";
 
 import User from "../models/users.models.js";
+import Run from "../models/runs.models.js";
+import { getTimeIntervals } from "../utils/general.utils.js";
 
 async function findUserById(userId: string) {
   const selectedUser = await User.findOne({ userId });
@@ -92,6 +95,176 @@ async function incrementAccessTokenVersion(userId: string) {
 }
 
 /* ================================================================================================= */
+/*  STATS                                                                                            */
+/* ================================================================================================= */
+
+interface AggregatedPeriodStats {
+  totalRuns: number;
+  totalTimeSec: number;
+  totalDistanceMeters: number;
+}
+
+interface AggregatedStats {
+  week: [] | AggregatedPeriodStats[];
+  year: [] | AggregatedPeriodStats[];
+  allTime: [] | AggregatedPeriodStats[];
+  longestRun: [] | DBRun[];
+  longestRunDuration: [] | DBRun[];
+  fastestPace: [] | DBRun[];
+  "1k": [] | DBRun[];
+  "5k": [] | DBRun[];
+  "10k": [] | DBRun[];
+  halfMarathon: [] | DBRun[];
+  marathon: [] | DBRun[];
+}
+
+async function getUserStats(userId: string) {
+  const { weekStart, weekEnd, yearStart, yearEnd } = getTimeIntervals();
+
+  const [result] = await Run.aggregate<AggregatedStats>([
+    { $match: { userId } },
+    {
+      $facet: {
+        week: [
+          {
+            $match: {
+              date: {
+                $gte: weekStart,
+                $lt: weekEnd,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
+            },
+          },
+        ],
+        year: [
+          {
+            $match: {
+              date: {
+                $gte: yearStart,
+                $lt: yearEnd,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
+            },
+          },
+        ],
+        allTime: [
+          {
+            $group: {
+              _id: null,
+              totalRuns: { $sum: 1 },
+              totalDistanceMeters: { $sum: "$distanceMeters" },
+              totalTimeSec: { $sum: "$durationSec" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              totalRuns: 1,
+              totalDistanceMeters: 1,
+              totalTimeSec: 1,
+            },
+          },
+        ],
+        longestRun: [{ $sort: { distanceMeters: -1 } }, { $limit: 1 }],
+        longestRunDuration: [{ $sort: { durationSec: -1 } }, { $limit: 1 }],
+        fastestPace: [{ $sort: { paceSecPerKm: 1 } }, { $limit: 1 }],
+        "1k": [
+          {
+            $match: {
+              distanceMeters: {
+                $gte: 1000,
+                $lt: 5000,
+              },
+            },
+          },
+          { $sort: { paceSecPerKm: 1 } },
+          { $limit: 1 },
+        ],
+        "5k": [
+          {
+            $match: {
+              distanceMeters: {
+                $gte: 5000,
+                $lt: 10000,
+              },
+            },
+          },
+          { $sort: { paceSecPerKm: 1 } },
+          { $limit: 1 },
+        ],
+        "10k": [
+          {
+            $match: {
+              distanceMeters: {
+                $gte: 10000,
+                $lt: 21097.5,
+              },
+            },
+          },
+          { $sort: { paceSecPerKm: 1 } },
+          { $limit: 1 },
+        ],
+        halfMarathon: [
+          {
+            $match: {
+              distanceMeters: {
+                $gte: 21097.5,
+                $lt: 42195,
+              },
+            },
+          },
+          { $sort: { paceSecPerKm: 1 } },
+          { $limit: 1 },
+        ],
+        marathon: [
+          {
+            $match: {
+              distanceMeters: {
+                $gte: 42195,
+              },
+            },
+          },
+          { $sort: { paceSecPerKm: 1 } },
+          { $limit: 1 },
+        ],
+      },
+    },
+  ]);
+
+  return result;
+}
+
+/* ================================================================================================= */
 /*  EXPORTS                                                                                          */
 /* ================================================================================================= */
 
@@ -106,4 +279,7 @@ export {
   updateAccount,
   updateCredentials,
   incrementAccessTokenVersion,
+  getUserStats,
 };
+
+export type { AggregatedStats, AggregatedPeriodStats };

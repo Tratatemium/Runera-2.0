@@ -14,7 +14,12 @@ interface ButtonLinkProps extends Omit<
   children?: React.ReactNode;
   linkDirection: string;
   linkText: string;
-  variant: "primary" | "secondary" | "transparent" | "transparentAccent";
+  variant:
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "transparent"
+    | "transparentAccent";
   size?: "small";
   disabled?: boolean;
   active?: boolean;

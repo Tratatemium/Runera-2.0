@@ -30,17 +30,40 @@ function normalizeTime(dateString: string) {
   return date.toISOString().slice(0, 19);
 }
 
-function formatSeconds(totalSeconds: number): string {
+function formatDuration(
+  totalSeconds: number,
+  format: "compact" | "human",
+): string {
   totalSeconds = Math.round(totalSeconds);
+
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  const hStr = hours > 0 ? `${hours}:` : "";
-  const mStr = hours > 0 ? String(minutes).padStart(2, "0") : String(minutes);
-  const sStr = String(seconds).padStart(2, "0");
+  if (format === "compact") {
+    const h = hours > 0 ? `${hours}:` : "";
+    const m = hours > 0 ? String(minutes).padStart(2, "0") : String(minutes);
 
-  return `${hStr}${mStr}:${sStr}`;
+    return `${h}${m}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  const parts = [];
+
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
+  parts.push(`${seconds}s`);
+
+  return parts.join(" ");
+}
+
+function formatDistance(m: number) {
+  const km = m / 1000;
+  return String(km.toFixed(2));
+}
+
+function formatPace(secPerKm: number) {
+  const minPerKm = secPerKm / 60;
+  return String(minPerKm.toFixed(2));
 }
 
 /* ────────────────────────────── */
@@ -93,7 +116,9 @@ export {
   clampNumber,
   normalizeDate,
   normalizeTime,
-  formatSeconds,
+  formatDuration,
+  formatDistance,
+  formatPace,
   normalizeString,
   normalizeNumber,
   normalizeEmail,

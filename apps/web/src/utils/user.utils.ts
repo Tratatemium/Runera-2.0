@@ -1,5 +1,6 @@
 import type { UserState, UserResponse } from "@runera/shared";
 
+import { nullUserStats } from "@runera/shared";
 import { normalizeDate, normalizeFormValue } from "./normalize.utils";
 
 const mapUserResponseToState = (data: UserResponse): UserState => ({
@@ -14,6 +15,7 @@ const mapUserResponseToState = (data: UserResponse): UserState => ({
     heightCm: data.userData.profile.heightCm,
     weightKg: data.userData.profile.weightKg,
   },
+  stats: nullUserStats,
   role: data.userData.role,
 });
 

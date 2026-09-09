@@ -20,7 +20,7 @@
 
 .subTitle {
   margin: 0.1rem 0 1.2rem;
-  color: color-mix(in srgb, var(--primary-color) 74%, white);
+  color: color-mix(in srgb, var(--color-primary) 74%, white);
   text-align: left;
 }
 

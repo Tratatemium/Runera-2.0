@@ -27,7 +27,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const loginUser = useCallback((user: UserState) => setUser(user), []);
   const logoutUser = useCallback(() => setUser(null), []);
   const updateUser = useCallback((updates: Partial<UserState>) => {
-    setUser((prev) => merge({}, prev, updates));
+    setUser((prev) => (prev ? merge({}, prev, updates) : prev));
   }, []);
 
   useEffect(() => {

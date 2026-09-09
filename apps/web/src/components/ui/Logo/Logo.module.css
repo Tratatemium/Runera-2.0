@@ -1,6 +1,6 @@
 .logoLockup {
   --bg-logo: var(--accent-color-1);
-  --color-logo: var(--secondary-color);
+  --color-logo: var(--color-secondary);
   --color-name: var(--accent-color-1);
   display: flex;
   flex-direction: row;
@@ -38,6 +38,7 @@
 }
 
 .brandName {
+  font-family: var(--font-secondary);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -48,12 +49,12 @@
 
 .primary {
   --bg-logo: var(--accent-color-1);
-  --color-logo: var(--secondary-color);
+  --color-logo: var(--color-secondary);
   --color-name: var(--accent-color-1);
 }
 
 .secondary {
-  --bg-logo: var(--secondary-color);
+  --bg-logo: var(--color-secondary);
   --color-logo: var(--accent-color-1);
-  --color-name: var(--secondary-color);
+  --color-name: var(--color-secondary);
 }

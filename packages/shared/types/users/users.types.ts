@@ -1,3 +1,5 @@
+import type { UserStatsResponse } from "./users.responses";
+
 interface UserState {
   account: {
     email: string;
@@ -10,6 +12,7 @@ interface UserState {
     heightCm?: number;
     weightKg?: number;
   };
+  stats: UserStatsResponse;
   role: "user" | "admin";
 }
 

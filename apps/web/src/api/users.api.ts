@@ -2,6 +2,7 @@ import type {
   UserState,
   UserResponse,
   UserUpdateResponse,
+  UserStatsResponse,
 } from "@runera/shared";
 
 import { apiRequest } from "./client";
@@ -25,4 +26,12 @@ function apiUpdateProfile(data: { profile: UserState["profile"] }) {
   });
 }
 
-export { apiGetMe, apiUpdateProfile };
+function apiGetMyStats() {
+  return apiRequest<{ stats: UserStatsResponse }>({
+    path: API.users.stats,
+    assertData: true,
+    options: { method: "GET" },
+  });
+}
+
+export { apiGetMe, apiUpdateProfile, apiGetMyStats };

@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <main>
       <section className={styles.hero}>
-        <Image src={runners1} alt="" className={styles.image} />
+        <Image src={runners1} alt="" loading="eager" className={styles.image} />
         <section className={styles.cta}>
           <Logo variant="primary" size="big"></Logo>
           <h1 className={styles.title}>Track Every Step</h1>

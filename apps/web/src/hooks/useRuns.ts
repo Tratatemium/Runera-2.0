@@ -10,6 +10,7 @@ import {
   apiUpdateRun,
   apiDeleteRun,
 } from "@/api/runs.api";
+import { useUser } from "./useUser";
 import { normalizeRunData, normalizeMyRuns } from "@/utils/runs.utils";
 
 interface UseRunsReturn {
@@ -41,6 +42,7 @@ function useRuns(): UseRunsReturn {
     deleteRunState,
   } = useRunsContext();
   const router = useRouter();
+  const { updateStats } = useUser();
 
   const getMyRuns = useCallback(async () => {
     setLoading("fetchingRuns");
@@ -67,10 +69,11 @@ function useRuns(): UseRunsReturn {
       } catch (err) {
         console.error(err);
       } finally {
+        await updateStats();
         setLoading("idle");
       }
     },
-    [postNewRunState, router],
+    [postNewRunState, router, updateStats],
   );
 
   const updateRun = useCallback(
@@ -85,11 +88,12 @@ function useRuns(): UseRunsReturn {
       } catch (err) {
         console.error(err);
       } finally {
+        await updateStats();
         setLoading("idle");
         setLoadingRunId(null);
       }
     },
-    [updateRunState, router],
+    [updateRunState, router, updateStats],
   );
 
   const deleteRun = useCallback(
@@ -103,11 +107,12 @@ function useRuns(): UseRunsReturn {
       } catch (err) {
         console.error(err);
       } finally {
+        await updateStats();
         setLoading("idle");
         setLoadingRunId(null);
       }
     },
-    [deleteRunState],
+    [deleteRunState, updateStats],
   );
 
   return {
