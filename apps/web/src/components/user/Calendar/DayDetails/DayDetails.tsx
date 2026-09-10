@@ -8,7 +8,7 @@ interface DayDetailsProps {
 function DayDetails({ date, onClose }: DayDetailsProps) {
   return (
     <div className={styles.details}>
-      <span>{`daily details ${date.toDateString}`}</span>
+      <span>{`daily details ${date.toDateString()}`}</span>
     </div>
   );
 }
