@@ -35,10 +35,6 @@ function Calendar() {
   function handleDayClick(date: Date) {
     setSelectedDay(date);
     openDayDetailsDialog({ date });
-    if (selctedDay) {
-      console.log(date);
-      console.log(getRunsByDate(date));
-    }
   }
 
   return (
