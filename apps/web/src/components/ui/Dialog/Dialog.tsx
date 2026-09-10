@@ -17,7 +17,7 @@ type DialogProps = { isOpen: boolean } & (
       variant: "confirmDialog";
     } & ConfirmDialogProps)
   | ({
-      variant: "dayDetalis";
+      variant: "dayDetails";
     } & DayDetailsProps)
 );
 
@@ -101,7 +101,7 @@ function Dialog(props: DialogProps) {
       tabIndex={-1}
     >
       {props.variant === "confirmDialog" && <ConfirmDialog {...props} />}
-      {props.variant === "dayDetalis" && <DayDetails {...props} />}
+      {props.variant === "dayDetails" && <DayDetails {...props} />}
     </div>
   );
 }

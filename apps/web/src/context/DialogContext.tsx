@@ -57,7 +57,7 @@ function DialogProvider({ children }: DialogProviderProps) {
     (options: Omit<DayDetailsProps, "onClose">) => {
       setDialog({
         isOpen: true,
-        variant: "dayDetalis",
+        variant: "dayDetails",
         ...options,
         onClose: () => closeDialog(),
       });
