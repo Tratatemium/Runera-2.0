@@ -17,8 +17,8 @@
   align-items: center;
 
   margin: 0 auto;
-  gap: 1.25rem;
-  padding: 5rem 0 3rem;
+  gap: var(--gap-lg-plus);
+  padding: var(--gap-lg-plus);
   text-align: center;
 }
 

@@ -1,0 +1,18 @@
+.details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(min-content, 90vw);
+  min-width: 18rem;
+  max-width: 28rem;
+  gap: var(--gap-xl);
+  padding: var(--gap-2xl);
+
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--accent-color-3) 70%, transparent);
+  border-radius: var(--border-radius-xl);
+  background: var(--color-secondary);
+  box-shadow:
+    0 20px 48px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
+}

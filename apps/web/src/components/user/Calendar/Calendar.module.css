@@ -1,0 +1,156 @@
+.panel {
+  position: relative;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-lg);
+}
+
+.heading {
+  position: absolute;
+  align-self: start;
+  margin: 0;
+
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-heading-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.legend {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-lg);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-xs);
+}
+
+.legendLogged .legendIcon {
+  color: color-mix(in srgb, var(--accent-color-1) 20%, transparent);
+}
+
+.legendPlanned .legendIcon {
+  color: color-mix(in srgb, var(--accent-color-4) 20%, transparent);
+}
+
+.legendToday .legendIcon {
+  color: var(--accent-color-1);
+}
+
+:global(.rdp-root) {
+  width: 100%;
+  --rdp-accent-color: var(--accent-color-1);
+  --rdp-nav_button-width: 2.25rem;
+  --rdp-nav_button-height: 2.25rem;
+  --rdp-nav-height: 2.5rem;
+}
+
+:global(.rdp-months) {
+  width: 100%;
+  max-width: 100%;
+}
+
+:global(.rdp-month) {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+}
+
+:global(.rdp-month_grid) {
+  width: 100%;
+  table-layout: fixed;
+}
+
+:global(.rdp-week) {
+  width: 100%;
+}
+
+:global(.rdp-day) {
+  width: 100%;
+  height: 5rem;
+  /* height: clamp(3rem, 8vw, 5.5rem); */
+}
+
+:global(.rdp-month_caption) {
+  justify-content: center;
+  padding-bottom: var(--gap-sm);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-heading-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--accent-color-1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+:global(.rdp-nav) {
+  gap: var(--gap-md);
+}
+
+:global(.rdp-button_previous),
+:global(.rdp-button_next) {
+  border-radius: var(--border-radius-full);
+  color: var(--accent-color-1);
+  background: color-mix(in srgb, var(--accent-color-1) 12%, transparent);
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+:global(.rdp-button_previous:hover),
+:global(.rdp-button_next:hover) {
+  background: color-mix(in srgb, var(--accent-color-1) 22%, transparent);
+  transform: scale(1.06);
+}
+
+:global(.rdp-chevron) {
+  fill: var(--accent-color-1);
+}
+
+:global(.rdp-weekday) {
+  padding: 0 0 var(--gap-sm);
+  color: var(--accent-color-1);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+:global(.rdp-weekday:nth-child(6)),
+:global(.rdp-weekday:nth-child(7)) {
+  color: var(--accent-color-4);
+}
+
+:global(.rdp-month_grid) {
+  border-collapse: separate;
+  border-spacing: var(--gap-xs);
+}
+
+@media (max-width: 920px) {
+}
+
+@media (max-width: 620px) {
+  .heading {
+    position: relative;
+    align-self: center;
+  }
+  :global(.rdp-nav) {
+    position: relative;
+    align-self: center;
+    justify-self: center;
+  }
+  :global(.rdp-months) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    padding-top: var(--gap-sm);
+  }
+}

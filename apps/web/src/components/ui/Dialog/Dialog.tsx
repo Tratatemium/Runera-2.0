@@ -1,30 +1,31 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import type { ConfirmDialogProps } from "@/components/ui/";
+import type { DayDetailsProps } from "@/components/user";
 
-import { Button } from "@/components/ui";
+import { useEffect, useRef } from "react";
+
+import { useDialogContext } from "@/context/DialogContext";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import { ConfirmDialog } from "./ConfirmDialog/ConfirmDialog";
+import { DayDetails } from "@/components/user/";
 
 import styles from "./Dialog.module.css";
 
-export interface DialogProps {
-  title: string;
-  text: string;
-  action1Text: string;
-  onAction1: () => void;
-  action2Text: string;
-  onAction2: () => void;
-}
+type DialogProps = { isOpen: boolean } & (
+  | ({
+      variant: "confirmDialog";
+    } & ConfirmDialogProps)
+  | ({
+      variant: "dayDetails";
+    } & DayDetailsProps)
+);
 
-function Dialog({
-  title,
-  text,
-  action1Text,
-  onAction1,
-  action2Text,
-  onAction2,
-}: DialogProps) {
-  const titleId = useId();
-  const textId = useId();
+function Dialog(props: DialogProps) {
+  useLockBodyScroll(props.isOpen);
+
+  const { closeDialog } = useDialogContext();
+
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function Dialog({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
-      onAction2();
+      closeDialog();
       return;
     }
 
@@ -99,36 +100,11 @@ function Dialog({
       ref={wrapperRef}
       tabIndex={-1}
     >
-      <div
-        className={styles.card}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={textId}
-      >
-        <h3 className={styles.title} id={titleId}>
-          {title}
-        </h3>
-        <p className={styles.text} id={textId}>
-          {text}
-        </p>
-        <div className={styles.actionsWrapper}>
-          <Button
-            buttonText={action1Text}
-            type="button"
-            variant="primary"
-            onClick={onAction1}
-          />
-          <Button
-            buttonText={action2Text}
-            type="button"
-            variant="secondary"
-            onClick={onAction2}
-          />
-        </div>
-      </div>
+      {props.variant === "confirmDialog" && <ConfirmDialog {...props} />}
+      {props.variant === "dayDetails" && <DayDetails {...props} />}
     </div>
   );
 }
 
 export { Dialog };
+export type { DialogProps };

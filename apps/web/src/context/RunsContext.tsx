@@ -13,6 +13,8 @@ import {
 import { AppError } from "../errors/errors";
 import { useAuthContext } from "./AuthContext";
 
+import { isSameDay } from "@/utils/general.utils";
+
 const RunsContext = createContext<RunsContextValue | undefined>(undefined);
 
 type RunsProviderProps = {
@@ -66,6 +68,18 @@ function RunsProvider({ children }: RunsProviderProps) {
     [runExists],
   );
 
+  const getRunsByDate = useCallback(
+    (date: Date) => {
+      if (!runs) return null;
+      const runsArray = Array.from(Object.values(runs));
+      const filtered = runsArray.filter((run) =>
+        isSameDay(new Date(run.startTime), date),
+      );
+      return filtered.length > 0 ? filtered : null;
+    },
+    [runs],
+  );
+
   const { user } = useAuthContext();
 
   const value = useMemo(
@@ -78,6 +92,7 @@ function RunsProvider({ children }: RunsProviderProps) {
       postNewRunState,
       updateRunState,
       deleteRunState,
+      getRunsByDate,
     }),
     [
       user,
@@ -89,6 +104,7 @@ function RunsProvider({ children }: RunsProviderProps) {
       postNewRunState,
       updateRunState,
       deleteRunState,
+      getRunsByDate,
     ],
   );
   return <RunsContext.Provider value={value}>{children}</RunsContext.Provider>;

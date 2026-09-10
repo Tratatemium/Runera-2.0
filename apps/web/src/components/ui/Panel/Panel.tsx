@@ -7,6 +7,7 @@ interface PanelProps extends ComponentPropsWithoutRef<"div"> {
   variant:
     | "light"
     | "frosted"
+    | "accent"
     | "frostedAccent"
     | "frostedWarm"
     | "cloudy"

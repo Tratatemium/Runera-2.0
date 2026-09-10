@@ -1,6 +1,8 @@
 "use client";
 
-import type { DialogProps } from "@/components/ui/";
+import type { DialogProps } from "@/components/ui";
+import type { ConfirmDialogProps } from "@/components/ui";
+import type { DayDetailsProps } from "@/components/user";
 
 import {
   createContext,
@@ -14,8 +16,9 @@ import { AppError } from "@/errors/errors";
 import { Dialog } from "@/components/ui";
 
 interface DialogContextValue {
-  openDialog: (options: DialogProps) => void;
   closeDialog: () => void;
+  openConfirmDialog: (options: ConfirmDialogProps) => void;
+  openDayDetailsDialog: (options: Omit<DayDetailsProps, "onClose">) => void;
 }
 
 const DialogContext = createContext<DialogContextValue | undefined>(undefined);
@@ -27,32 +30,47 @@ interface DialogProviderProps {
 function DialogProvider({ children }: DialogProviderProps) {
   const [dialog, setDialog] = useState<DialogProps | null>(null);
 
-  const openDialog = useCallback((options: DialogProps) => {
-    setDialog(options);
-  }, []);
-
   const closeDialog = useCallback(() => {
     setDialog(null);
   }, []);
 
-  const value = { openDialog, closeDialog };
+  const openConfirmDialog = useCallback(
+    (options: ConfirmDialogProps) => {
+      setDialog({
+        isOpen: true,
+        variant: "confirmDialog",
+        ...options,
+        onAction1: () => {
+          options.onAction1();
+          closeDialog();
+        },
+        onAction2: () => {
+          options.onAction2();
+          closeDialog();
+        },
+      });
+    },
+    [closeDialog],
+  );
+
+  const openDayDetailsDialog = useCallback(
+    (options: Omit<DayDetailsProps, "onClose">) => {
+      setDialog({
+        isOpen: true,
+        variant: "dayDetails",
+        ...options,
+        onClose: () => closeDialog(),
+      });
+    },
+    [closeDialog],
+  );
+
+  const value = { closeDialog, openConfirmDialog, openDayDetailsDialog };
 
   return (
     <DialogContext.Provider value={value}>
       {children}
-      {dialog && (
-        <Dialog
-          {...dialog}
-          onAction1={() => {
-            dialog.onAction1();
-            closeDialog();
-          }}
-          onAction2={() => {
-            dialog.onAction2();
-            closeDialog();
-          }}
-        />
-      )}
+      {dialog && <Dialog {...dialog} />}
     </DialogContext.Provider>
   );
 }

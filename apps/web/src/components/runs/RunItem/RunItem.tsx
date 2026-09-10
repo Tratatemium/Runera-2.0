@@ -49,7 +49,7 @@ function RunItem({
   onDelete,
   isEntering,
 }: RunItemProps) {
-  const { openDialog } = useDialogContext();
+  const { openConfirmDialog } = useDialogContext();
   const [isRemoving, setIsRemoving] = useState(false);
   const deleteTimeoutRef = useRef<number | null>(null);
   const weatherLabel = run.weather ? weatherLabelMap[run.weather] : null;
@@ -68,7 +68,7 @@ function RunItem({
       return;
     }
 
-    openDialog({
+    openConfirmDialog({
       title: "Delete Run",
       text: "Are you sure you want to delete this run?",
       action1Text: "No",
