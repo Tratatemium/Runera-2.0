@@ -9,8 +9,17 @@ interface DayDetailsProps {
 
 function DayDetails({ date, onClose }: DayDetailsProps) {
   return (
-    <div className={styles.details}>
-      <WindowControls variant="close" onClick={onClose} />
+    <div
+      className={styles.details}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Details for ${date.toDateString()}`}
+    >
+      <WindowControls
+        variant="close"
+        aria-label="Close day details"
+        onClick={onClose}
+      />
       <span>{`daily details ${date.toDateString()}`}</span>
     </div>
   );
