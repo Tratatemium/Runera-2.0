@@ -6,6 +6,7 @@ type Dispatch<T> = (value: T) => void;
 interface Run {
   runId: string;
   userId: string;
+  runType: "base" | "recovery" | "tempo" | "longRun" | "interval" | "race";
   startTime: string;
   date: string;
   durationSec: number;

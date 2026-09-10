@@ -1,4 +1,5 @@
 interface RunRequest {
+  runType: "base" | "recovery" | "tempo" | "longRun" | "interval" | "race";
   startTime: string;
   durationSec: number;
   distanceMeters: number;
