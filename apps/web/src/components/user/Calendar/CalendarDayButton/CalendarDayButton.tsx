@@ -23,10 +23,10 @@ function CalendarDayButton(props: DayButtonProps) {
     >
       <span className={styles.date}>{date.getDate()}</span>
       {runs && (
-        <div className={styles.infoWrapper}>
+        <span className={styles.infoWrapper}>
           <span className={styles.info}>{`${totalDistance} km`}</span>
           <FaRunning className={styles.icon} />
-        </div>
+        </span>
       )}
     </button>
   );
