@@ -336,7 +336,7 @@ function validateEnumField({
     runType: ["base", "recovery", "tempo", "longRun", "interval", "race"],
     weather: [
       "sunny",
-      "partly_cloudy",
+      "partlyCloudy",
       "cloudy",
       "rain",
       "snow",

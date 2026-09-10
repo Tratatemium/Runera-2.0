@@ -14,7 +14,7 @@ interface DBRun {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"
@@ -62,7 +62,7 @@ const RunSchema = new mongoose.Schema<DBRun>(
       type: String,
       enum: [
         "sunny",
-        "partly_cloudy",
+        "partlyCloudy",
         "cloudy",
         "rain",
         "snow",

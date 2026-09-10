@@ -16,7 +16,7 @@ interface Run {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"
@@ -53,7 +53,7 @@ interface RunApi {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"
@@ -74,7 +74,7 @@ interface RunRequest {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"

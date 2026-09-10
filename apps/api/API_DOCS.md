@@ -367,7 +367,7 @@ Create a new run.
 
 > `startTime` must be an ISO 8601 UTC timestamp with a `Z` suffix (e.g. `2026-01-30T08:00:00.000Z`). Offset formats such as `+02:00` are rejected.
 
-**`weather` enum values**: `sunny`, `partly_cloudy`, `cloudy`, `rain`, `snow`, `windy`, `hot`, `cold`
+**`weather` enum values**: `sunny`, `partlyCloudy`, `cloudy`, `rain`, `snow`, `windy`, `hot`, `cold`
 
 **Response** (201 Created)
 

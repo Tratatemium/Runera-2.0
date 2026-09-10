@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { icons } from "@/components/icons/icons";
-import { getWeatherIcon } from "@/utils/icons.utils";
 import { useDialogContext } from "@/context/DialogContext";
 
 import styles from "./RunItem.module.css";
@@ -33,7 +32,7 @@ const EXIT_ANIMATION_MS = 360;
 
 const weatherLabelMap: Record<NonNullable<Run["weather"]>, string> = {
   sunny: "Sunny",
-  partly_cloudy: "Partly cloudy",
+  partlyCloudy: "Partly cloudy",
   cloudy: "Cloudy",
   rain: "Rain",
   snow: "Snow",
@@ -87,6 +86,8 @@ function RunItem({
     loading === "deletingRun" && loadingRunId === run.runId;
   const disableActions = isRemoving || isDeletingCurrentRun;
 
+  const WeatherIcon = run.weather ? icons.weather[run.weather] : null;
+
   return (
     <article
       className={`${styles.runWrapper} ${isEntering ? styles.runWrapperEntering : ""} ${isRemoving ? styles.runWrapperRemoving : ""}`}
@@ -113,15 +114,12 @@ function RunItem({
             <CalendarIcon aria-hidden="true" focusable="false" />
             {run.date}
           </time>
-          {run.weather && (
+          {run.weather && WeatherIcon && (
             <span
               className={styles.weather}
               aria-label={weatherLabel ?? undefined}
             >
-              {getWeatherIcon(run.weather, {
-                "aria-hidden": true,
-                focusable: "false",
-              })}
+              <WeatherIcon aria-hidden="true" focusable="false" />
             </span>
           )}
         </p>

@@ -111,6 +111,13 @@ function normalizeWeather(
   return value === "" ? undefined : value;
 }
 
+function normalizeRunType(
+  value: string,
+  _field: InputFieldConfig,
+): string | undefined {
+  return value === "" ? undefined : value;
+}
+
 export {
   normalizeFormValue,
   clampNumber,
@@ -125,4 +132,5 @@ export {
   normalizeLogin,
   normalizeLocalTime,
   normalizeWeather,
+  normalizeRunType,
 };

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { WiDaySunny } from "react-icons/wi";
 
 import { icons } from "@/components/icons/icons";
 import { Button, ButtonLink, FormField, Panel } from "@/components/ui";
@@ -17,11 +18,21 @@ import {
 } from "@/utils/runs.utils";
 
 import styles from "./RunFormPage.module.css";
+import { Run } from "@runera/shared";
 
 const durationFields = [
   inputFields.durationH,
   inputFields.durationM,
   inputFields.durationS,
+];
+
+const runTypeFields = [
+  inputFields.runTypeBase,
+  inputFields.runTypeRecovery,
+  inputFields.runTypeTempo,
+  inputFields.runTypeLongRun,
+  inputFields.runTypeInterval,
+  inputFields.runTypeRace,
 ];
 
 const weatherFields = [
@@ -37,6 +48,7 @@ const weatherFields = [
 
 const runFields = [
   inputFields.title,
+  ...runTypeFields,
   inputFields.distanceKm,
   ...durationFields,
   inputFields.startTime,
@@ -53,17 +65,6 @@ const fieldOptionsMap = Object.fromEntries(
 );
 
 const ArrowBack = icons.arrowBack;
-
-const weatherIconsMap = {
-  sunny: icons.sunny,
-  partly_cloudy: icons.partlyCloudy,
-  cloudy: icons.cloudy,
-  rain: icons.rain,
-  snow: icons.snow,
-  windy: icons.windy,
-  hot: icons.hot,
-  cold: icons.cold,
-} as const;
 
 interface Props {
   runId?: string;
@@ -148,6 +149,32 @@ function RunFormPage({ runId }: Props) {
             {...inputHandlers}
           />
 
+          {/* <span className={styles.weatherLabel}>Run Type</span>
+          <div className={styles.weatherWrapper}>
+            {runTypeFields.map((field) => {
+              const value = field.value as keyof typeof weatherIconsMap;
+              const WeatherIcon = weatherIconsMap[value];
+
+              return (
+                <FormField
+                  key={field.id}
+                  {...field}
+                  label={
+                    <span className={styles.weatherOptionLabel}>
+                      <WeatherIcon className={styles.weatherIcon} />
+                      <span className={styles.weatherOptionText}>
+                        {field.label}
+                      </span>
+                    </span>
+                  }
+                  value={value}
+                  checked={formState["weather"].value === value}
+                  {...inputHandlers}
+                />
+              );
+            })}
+          </div> */}
+
           <FormField
             {...fieldOptionsMap.distanceKm}
             value={formState[fieldOptionsMap.distanceKm.id].value}
@@ -183,8 +210,8 @@ function RunFormPage({ runId }: Props) {
           <span className={styles.weatherLabel}>Weather</span>
           <div className={styles.weatherWrapper}>
             {weatherFields.map((field) => {
-              const value = field.value as keyof typeof weatherIconsMap;
-              const WeatherIcon = weatherIconsMap[value];
+              const value = field.value as NonNullable<Run["weather"]>;
+              const WeatherIcon = icons.weather[value];
 
               return (
                 <FormField
