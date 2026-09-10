@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { FaCircle } from "react-icons/fa";
 
 import { useRunsContext } from "@/context/RunsContext";
 import { useDialogContext } from "@/context/DialogContext";
@@ -10,6 +11,21 @@ import { Panel } from "@/components/ui";
 import { CalendarDayButton } from "./CalendarDayButton/CalendarDayButton";
 
 import styles from "./Calendar.module.css";
+
+const legendItems = [
+  {
+    text: "Logged run",
+    class: "legendLogged",
+  },
+  {
+    text: "Planned run",
+    class: "legendPlanned",
+  },
+  {
+    text: "Today",
+    class: "legendToday",
+  },
+];
 
 function Calendar() {
   const { getRunsByDate } = useRunsContext();
@@ -36,6 +52,17 @@ function Calendar() {
           onDayClick={handleDayClick}
         />
         {selctedDay && getRunsByDate(selctedDay)?.length}
+        <div className={styles.legend}>
+          {legendItems.map((item) => (
+            <span
+              className={`${styles.legendItem} ${styles[item.class]}`}
+              key={item.class}
+            >
+              <FaCircle className={styles.legendIcon} />
+              {item.text}
+            </span>
+          ))}
+        </div>
       </Panel>
     </>
   );
