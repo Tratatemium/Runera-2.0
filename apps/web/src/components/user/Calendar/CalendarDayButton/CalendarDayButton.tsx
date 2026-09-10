@@ -9,7 +9,7 @@ import { useRunsContext } from "@/context/RunsContext";
 import styles from "./CalendarDayButton.module.css";
 
 function CalendarDayButton(props: DayButtonProps) {
-  const { day, ...buttonProps } = props;
+  const { day, modifiers: _, ...buttonProps } = props;
   const date = day.date;
 
   const { getRunsByDate } = useRunsContext();
