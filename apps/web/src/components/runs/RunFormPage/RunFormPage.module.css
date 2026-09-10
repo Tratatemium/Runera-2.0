@@ -34,7 +34,7 @@
 
 .durationLabel,
 .averagePace,
-.weatherLabel {
+.radioLabel {
   display: block;
   font-weight: var(--font-weight-bold);
   align-self: flex-start;
@@ -62,7 +62,7 @@
   gap: 0.75rem;
 }
 
-.weatherWrapper {
+.radioWrapper {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -71,11 +71,11 @@
   margin: 1em 0 1.5em;
 }
 
-.weatherWrapper > * {
+.radioWrapper > * {
   flex: 0 1 auto;
 }
 
-.weatherOptionLabel {
+.radioOptionLabel {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -84,13 +84,13 @@
   min-width: 4.75rem;
 }
 
-.weatherIcon {
+.radioIcon {
   width: 1.8rem;
   height: 1.8rem;
   flex-shrink: 0;
 }
 
-.weatherOptionText {
+.radioOptionText {
   font-size: 0.72rem;
   line-height: 1.05;
   text-align: center;
