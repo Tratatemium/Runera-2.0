@@ -47,7 +47,6 @@ function Calendar() {
           components={{ DayButton: CalendarDayButton }}
           onDayClick={handleDayClick}
         />
-        {selctedDay && getRunsByDate(selctedDay)?.length}
         <div className={styles.legend}>
           {legendItems.map((item) => (
             <span
