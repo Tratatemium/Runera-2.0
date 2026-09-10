@@ -319,23 +319,37 @@ function validatePerceivedEffort(perceivedEffort: unknown) {
   }
 }
 
-function validateWeather(weather: unknown) {
-  assertString(weather, "weather");
+function validateEnumField({
+  value,
+  type,
+}: {
+  value: unknown;
+  type: "weather" | "runType";
+}) {
+  const allowedTypes = ["weather", "runType"];
+  if (!allowedTypes.includes(type))
+    throw new Error(`type must be one of: "${allowedTypes.join(", ")}"`);
 
-  const weatherEnum = [
-    "sunny",
-    "partly_cloudy",
-    "cloudy",
-    "rain",
-    "snow",
-    "windy",
-    "hot",
-    "cold",
-  ];
-  if (!weatherEnum.includes(weather)) {
+  assertString(value, type);
+
+  const enums = {
+    runType: ["base", "recovery", "tempo", "longRun", "interval", "race"],
+    weather: [
+      "sunny",
+      "partly_cloudy",
+      "cloudy",
+      "rain",
+      "snow",
+      "windy",
+      "hot",
+      "cold",
+    ],
+  };
+
+  if (!enums[type].includes(value)) {
     throwValidationError({
-      message: `Weather must be one of ["sunny", "partly_cloudy", "cloudy", "rain", "snow", "windy", "hot", "cold"]. Received: ${weather}.`,
-      field: "weather",
+      message: `Weather must be one of [${enums[type].join(", ")}]. Received: ${value}.`,
+      field: value,
     });
   }
 }
@@ -357,5 +371,5 @@ export {
   validatePassword,
   validateName,
   validatePerceivedEffort,
-  validateWeather,
+  validateEnumField,
 };

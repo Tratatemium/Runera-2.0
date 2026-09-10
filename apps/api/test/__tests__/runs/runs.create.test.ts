@@ -63,11 +63,12 @@ describe("POST /api/v1/users/me/runs", function () {
 
       expect400WithMessage(
         res,
-        "Run data is missing required fields: startTime, durationSec, distanceMeters.",
+        "Run data is missing required fields: runType, startTime, durationSec, distanceMeters.",
       );
     });
 
     getMissingFieldTests(VALID_RUN_DATA, [
+      "runType",
       "startTime",
       "durationSec",
       "distanceMeters",
@@ -231,6 +232,7 @@ describe("POST /api/v1/users/me/runs", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "base",
           startTime: "  2024-01-15T10:30:00.000Z  ",
           durationSec: "  1800  ",
           distanceMeters: "  5000  ",

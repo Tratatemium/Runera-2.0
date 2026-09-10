@@ -73,6 +73,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "base",
           startTime: "2026-02-03T09:00:00.000Z",
           durationSec: 500,
           distanceMeters: 1500,
@@ -101,6 +102,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user2Token)
         .send({
+          runType: "recovery",
           startTime: "2026-02-03T09:30:00.000Z",
           durationSec: 600,
           distanceMeters: 2000,
@@ -124,6 +126,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", adminToken)
         .send({
+          runType: "tempo",
           startTime: "2026-02-03T10:30:00.000Z",
           durationSec: 700,
           distanceMeters: 2500,
@@ -181,6 +184,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "longRun",
           startTime: "2026-02-03T10:00:00.000Z",
           durationSec: 600,
           distanceMeters: 2000,
@@ -203,6 +207,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "race",
           startTime: "2026-02-03T11:00:00.000Z",
           durationSec: 700,
           distanceMeters: 2500,
@@ -232,6 +237,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "base",
           startTime: "2026-02-03T12:00:00.000Z",
           durationSec: 800,
           distanceMeters: 3000,
@@ -272,6 +278,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "tempo",
           startTime: "2026-02-03T13:00:00.000Z",
           durationSec: 900,
           distanceMeters: 3500,
@@ -281,6 +288,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "base",
           startTime: "2026-02-03T14:00:00.000Z",
           durationSec: 1000,
           distanceMeters: 4000,
@@ -319,6 +327,7 @@ describe("DELETE /api/v1/runs/:id", function () {
         .post("/api/v1/users/me/runs")
         .set("Cookie", user1Token)
         .send({
+          runType: "interval",
           startTime: "2026-02-03T15:00:00.000Z",
           durationSec: 1100,
           distanceMeters: 4500,

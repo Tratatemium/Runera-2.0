@@ -13,6 +13,14 @@ function validateUUID(param = "id") {
 
 const runFields = [
   {
+    key: "runType",
+    input: null,
+    validate: (input: unknown) => {
+      validators.validateEnumField({ value: input, type: "runType" });
+      return input;
+    },
+  },
+  {
     key: "startTime",
     input: null,
     validate: (input: unknown) => {
@@ -70,8 +78,7 @@ const runFields = [
     key: "weather",
     input: null,
     validate: (input: unknown) => {
-      validators.assertString(input, "weather");
-      validators.validateWeather(input);
+      validators.validateEnumField({ value: input, type: "weather" });
       return input;
     },
   },
@@ -88,8 +95,9 @@ function validateRun({
     validators.assertRequestFields({
       object: req.body,
       objectName: "Run data",
-      requiredFields: ["startTime", "durationSec", "distanceMeters"],
+      requiredFields: ["runType", "startTime", "durationSec", "distanceMeters"],
       allowedFields: [
+        "runType",
         "startTime",
         "durationSec",
         "distanceMeters",
