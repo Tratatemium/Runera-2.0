@@ -1,4 +1,5 @@
 export type { DialogProps } from "./Dialog/Dialog";
+export type { ConfirmDialogProps } from "./Dialog/ConfirmDialog/ConfirmDialog";
 
 export { Button } from "./Button/Button";
 export { ButtonLink } from "./Button/ButtonLink";
