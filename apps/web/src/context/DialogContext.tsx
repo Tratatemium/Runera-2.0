@@ -18,7 +18,7 @@ import { Dialog } from "@/components/ui";
 interface DialogContextValue {
   closeDialog: () => void;
   openConfirmDialog: (options: ConfirmDialogProps) => void;
-  openDayDetailsDialog: (options: DayDetailsProps) => void;
+  openDayDetailsDialog: (options: Omit<DayDetailsProps, "onClose">) => void;
 }
 
 const DialogContext = createContext<DialogContextValue | undefined>(undefined);
@@ -53,7 +53,7 @@ function DialogProvider({ children }: DialogProviderProps) {
   );
 
   const openDayDetailsDialog = useCallback(
-    (options: DayDetailsProps) => {
+    (options: Omit<DayDetailsProps, "onClose">) => {
       setDialog({
         variant: "dayDetalis",
         ...options,

@@ -5,28 +5,25 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 
 import { useRunsContext } from "@/context/RunsContext";
+import { useDialogContext } from "@/context/DialogContext";
 import { Panel } from "@/components/ui";
 import { CalendarDayButton } from "./CalendarDayButton/CalendarDayButton";
-import { DayDetails } from "./DayDetails/DayDetails";
 
 import styles from "./Calendar.module.css";
 
 function Calendar() {
   const { getRunsByDate } = useRunsContext();
+  const { openDayDetailsDialog } = useDialogContext();
 
   const [selctedDay, setSelectedDay] = useState<Date | null>(null);
   function handleDayClick(date: Date) {
     setSelectedDay(date);
-    openDetailes();
+    openDayDetailsDialog({ date });
     if (selctedDay) {
       console.log(date);
       console.log(getRunsByDate(date));
     }
   }
-
-  const [dayDetailesOpen, setDayDetailesOpen] = useState<boolean>(false);
-  const openDetailes = () => setDayDetailesOpen(true);
-  const closeDetailes = () => setDayDetailesOpen(false);
 
   return (
     <>
