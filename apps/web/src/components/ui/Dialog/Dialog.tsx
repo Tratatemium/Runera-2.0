@@ -5,6 +5,7 @@ import type { DayDetailsProps } from "@/components/user";
 
 import { useEffect, useRef } from "react";
 
+import { useDialogContext } from "@/context/DialogContext";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { ConfirmDialog } from "./ConfirmDialog/ConfirmDialog";
 import { DayDetails } from "@/components/user/";
@@ -22,6 +23,8 @@ type DialogProps = { isOpen: boolean } & (
 
 function Dialog(props: DialogProps) {
   useLockBodyScroll(props.isOpen);
+
+  const { closeDialog } = useDialogContext();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -48,8 +51,7 @@ function Dialog(props: DialogProps) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
-      if (props.variant === "confirmDialog") props.onAction2();
-      if (props.variant === "dayDetalis") props.onClose();
+      closeDialog();
       return;
     }
 
