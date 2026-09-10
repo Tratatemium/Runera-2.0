@@ -1,0 +1,28 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--color);
+  background: var(--color-bg);
+  border: var(--border);
+}
+
+.icon {
+  width: 1.5em;
+  height: 1.5rem;
+}
+
+.close {
+  --color: var(--color-secondary);
+  --color-bg: var(--accent-color-4);
+  --border: var(--border-width-thin) solid var(--border-color-primary);
+}

@@ -1,4 +1,5 @@
 .details {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: min(min-content, 90vw);

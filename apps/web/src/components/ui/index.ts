@@ -3,6 +3,7 @@ export type { ConfirmDialogProps } from "./Dialog/ConfirmDialog/ConfirmDialog";
 
 export { Button } from "./Button/Button";
 export { ButtonLink } from "./Button/ButtonLink";
+export { WindowControls } from "./Button/WindowControls/WindowControls";
 export { FormField } from "./FormField/FormField";
 export { Loading } from "./Loading/Loading";
 export { Logo } from "./Logo/Logo";
