@@ -5,20 +5,24 @@ import type { DayDetailsProps } from "@/components/user";
 
 import { useEffect, useRef } from "react";
 
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { ConfirmDialog } from "./ConfirmDialog/ConfirmDialog";
+import { DayDetails } from "@/components/user/";
 
 import styles from "./Dialog.module.css";
-import { DayDetails } from "@/components/user/Calendar/DayDetails/DayDetails";
 
-type DialogProps =
+type DialogProps = { isOpen: boolean } & (
   | ({
       variant: "confirmDialog";
     } & ConfirmDialogProps)
   | ({
       variant: "dayDetalis";
-    } & DayDetailsProps);
+    } & DayDetailsProps)
+);
 
 function Dialog(props: DialogProps) {
+  useLockBodyScroll(props.isOpen);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

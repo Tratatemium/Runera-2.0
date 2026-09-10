@@ -37,6 +37,7 @@ function DialogProvider({ children }: DialogProviderProps) {
   const openConfirmDialog = useCallback(
     (options: ConfirmDialogProps) => {
       setDialog({
+        isOpen: true,
         variant: "confirmDialog",
         ...options,
         onAction1: () => {
@@ -55,6 +56,7 @@ function DialogProvider({ children }: DialogProviderProps) {
   const openDayDetailsDialog = useCallback(
     (options: Omit<DayDetailsProps, "onClose">) => {
       setDialog({
+        isOpen: true,
         variant: "dayDetalis",
         ...options,
         onClose: () => closeDialog(),
