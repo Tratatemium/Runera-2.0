@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
 
 import styles from "./UserMenu.module.css";
 

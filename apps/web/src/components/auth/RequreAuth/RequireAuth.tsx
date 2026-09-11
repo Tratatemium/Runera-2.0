@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { useAuthContext } from "@/context/AuthContext";
-import { useRuns } from "@/hooks/useRuns";
-import { useUser } from "@/hooks/useUser";
+import { useRuns, useUser } from "@/hooks";
 import { mapUserResponseToState } from "@/utils/user.utils";
 import { Loading } from "@/components/ui";
 

@@ -12,9 +12,7 @@ import {
   Panel,
 } from "@/components/ui";
 import { inputFields } from "@/config/inputFields";
-import { useFormState } from "@/hooks/form/useFormState";
-import { useFormHandlers } from "@/hooks/form/useFormHandlers";
-import { useRuns } from "@/hooks/useRuns";
+import { useFormState, useFormHandlers, useRuns } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import {
   calculatePace,

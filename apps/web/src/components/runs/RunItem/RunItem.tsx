@@ -1,7 +1,7 @@
 "use client";
 
 import type { Run } from "@runera/shared";
-import type { LoadingState } from "@/hooks/useRuns";
+import type { LoadingState } from "@/hooks";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";

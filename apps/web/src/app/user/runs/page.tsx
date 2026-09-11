@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useRuns } from "@/hooks/useRuns";
+import { useRuns } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
 import { Loading, Panel } from "@/components/ui";

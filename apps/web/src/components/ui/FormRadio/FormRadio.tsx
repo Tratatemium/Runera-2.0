@@ -1,5 +1,5 @@
 import type { InputFieldConfig, FormStateValue } from "@runera/shared";
-import type { InputHandlers } from "@/hooks/form/useFormHandlers";
+import type { InputHandlers } from "@/hooks";
 
 import { FormField } from "../FormField/FormField";
 import { icons } from "@/components/icons/icons";
