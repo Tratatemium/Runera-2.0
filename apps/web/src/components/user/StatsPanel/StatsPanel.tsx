@@ -1,16 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  TbNumber1Small,
-  TbNumber5Small,
-  TbNumber10Small,
-  TbNumber21Small,
-  TbNumber42Small,
-} from "react-icons/tb";
-import { GiPathDistance, GiSpeedometer } from "react-icons/gi";
-import { FiClock } from "react-icons/fi";
 
+import { icons } from "@/components/icons/icons";
 import { useAuthContext } from "@/context/AuthContext";
 import { Panel, Card } from "@/components/ui";
 
@@ -22,6 +14,16 @@ import {
   normalizeDate,
 } from "@/utils/normalize.utils";
 
+const {
+  number1: Icon1k,
+  number5: Icon5k,
+  number10: Icon10k,
+  number21: Icon21k,
+  number42: Icon42k,
+  distance: DistanceIcon,
+  speed: SpeedIcon,
+  time: TimeIcon,
+} = icons.records;
 interface StatsPanelProps {
   type: "stats" | "records";
 }
@@ -64,11 +66,11 @@ function StatsPanel({ type }: StatsPanelProps) {
   ];
 
   const runDistances = [
-    { label: "1k", icon: TbNumber1Small },
-    { label: "5k", icon: TbNumber5Small },
-    { label: "10k", icon: TbNumber10Small },
-    { label: "halfMarathon", icon: TbNumber21Small },
-    { label: "marathon", icon: TbNumber42Small },
+    { label: "1k", icon: Icon1k },
+    { label: "5k", icon: Icon5k },
+    { label: "10k", icon: Icon10k },
+    { label: "halfMarathon", icon: Icon21k },
+    { label: "marathon", icon: Icon42k },
   ] as const;
 
   const recordsCards = [
@@ -81,7 +83,7 @@ function StatsPanel({ type }: StatsPanelProps) {
         ? formatDistance(stats.records.longestRun.distanceMeters)
         : "—",
       cardUnit: stats.records.longestRun ? "km" : "",
-      icon: GiPathDistance,
+      icon: DistanceIcon,
     },
     {
       cardLabel: "Longest duration",
@@ -93,7 +95,7 @@ function StatsPanel({ type }: StatsPanelProps) {
         : "—",
       cardUnit: " ",
       type: "duration" as const,
-      icon: FiClock,
+      icon: TimeIcon,
     },
     {
       cardLabel: "Best pace",
@@ -104,7 +106,7 @@ function StatsPanel({ type }: StatsPanelProps) {
         ? formatPace(stats.records.fastestPace.paceSecPerKm)
         : "—",
       cardUnit: stats.records.fastestPace ? "min/km" : "",
-      icon: GiSpeedometer,
+      icon: SpeedIcon,
     },
     ...runDistances.map((el) => {
       const record = stats.records[el.label];

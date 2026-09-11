@@ -11,7 +11,8 @@ import { RunItem } from "@/components/runs";
 
 import styles from "./page.module.css";
 
-const { spinner: SpinnerIcon, plus: PlusIcon } = icons;
+const SpinnerIcon = icons.spinners.spinner;
+const PlusIcon = icons.general.plus;
 type SortOption =
   | "startTimeNewest"
   | "startTimeOldest"

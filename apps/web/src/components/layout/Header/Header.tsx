@@ -14,8 +14,7 @@ function Header() {
   const pathname = usePathname();
   const { user } = useAuthContext();
 
-  const ListIcon = icons.list;
-  const DashboardIcon = icons.dashboard;
+  const { list: ListIcon, dashboard: DashboardIcon } = icons.general;
 
   return (
     <header className={styles.header}>

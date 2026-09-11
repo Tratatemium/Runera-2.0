@@ -23,7 +23,7 @@ function Button({
   size,
   ...props
 }: ButtonProps) {
-  const SpinnerIcon = icons.spinner;
+  const SpinnerIcon = icons.spinners.spinner;
   return (
     <button
       className={`${styles.button} ${styles[variant]}${size ? ` ${styles[size]}` : ""}`}

@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { FaCircle } from "react-icons/fa";
 
 import { useRunsContext } from "@/context/RunsContext";
 import { useDialogContext } from "@/context/DialogContext";
+import { icons } from "@/components/icons/icons";
 import { Panel } from "@/components/ui";
 import { CalendarDayButton } from "./CalendarDayButton/CalendarDayButton";
 
 import styles from "./Calendar.module.css";
+
+const CircleIcon = icons.general.circle;
 
 const legendItems = [
   {
@@ -53,7 +55,7 @@ function Calendar() {
               className={`${styles.legendItem} ${styles[item.class]}`}
               key={item.class}
             >
-              <FaCircle className={styles.legendIcon} />
+              <CircleIcon className={styles.legendIcon} />
               {item.text}
             </span>
           ))}

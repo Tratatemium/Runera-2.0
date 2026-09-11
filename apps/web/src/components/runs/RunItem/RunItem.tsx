@@ -12,13 +12,12 @@ import { useDialogContext } from "@/context/DialogContext";
 import styles from "./RunItem.module.css";
 
 const {
-  spinner: SpinnerIcon,
   delete: DeleteIcon,
   edit: EditIcon,
-  clock: ClockIcon,
-  speed: SpeedIcon,
   calendar: CalendarIcon,
-} = icons;
+} = icons.general;
+const { clock: ClockIcon, speed: SpeedIcon } = icons.running;
+const SpinnerIcon = icons.spinners.spinner;
 
 interface RunItemProps {
   run: Run;
