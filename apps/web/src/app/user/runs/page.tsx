@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useRuns } from "@/hooks";
+import { useRuns, useRunSort } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
 import { Loading, Panel } from "@/components/ui";
@@ -23,7 +23,7 @@ type SortOption =
 export default function MyRuns() {
   const { runs, isHydratingRuns } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
-  const [sortBy, setSortBy] = useState<SortOption>("startTimeNewest");
+
   const [enteringRunIds, setEnteringRunIds] = useState<Record<string, true>>(
     {},
   );
@@ -35,31 +35,7 @@ export default function MyRuns() {
     return Object.values(runs);
   }, [runs]);
 
-  const sortedRuns = useMemo(() => {
-    const nextRuns = [...runsArray];
-
-    switch (sortBy) {
-      case "distanceLongest":
-        nextRuns.sort((a, b) => b.distanceKm - a.distanceKm);
-        break;
-      case "distanceShortest":
-        nextRuns.sort((a, b) => a.distanceKm - b.distanceKm);
-        break;
-      case "startTimeOldest":
-        nextRuns.sort(
-          (a, b) =>
-            new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
-        );
-        break;
-      default:
-        nextRuns.sort(
-          (a, b) =>
-            new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
-        );
-    }
-
-    return nextRuns;
-  }, [runsArray, sortBy]);
+  const { sortBy, setSortBy, sortedRuns } = useRunSort(runsArray);
 
   useEffect(() => {
     const currentRunIds = new Set(runsArray.map((run) => run.runId));
