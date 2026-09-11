@@ -95,6 +95,13 @@ function validateDuration(_value: string, formState: FormStateValue) {
   }
 }
 
+function validateRunType(_value: string, formState: FormStateValue) {
+  const isRunTypeEmpty = !formState["runType"]?.value;
+  if (isRunTypeEmpty) {
+    return "You must chooose run type.";
+  }
+}
+
 export {
   validateUsername,
   validateEmail,
@@ -105,4 +112,5 @@ export {
   validateDistance,
   validateStartTime,
   validateDuration,
+  validateRunType,
 };

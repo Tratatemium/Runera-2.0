@@ -63,7 +63,7 @@ const fieldOptionsMap = Object.fromEntries(
   }),
 );
 
-const ArrowBack = icons.arrowBack;
+const ArrowBack = icons.general.arrowBack;
 
 interface Props {
   runId?: string;
@@ -173,6 +173,9 @@ function RunFormPage({ runId }: Props) {
               );
             })}
           </div>
+          {formState.runType.error && (
+            <span className={styles.error}>{formState.runType.error}</span>
+          )}
 
           <FormField
             {...fieldOptionsMap.distanceKm}

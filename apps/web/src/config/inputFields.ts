@@ -257,6 +257,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "base",
     label: "Base",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
   runTypeRecovery: {
@@ -265,6 +266,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "recovery",
     label: "Recovery",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
   runTypeTempo: {
@@ -273,6 +275,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "tempo",
     label: "Tempo",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
   runTypeLongRun: {
@@ -281,6 +284,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "longRun",
     label: "Long Run",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
   runTypeInterval: {
@@ -289,6 +293,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "interval",
     label: "Interval",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
   runTypeRace: {
@@ -297,6 +302,7 @@ const inputFields: Record<string, InputFieldConfig> = {
     value: "race",
     label: "Race",
     type: "radio",
+    validator: validators.validateRunType,
     normalizator: normalizeRunType,
   },
 };

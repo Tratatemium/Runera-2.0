@@ -6,4 +6,11 @@ function isSameDay(date1: Date, date2: Date) {
   );
 }
 
-export { isSameDay };
+function hasKey<T extends object, K extends PropertyKey>(
+  obj: T,
+  key: K,
+): key is K & keyof T {
+  return Object.hasOwn(obj, key);
+}
+
+export { isSameDay, hasKey };
