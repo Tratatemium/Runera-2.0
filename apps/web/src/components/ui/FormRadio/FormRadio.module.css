@@ -43,3 +43,11 @@
   line-height: 1.05;
   text-align: center;
 }
+
+.errorText {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.1em;
+  text-align: left;
+  color: var(--error-color);
+}

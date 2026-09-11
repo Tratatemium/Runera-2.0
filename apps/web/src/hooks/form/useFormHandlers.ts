@@ -109,4 +109,15 @@ function useFormHandlers(
   };
 }
 
+type InputHandlers = {
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onFocus: (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
+};
+
 export { useFormHandlers };
+export type { InputHandlers };

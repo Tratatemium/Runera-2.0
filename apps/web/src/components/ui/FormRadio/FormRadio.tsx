@@ -1,5 +1,5 @@
-import type { InputFieldConfig } from "@runera/shared";
-import type { Run } from "@runera/shared";
+import type { InputFieldConfig, FormStateValue } from "@runera/shared";
+import type { InputHandlers } from "@/hooks/form/useFormHandlers";
 
 import { FormField } from "../FormField/FormField";
 import { icons } from "@/components/icons/icons";
@@ -11,9 +11,17 @@ interface FormRadioProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
   name: string;
   fieldsArray: InputFieldConfig[];
+  formState: FormStateValue;
+  inputHandlers: InputHandlers;
 }
 
-function FormRadio({ label, name, fieldsArray }: FormRadioProps) {
+function FormRadio({
+  label,
+  name,
+  fieldsArray,
+  formState,
+  inputHandlers,
+}: FormRadioProps) {
   if (!hasKey(icons, name)) throw new Error(`No icons set for ${name}`);
   return (
     <div className={styles.radioWrapper}>
@@ -54,7 +62,7 @@ function FormRadio({ label, name, fieldsArray }: FormRadioProps) {
         })}
       </div>
       {formState.runType.error && (
-        <span className={styles.error}>{formState.runType.error}</span>
+        <span className={styles.errorText}>{formState.runType.error}</span>
       )}
     </div>
   );
