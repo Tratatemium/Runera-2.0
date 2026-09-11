@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { icons } from "@/components/icons/icons";
-import { Button, ButtonLink, FormField, Panel } from "@/components/ui";
+import {
+  Button,
+  ButtonLink,
+  FormField,
+  FormRadio,
+  Panel,
+} from "@/components/ui";
 import { inputFields } from "@/config/inputFields";
 import { useFormState } from "@/hooks/form/useFormState";
 import { useFormHandlers } from "@/hooks/form/useFormHandlers";
@@ -148,34 +154,13 @@ function RunFormPage({ runId }: Props) {
             {...inputHandlers}
           />
 
-          <span className={styles.radioLabel}>Run Type *</span>
-          <div className={styles.radioWrapper}>
-            {runTypeFields.map((field) => {
-              const value = field.value as Run["runType"];
-              const RunTypeIcon = icons.runType[value];
-
-              return (
-                <FormField
-                  key={field.id}
-                  {...field}
-                  label={
-                    <span className={styles.radioOptionLabel}>
-                      <RunTypeIcon className={styles.radioIcon} />
-                      <span className={styles.radioOptionText}>
-                        {field.label}
-                      </span>
-                    </span>
-                  }
-                  value={value}
-                  checked={formState["runType"].value === value}
-                  {...inputHandlers}
-                />
-              );
-            })}
-          </div>
-          {formState.runType.error && (
-            <span className={styles.error}>{formState.runType.error}</span>
-          )}
+          <FormRadio
+            label="Run Type *"
+            name="runType"
+            fieldsArray={runTypeFields}
+            formState={formState}
+            inputHandlers={inputHandlers}
+          />
 
           <FormField
             {...fieldOptionsMap.distanceKm}
@@ -209,31 +194,13 @@ function RunFormPage({ runId }: Props) {
             {...inputHandlers}
           />
 
-          <span className={styles.radioLabel}>Weather</span>
-          <div className={styles.radioWrapper}>
-            {weatherFields.map((field) => {
-              const value = field.value as NonNullable<Run["weather"]>;
-              const WeatherIcon = icons.weather[value];
-
-              return (
-                <FormField
-                  key={field.id}
-                  {...field}
-                  label={
-                    <span className={styles.radioOptionLabel}>
-                      <WeatherIcon className={styles.radioIcon} />
-                      <span className={styles.radioOptionText}>
-                        {field.label}
-                      </span>
-                    </span>
-                  }
-                  value={value}
-                  checked={formState["weather"].value === value}
-                  {...inputHandlers}
-                />
-              );
-            })}
-          </div>
+          <FormRadio
+            label="Weather"
+            name="weather"
+            fieldsArray={weatherFields}
+            formState={formState}
+            inputHandlers={inputHandlers}
+          />
 
           <FormField
             {...fieldOptionsMap.perceivedEffort}

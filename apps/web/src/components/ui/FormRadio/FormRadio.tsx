@@ -55,14 +55,14 @@ function FormRadio({
                 </span>
               }
               value={value}
-              checked={formState["runType"].value === value}
+              checked={formState[name].value === value}
               {...inputHandlers}
             />
           );
         })}
       </div>
-      {formState.runType.error && (
-        <span className={styles.errorText}>{formState.runType.error}</span>
+      {formState[name].error && (
+        <span className={styles.errorText}>{formState[name].error}</span>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ export { Button } from "./Button/Button";
 export { ButtonLink } from "./Button/ButtonLink";
 export { WindowControls } from "./Button/WindowControls/WindowControls";
 export { FormField } from "./FormField/FormField";
+export { FormRadio } from "./FormRadio/FormRadio";
 export { Loading } from "./Loading/Loading";
 export { Logo } from "./Logo/Logo";
 export { Dialog } from "./Dialog/Dialog";
