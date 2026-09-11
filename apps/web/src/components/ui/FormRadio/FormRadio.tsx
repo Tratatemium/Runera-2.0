@@ -34,7 +34,7 @@ function FormRadio({ label, name, fieldsArray }: FormRadioProps) {
             throw new Error(`No icon set for ${value}`);
           }
 
-          const Icon = iconsSet[value as keyof typeof iconsSet];
+          const Icon = iconsSet[value];
 
           return (
             <FormField
