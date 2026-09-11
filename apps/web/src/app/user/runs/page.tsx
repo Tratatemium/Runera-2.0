@@ -7,6 +7,7 @@ import { useRuns } from "@/hooks/useRuns";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
 import { Loading, Panel } from "@/components/ui";
+import { StatsPanel } from "@/components/user";
 import { RunItem } from "@/components/runs";
 
 import styles from "./page.module.css";
@@ -96,6 +97,8 @@ export default function MyRuns() {
           <h1>My Runs</h1>
           <p>Your complete running history.</p>
         </div>
+
+        <StatsPanel type="shortStats"></StatsPanel>
 
         <div className={styles.sortingRow}>
           <label htmlFor="runs-sort" className={styles.sortingLabel}>

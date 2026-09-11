@@ -4,6 +4,12 @@
   padding-top: var(--gap-lg);
 }
 
+.emptyWrapper {
+  width: auto;
+  gap: var(--gap-md);
+  padding: 0;
+}
+
 .statsPanelHeader {
   width: 100%;
   display: flex;
@@ -41,6 +47,7 @@
   gap: var(--gap-lg);
 }
 
+.shortStatsWrapper,
 .recordsWrapper {
   width: 100%;
   display: grid;
@@ -71,6 +78,7 @@
   .statsWrapper {
     grid-template-columns: repeat(3, minmax(10.2rem, 1fr));
   }
+  .shortStatsWrapper,
   .recordsWrapper {
     grid-template-columns: repeat(2, minmax(10.2rem, 1fr));
   }
@@ -80,6 +88,7 @@
   .statsWrapper {
     grid-template-columns: 1fr;
   }
+  .shortStatsWrapper,
   .recordsWrapper {
     grid-template-columns: 1fr;
   }

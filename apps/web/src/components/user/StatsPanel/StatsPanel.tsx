@@ -13,6 +13,7 @@ import {
   formatPace,
   normalizeDate,
 } from "@/utils/normalize.utils";
+import { hasKey } from "@/utils/general.utils";
 
 const {
   number1: Icon1k,
@@ -25,7 +26,7 @@ const {
   time: TimeIcon,
 } = icons.records;
 interface StatsPanelProps {
-  type: "stats" | "records";
+  type: "stats" | "records" | "shortStats";
 }
 
 function StatsPanel({ type }: StatsPanelProps) {
@@ -35,36 +36,6 @@ function StatsPanel({ type }: StatsPanelProps) {
   if (!user) return null;
   const stats = user.stats;
 
-  const statsCards = [
-    {
-      cardLabel: "Total runs",
-      cardValue: stats[period].totalRuns?.toString() ?? "—",
-      cardUnit: "",
-    },
-    {
-      cardLabel: "Total distance",
-      cardValue: stats[period].totalDistanceMeters
-        ? formatDistance(stats[period].totalDistanceMeters)
-        : "—",
-      cardUnit: stats[period].totalDistanceMeters ? "km" : "",
-    },
-    {
-      cardLabel: "Total time",
-      cardValue: stats[period].totalTimeSec
-        ? formatDuration(stats[period].totalTimeSec, "human")
-        : "—",
-      cardUnit: "",
-      type: "duration" as const,
-    },
-    {
-      cardLabel: "Average pace",
-      cardValue: stats[period].avgPaceSecPerKm
-        ? formatPace(stats[period].avgPaceSecPerKm)
-        : "—",
-      cardUnit: stats[period].avgPaceSecPerKm ? "min/km" : "",
-    },
-  ];
-
   const runDistances = [
     { label: "1k", icon: Icon1k },
     { label: "5k", icon: Icon5k },
@@ -73,104 +44,172 @@ function StatsPanel({ type }: StatsPanelProps) {
     { label: "marathon", icon: Icon42k },
   ] as const;
 
-  const recordsCards = [
-    {
-      cardLabel: "Longest distance",
-      cardDate: stats.records.longestRun?.date
-        ? normalizeDate(stats.records.longestRun.date)
-        : "",
-      cardValue: stats.records.longestRun
-        ? formatDistance(stats.records.longestRun.distanceMeters)
-        : "—",
-      cardUnit: stats.records.longestRun ? "km" : "",
-      icon: DistanceIcon,
-    },
-    {
-      cardLabel: "Longest duration",
-      cardDate: stats.records.longestRunDuration?.date
-        ? normalizeDate(stats.records.longestRunDuration.date)
-        : "",
-      cardValue: stats.records.longestRunDuration
-        ? formatDuration(stats.records.longestRunDuration.durationSec, "human")
-        : "—",
-      cardUnit: " ",
-      type: "duration" as const,
-      icon: TimeIcon,
-    },
-    {
-      cardLabel: "Best pace",
-      cardDate: stats.records.fastestPace?.date
-        ? normalizeDate(stats.records.fastestPace.date)
-        : "",
-      cardValue: stats.records.fastestPace
-        ? formatPace(stats.records.fastestPace.paceSecPerKm)
-        : "—",
-      cardUnit: stats.records.fastestPace ? "min/km" : "",
-      icon: SpeedIcon,
-    },
-    ...runDistances.map((el) => {
-      const record = stats.records[el.label];
+  const cards = {
+    stats: [
+      {
+        cardLabel: "Total runs",
+        cardValue: stats[period].totalRuns?.toString() ?? "—",
+        cardUnit: "",
+      },
+      {
+        cardLabel: "Total distance",
+        cardValue: stats[period].totalDistanceMeters
+          ? formatDistance(stats[period].totalDistanceMeters)
+          : "—",
+        cardUnit: stats[period].totalDistanceMeters ? "km" : "",
+      },
+      {
+        cardLabel: "Total time",
+        cardValue: stats[period].totalTimeSec
+          ? formatDuration(stats[period].totalTimeSec, "human")
+          : "—",
+        cardUnit: "",
+        type: "duration" as const,
+      },
+      {
+        cardLabel: "Average pace",
+        cardValue: stats[period].avgPaceSecPerKm
+          ? formatPace(stats[period].avgPaceSecPerKm)
+          : "—",
+        cardUnit: stats[period].avgPaceSecPerKm ? "min/km" : "",
+      },
+    ],
+    shortStats: [
+      {
+        cardLabel: "Total runs",
+        cardValue: stats[period].totalRuns?.toString() ?? "—",
+        cardUnit: "",
+      },
+      {
+        cardLabel: "Total distance",
+        cardValue: stats[period].totalDistanceMeters
+          ? formatDistance(stats[period].totalDistanceMeters)
+          : "—",
+        cardUnit: stats[period].totalDistanceMeters ? "km" : "",
+      },
+      {
+        cardLabel: "Average pace",
+        cardValue: stats[period].avgPaceSecPerKm
+          ? formatPace(stats[period].avgPaceSecPerKm)
+          : "—",
+        cardUnit: stats[period].avgPaceSecPerKm ? "min/km" : "",
+      },
+    ],
+    records: [
+      {
+        cardLabel: "Longest distance",
+        cardDate: stats.records.longestRun?.date
+          ? normalizeDate(stats.records.longestRun.date)
+          : "",
+        cardValue: stats.records.longestRun
+          ? formatDistance(stats.records.longestRun.distanceMeters)
+          : "—",
+        cardUnit: stats.records.longestRun ? "km" : "",
+        icon: DistanceIcon,
+      },
+      {
+        cardLabel: "Longest duration",
+        cardDate: stats.records.longestRunDuration?.date
+          ? normalizeDate(stats.records.longestRunDuration.date)
+          : "",
+        cardValue: stats.records.longestRunDuration
+          ? formatDuration(
+              stats.records.longestRunDuration.durationSec,
+              "human",
+            )
+          : "—",
+        cardUnit: " ",
+        type: "duration" as const,
+        icon: TimeIcon,
+      },
+      {
+        cardLabel: "Best pace",
+        cardDate: stats.records.fastestPace?.date
+          ? normalizeDate(stats.records.fastestPace.date)
+          : "",
+        cardValue: stats.records.fastestPace
+          ? formatPace(stats.records.fastestPace.paceSecPerKm)
+          : "—",
+        cardUnit: stats.records.fastestPace ? "min/km" : "",
+        icon: SpeedIcon,
+      },
+      ...runDistances.flatMap((el) => {
+        const record = stats.records[el.label];
 
-      return (
-        record && {
-          cardLabel: `Best ${el.label}`,
-          cardDate: record.date ? normalizeDate(record.date) : "",
-          cardValue: formatPace(record.paceSecPerKm),
-          cardUnit: "min/km",
-          icon: el.icon,
-        }
-      );
-    }),
-  ];
+        return record
+          ? [
+              {
+                cardLabel: `Best ${el.label}`,
+                cardDate: record.date ? normalizeDate(record.date) : "",
+                cardValue: formatPace(record.paceSecPerKm),
+                cardUnit: "min/km",
+                icon: el.icon,
+              },
+            ]
+          : [];
+      }),
+    ],
+  } as const;
 
-  return (
+  if (!hasKey(cards, type))
+    throw new Error(
+      `type must be one of "${Object.keys(cards).join(", ")}", got "${type}"`,
+    );
+
+  const isPanelType = ["stats", "records"].includes(type);
+  const content = (
+    <>
+      {isPanelType && (
+        <div className={styles.statsPanelHeader}>
+          <h3>Your {type}</h3>
+          {type === "stats" && (
+            <div className={styles.periodSwitch}>
+              <button
+                className={period === "week" ? styles.active : ""}
+                onClick={() => setPeriod("week")}
+              >
+                This week
+              </button>
+
+              <button
+                className={period === "year" ? styles.active : ""}
+                onClick={() => setPeriod("year")}
+              >
+                This year
+              </button>
+
+              <button
+                className={period === "allTime" ? styles.active : ""}
+                onClick={() => setPeriod("allTime")}
+              >
+                All time
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className={styles[`${type}Wrapper`]}>
+        {cards[type].map((card, i) => (
+          <Card key={card.cardLabel} {...card} decorVariant={i} />
+        ))}
+      </div>
+    </>
+  );
+
+  return isPanelType ? (
     <Panel
       variant="frostedAccent"
       className={[styles.statsPanel, styles[type]].filter(Boolean).join(" ")}
     >
-      <div className={styles.statsPanelHeader}>
-        <h3>Your {type}</h3>
-        {type === "stats" && (
-          <div className={styles.periodSwitch}>
-            <button
-              className={period === "week" ? styles.active : ""}
-              onClick={() => setPeriod("week")}
-            >
-              This week
-            </button>
-
-            <button
-              className={period === "year" ? styles.active : ""}
-              onClick={() => setPeriod("year")}
-            >
-              This year
-            </button>
-
-            <button
-              className={period === "allTime" ? styles.active : ""}
-              onClick={() => setPeriod("allTime")}
-            >
-              All time
-            </button>
-          </div>
-        )}
-      </div>
-
-      {type === "stats" ? (
-        <div className={styles.statsWrapper}>
-          {statsCards.map((card, i) => (
-            <Card key={card.cardLabel} {...card} decorVariant={i} />
-          ))}
-        </div>
-      ) : (
-        <div className={styles.recordsWrapper}>
-          {recordsCards.map(
-            (card, i) =>
-              card && <Card key={card.cardLabel} {...card} decorVariant={i} />,
-          )}
-        </div>
-      )}
+      {content}
     </Panel>
+  ) : (
+    <div
+      className={[styles.emptyWrapper, styles[type]].filter(Boolean).join(" ")}
+    >
+      {content}
+    </div>
   );
 }
 
