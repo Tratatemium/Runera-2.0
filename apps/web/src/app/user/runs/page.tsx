@@ -100,21 +100,29 @@ export default function MyRuns() {
 
         <StatsPanel type="shortStats"></StatsPanel>
 
-        <div className={styles.sortingRow}>
-          <label htmlFor="runs-sort" className={styles.sortingLabel}>
-            Sort by
-          </label>
-          <select
-            id="runs-sort"
-            className={styles.sortingSelect}
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
-          >
-            <option value="startTimeNewest">Start time (newest first)</option>
-            <option value="startTimeOldest">Start time (oldest first)</option>
-            <option value="distanceLongest">Distance (longest first)</option>
-            <option value="distanceShortest">Distance (shortest first)</option>
-          </select>
+        <div className={styles.listControls}>
+          <div className={styles.filterWrapper}>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+          </div>
+          <div className={styles.sortingRow}>
+            <label htmlFor="runs-sort" className={styles.sortingLabel}>
+              Sort
+            </label>
+            <select
+              id="runs-sort"
+              className={styles.sortingSelect}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+            >
+              <option value="startTimeNewest">Newest first</option>
+              <option value="startTimeOldest">Oldest first</option>
+              <option value="distanceLongest">Longest first</option>
+              <option value="distanceShortest">Shortest first</option>
+            </select>
+          </div>
         </div>
 
         <div className={styles.runsWrapper}>
@@ -129,14 +137,14 @@ export default function MyRuns() {
             />
           ))}
         </div>
-        <Link
-          href={"/user/runs/new"}
-          className={styles.addRunButton}
-          aria-label="Add new run"
-        >
-          {loading === "creatingRun" ? <SpinnerIcon /> : <PlusIcon />}
-        </Link>
       </Panel>
+      <Link
+        href={"/user/runs/new"}
+        className={styles.addRunButton}
+        aria-label="Add new run"
+      >
+        {loading === "creatingRun" ? <SpinnerIcon /> : <PlusIcon />}
+      </Link>
     </main>
   ) : (
     <Loading />

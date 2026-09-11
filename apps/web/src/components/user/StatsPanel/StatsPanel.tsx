@@ -77,22 +77,22 @@ function StatsPanel({ type }: StatsPanelProps) {
     shortStats: [
       {
         cardLabel: "Total runs",
-        cardValue: stats[period].totalRuns?.toString() ?? "—",
+        cardValue: stats.allTime.totalRuns?.toString() ?? "—",
         cardUnit: "",
       },
       {
         cardLabel: "Total distance",
-        cardValue: stats[period].totalDistanceMeters
-          ? formatDistance(stats[period].totalDistanceMeters)
+        cardValue: stats.allTime.totalDistanceMeters
+          ? formatDistance(stats.allTime.totalDistanceMeters)
           : "—",
-        cardUnit: stats[period].totalDistanceMeters ? "km" : "",
+        cardUnit: stats.allTime.totalDistanceMeters ? "km" : "",
       },
       {
         cardLabel: "Average pace",
-        cardValue: stats[period].avgPaceSecPerKm
-          ? formatPace(stats[period].avgPaceSecPerKm)
+        cardValue: stats.allTime.avgPaceSecPerKm
+          ? formatPace(stats.allTime.avgPaceSecPerKm)
           : "—",
-        cardUnit: stats[period].avgPaceSecPerKm ? "min/km" : "",
+        cardUnit: stats.allTime.avgPaceSecPerKm ? "min/km" : "",
       },
     ],
     records: [

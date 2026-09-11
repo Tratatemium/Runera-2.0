@@ -23,7 +23,7 @@ interface UseRunsReturn {
   deleteRun: (runId: string) => Promise<void>;
 }
 
-export type LoadingState =
+type LoadingState =
   | "idle"
   | "fetchingRuns"
   | "creatingRun"
@@ -127,3 +127,4 @@ function useRuns(): UseRunsReturn {
 }
 
 export { useRuns };
+export type { LoadingState };
