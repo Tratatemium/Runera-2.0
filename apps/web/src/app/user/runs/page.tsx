@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRuns } from "@/hooks/useRuns";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
-import { Loading } from "@/components/ui";
+import { Loading, Panel } from "@/components/ui";
 import { RunItem } from "@/components/runs";
 
 import styles from "./page.module.css";
@@ -91,41 +91,49 @@ export default function MyRuns() {
 
   return !isHydratingRuns ? (
     <main className={styles.main}>
-      <div className={styles.sortingRow}>
-        <label htmlFor="runs-sort" className={styles.sortingLabel}>
-          Sort by
-        </label>
-        <select
-          id="runs-sort"
-          className={styles.sortingSelect}
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as SortOption)}
+      <Panel variant="opaqueAccent" className={styles.panel}>
+        <div className={styles.greeting}>
+          <h1>My Runs</h1>
+          <p>Your complete running history.</p>
+        </div>
+
+        <div className={styles.sortingRow}>
+          <label htmlFor="runs-sort" className={styles.sortingLabel}>
+            Sort by
+          </label>
+          <select
+            id="runs-sort"
+            className={styles.sortingSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+          >
+            <option value="startTimeNewest">Start time (newest first)</option>
+            <option value="startTimeOldest">Start time (oldest first)</option>
+            <option value="distanceLongest">Distance (longest first)</option>
+            <option value="distanceShortest">Distance (shortest first)</option>
+          </select>
+        </div>
+
+        <div className={styles.runsWrapper}>
+          {sortedRuns.map((run) => (
+            <RunItem
+              run={run}
+              loading={loading}
+              loadingRunId={loadingRunId}
+              onDelete={deleteRun}
+              isEntering={Boolean(enteringRunIds[run.runId])}
+              key={run.runId}
+            />
+          ))}
+        </div>
+        <Link
+          href={"/user/runs/new"}
+          className={styles.addRunButton}
+          aria-label="Add new run"
         >
-          <option value="startTimeNewest">Start time (newest first)</option>
-          <option value="startTimeOldest">Start time (oldest first)</option>
-          <option value="distanceLongest">Distance (longest first)</option>
-          <option value="distanceShortest">Distance (shortest first)</option>
-        </select>
-      </div>
-      <div className={styles.runsWrapper}>
-        {sortedRuns.map((run) => (
-          <RunItem
-            run={run}
-            loading={loading}
-            loadingRunId={loadingRunId}
-            onDelete={deleteRun}
-            isEntering={Boolean(enteringRunIds[run.runId])}
-            key={run.runId}
-          />
-        ))}
-      </div>
-      <Link
-        href={"/user/runs/new"}
-        className={styles.addRunButton}
-        aria-label="Add new run"
-      >
-        {loading === "creatingRun" ? <SpinnerIcon /> : <PlusIcon />}
-      </Link>
+          {loading === "creatingRun" ? <SpinnerIcon /> : <PlusIcon />}
+        </Link>
+      </Panel>
     </main>
   ) : (
     <Loading />
