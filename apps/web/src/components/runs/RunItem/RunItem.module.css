@@ -76,6 +76,7 @@
 }
 
 .runInfo {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
@@ -145,18 +146,20 @@
 }
 
 .distanceKm {
+  color: var(--color-secondary);
   font-family: var(--font-secondary);
   font-size: var(--font-size-display-lg);
   font-weight: var(--font-weight-bold);
+  line-height: 1;
 }
 
 .distanceUnit {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
   font-size: var(--font-size-heading-lg);
   font-weight: var(--font-weight-medium);
 }
 
 .circumstances {
-  color: var(--color-secondary);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -173,13 +176,60 @@
   gap: var(--gap-xs);
 }
 
-.runActions {
-  align-self: center;
+.runGraphs {
+  width: fit-content;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.7em;
+  justify-content: center;
+  flex-direction: row;
+  gap: var(--gap-xl);
+}
+
+.separatorLine {
+  display: block;
+  width: 1px;
+  min-height: 5rem;
+  background-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  border-radius: var(--border-radius-full);
+}
+
+.paceVSAvg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  font-size: var(--font-size-body-sm);
+}
+
+.effortWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-xs);
+}
+
+.effortPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  font-size: var(--font-size-display-lg);
+}
+
+.effortCircle {
+  position: relative;
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.runActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-md);
 }
 
 .actionButton {
@@ -222,12 +272,6 @@
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-}
-
-@media (min-width: 1024px) {
-  .runWrapper {
-    min-width: min(56rem, 60vw);
-  }
 }
 
 @media (max-width: 768px) {

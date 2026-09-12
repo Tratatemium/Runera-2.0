@@ -11,3 +11,4 @@ export { Logo } from "./Logo/Logo";
 export { Dialog } from "./Dialog/Dialog";
 export { Panel } from "./Panel/Panel";
 export { Card } from "./Card/Card";
+export { CircleProgress } from "./CircleProgress/CircleProgress";

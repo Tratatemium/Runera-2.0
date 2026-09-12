@@ -7,7 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { icons } from "@/components/icons/icons";
-import { Panel } from "@/components/ui";
+import { Panel, CircleProgress } from "@/components/ui";
+import { PaceScale } from "../PaceScale/PaceScale";
 import { useDialogContext } from "@/context/DialogContext";
 import { formatDateString } from "@/utils/general.utils";
 import { filterOptions } from "@/hooks";
@@ -149,33 +150,61 @@ function RunItem({
             </time>
           </div>
         </div>
-        <div className={styles.runActions} aria-label="Run actions">
-          <button
-            className={styles.actionButton}
-            type="button"
-            onClick={handleDelete}
-            disabled={disableActions}
-            aria-label={`Delete ${run.distanceKm} kilometer run from ${run.date}`}
-            title="Delete run"
-          >
-            {isDeletingCurrentRun ? (
-              <SpinnerIcon aria-hidden="true" focusable="false" />
+
+        <div className={styles.runGraphs}>
+          <span className={styles.separatorLine} />
+
+          <PaceScale
+            className={styles.paceVSAvg}
+            paceSecPerKm={run.paceSecPerKm}
+          />
+
+          <span className={styles.separatorLine} />
+
+          <div className={styles.effortWrapper}>
+            {run.perceivedEffort ? (
+              <CircleProgress
+                className={styles.effortCircle}
+                radius={25}
+                percentage={run.perceivedEffort * 10}
+                showNumber={"decimal"}
+              />
             ) : (
-              <DeleteIcon aria-hidden="true" focusable="false" />
+              <span className={styles.effortPlaceholder}>-</span>
             )}
-          </button>
-          <Link
-            href={`/user/runs/${run.runId}/edit`}
-            className={styles.actionButton}
-            aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
-            title="Edit run"
-          >
-            {loading === "updatingRun" && loadingRunId === run.runId ? (
-              <SpinnerIcon aria-hidden="true" focusable="false" />
-            ) : (
-              <EditIcon aria-hidden="true" focusable="false" />
-            )}
-          </Link>
+            <span>Effort</span>
+          </div>
+
+          <span className={styles.separatorLine} />
+
+          <div className={styles.runActions} aria-label="Run actions">
+            <button
+              className={styles.actionButton}
+              type="button"
+              onClick={handleDelete}
+              disabled={disableActions}
+              aria-label={`Delete ${run.distanceKm} kilometer run from ${run.date}`}
+              title="Delete run"
+            >
+              {isDeletingCurrentRun ? (
+                <SpinnerIcon aria-hidden="true" focusable="false" />
+              ) : (
+                <DeleteIcon aria-hidden="true" focusable="false" />
+              )}
+            </button>
+            <Link
+              href={`/user/runs/${run.runId}/edit`}
+              className={styles.actionButton}
+              aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
+              title="Edit run"
+            >
+              {loading === "updatingRun" && loadingRunId === run.runId ? (
+                <SpinnerIcon aria-hidden="true" focusable="false" />
+              ) : (
+                <EditIcon aria-hidden="true" focusable="false" />
+              )}
+            </Link>
+          </div>
         </div>
       </Panel>
     </article>
