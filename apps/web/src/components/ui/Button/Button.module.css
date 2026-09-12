@@ -132,3 +132,21 @@
   font-size: var(--font-size-body-sm);
   border-radius: var(--border-radius-md);
 }
+
+.toggle {
+  padding: var(--gap-sm) var(--gap-md);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-full);
+
+  --bg: color-mix(in srgb, var(--accent-color-1) 25%, transparent);
+  --color: var(--color-primary);
+  --border: color-mix(in srgb, var(--accent-color-1) 25%, transparent);
+
+  --bg-hover: color-mix(in srgb, var(--accent-color-1) 45%, transparent);
+  --color-hover: var(--color-primary);
+  --border-hover: color-mix(in srgb, var(--accent-color-1) 45%, transparent);
+
+  --bg-active: var(--accent-color-1);
+  --color-active: var(--color-secondary);
+  --border-active: var(--accent-color-1);
+}

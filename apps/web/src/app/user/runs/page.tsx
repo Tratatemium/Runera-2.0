@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRuns, useRunListControls } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
-import { Loading, Panel } from "@/components/ui";
+import { Loading, Panel, Button } from "@/components/ui";
 import { StatsPanel } from "@/components/user";
 import { RunItem } from "@/components/runs";
 
@@ -14,11 +14,6 @@ import styles from "./page.module.css";
 
 const SpinnerIcon = icons.spinners.spinner;
 const PlusIcon = icons.general.plus;
-type SortOption =
-  | "startTimeNewest"
-  | "startTimeOldest"
-  | "distanceLongest"
-  | "distanceShortest";
 
 export default function MyRuns() {
   const { runs, isHydratingRuns } = useRunsContext();
@@ -35,8 +30,15 @@ export default function MyRuns() {
     return Object.values(runs);
   }, [runs]);
 
-  const { filterBy, setFilterBy, sortBy, setSortBy, finalRunsArray } =
-    useRunListControls(runsArray);
+  const {
+    filterOptions,
+    filterBy,
+    setFilterBy,
+    sortOptions,
+    sortBy,
+    setSortBy,
+    finalRunsArray,
+  } = useRunListControls(runsArray);
 
   useEffect(() => {
     const currentRunIds = new Set(runsArray.map((run) => run.runId));
@@ -79,10 +81,15 @@ export default function MyRuns() {
 
         <div className={styles.listControls}>
           <div className={styles.filterWrapper}>
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
+            {filterOptions.map((option) => (
+              <Button
+                variant="toggle"
+                key={option.name}
+                buttonText={option.label}
+                active={filterBy === option.name}
+                onClick={() => setFilterBy(option.name)}
+              />
+            ))}
           </div>
           <div className={styles.sortingRow}>
             <label htmlFor="runs-sort" className={styles.sortingLabel}>
@@ -92,12 +99,13 @@ export default function MyRuns() {
               id="runs-sort"
               className={styles.sortingSelect}
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
             >
-              <option value="startTimeNewest">Newest first</option>
-              <option value="startTimeOldest">Oldest first</option>
-              <option value="distanceLongest">Longest first</option>
-              <option value="distanceShortest">Shortest first</option>
+              {sortOptions.map((option) => (
+                <option key={option.name} value={option.name}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>

@@ -9,8 +9,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "secondary"
     | "tertiary"
     | "transparent"
-    | "transparentAccent";
+    | "transparentAccent"
+    | "toggle";
   isSubmitting?: boolean;
+  active?: boolean;
   size?: "small";
 }
 
@@ -20,13 +22,21 @@ function Button({
   type = "button",
   variant,
   isSubmitting = false,
+  active = false,
   size,
   ...props
 }: ButtonProps) {
   const SpinnerIcon = icons.spinners.spinner;
   return (
     <button
-      className={`${styles.button} ${styles[variant]}${size ? ` ${styles[size]}` : ""}`}
+      className={[
+        styles.button,
+        styles[variant],
+        size ? styles[size] : undefined,
+        active ? styles.active : undefined,
+      ]
+        .filter(Boolean)
+        .join(" ")}
       aria-busy={isSubmitting}
       type={type}
       disabled={isSubmitting}

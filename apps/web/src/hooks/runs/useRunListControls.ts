@@ -2,14 +2,27 @@ import type { Run } from "@runera/shared";
 
 import { useCallback, useMemo, useState } from "react";
 
-type FilterOption = "all" | Run["runType"];
+const filterOptions = [
+  { name: "all", label: "All" },
+  { name: "base", label: "Base" },
+  { name: "recovery", label: "Recovery" },
+  { name: "tempo", label: "Tempo" },
+  { name: "longRun", label: "Long Run" },
+  { name: "interval", label: "Interval" },
+  { name: "race", label: "Race" },
+] as const;
 
-type SortOption =
-  | "startTimeNewest"
-  | "startTimeOldest"
-  | "distanceLongest"
-  | "distanceShortest"
-  | "paceBest";
+type FilterOption = (typeof filterOptions)[number]["name"];
+
+const sortOptions = [
+  { name: "startTimeNewest", label: "Newest first" },
+  { name: "startTimeOldest", label: "Oldest first" },
+  { name: "distanceLongest", label: "Longest first" },
+  { name: "distanceShortest", label: "Shortestt first" },
+  { name: "paceBest", label: "Best pace" },
+] as const;
+
+type SortOption = (typeof sortOptions)[number]["name"];
 
 function useRunListControls(runsArray: Run[]) {
   const [filterBy, setFilterBy] = useState<FilterOption>("all");
@@ -55,7 +68,15 @@ function useRunListControls(runsArray: Run[]) {
     return sortRuns(filterRuns(runsArray));
   }, [runsArray, sortRuns, filterRuns]);
 
-  return { filterBy, setFilterBy, sortBy, setSortBy, finalRunsArray };
+  return {
+    filterOptions,
+    filterBy,
+    setFilterBy,
+    sortOptions,
+    sortBy,
+    setSortBy,
+    finalRunsArray,
+  };
 }
 
 export { useRunListControls };

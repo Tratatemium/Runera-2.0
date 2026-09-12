@@ -40,6 +40,12 @@
   justify-content: space-between;
 }
 
+.filterWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-xs);
+}
+
 .sortingRow {
   display: flex;
   align-items: center;
