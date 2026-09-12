@@ -13,4 +13,12 @@ function hasKey<T extends object, K extends PropertyKey>(
   return Object.hasOwn(obj, key);
 }
 
-export { isSameDay, hasKey };
+function formatDateString(dateString: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${dateString}T12:00:00`));
+}
+
+export { isSameDay, hasKey, formatDateString };

@@ -79,4 +79,4 @@ function useRunListControls(runsArray: Run[]) {
   };
 }
 
-export { useRunListControls };
+export { useRunListControls, filterOptions };

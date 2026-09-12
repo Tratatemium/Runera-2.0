@@ -134,7 +134,7 @@
 }
 
 .toggle {
-  padding: var(--gap-sm) var(--gap-md);
+  padding: var(--gap-xs) var(--gap-md);
   font-size: var(--font-size-body-sm);
   border-radius: var(--border-radius-full);
 

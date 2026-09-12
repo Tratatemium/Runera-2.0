@@ -9,6 +9,8 @@ import Link from "next/link";
 import { icons } from "@/components/icons/icons";
 import { Panel } from "@/components/ui";
 import { useDialogContext } from "@/context/DialogContext";
+import { formatDateString } from "@/utils/general.utils";
+import { filterOptions } from "@/hooks";
 
 import styles from "./RunItem.module.css";
 
@@ -105,11 +107,32 @@ function RunItem({
       >
         <div className={styles.runInfo}>
           <div className={styles.runHeading}>
-            <h2 className={styles.distanceKm}>{`${run.distanceKm} km`}</h2>
-            {run.title && <p className={styles.runTitle}>{run.title}</p>}
+            {run.runType && (
+              <span className={`${styles.runType} ${styles[run.runType]}`}>
+                {filterOptions.find((el) => el.name === run.runType)?.label}
+              </span>
+            )}
+            {run.weather && WeatherIcon && (
+              <span
+                className={styles.weather}
+                aria-label={weatherLabel ?? undefined}
+              >
+                <WeatherIcon
+                  className={styles.weatherIcon}
+                  aria-hidden="true"
+                  focusable="false"
+                />
+              </span>
+            )}
+            {run.title && <span className={styles.runTitle}>{run.title}</span>}
           </div>
 
-          <p className={styles.timing}>
+          <h2 className={styles.distanceKm}>
+            {run.distanceKm}
+            <span className={styles.distanceUnit}>{` km`}</span>
+          </h2>
+
+          <div className={styles.circumstances}>
             <span className={styles.duration}>
               <ClockIcon aria-hidden="true" focusable="false" />
               {run.formattedDuration}
@@ -119,22 +142,12 @@ function RunItem({
               <SpeedIcon aria-hidden="true" focusable="false" />
               {run.formattedPace}
             </span>
-          </p>
-
-          <p className={styles.circumstances}>
+            <span aria-hidden="true">•</span>
             <time className={styles.date} dateTime={run.startTime}>
               <CalendarIcon aria-hidden="true" focusable="false" />
-              {run.date}
+              {formatDateString(run.date)}
             </time>
-            {run.weather && WeatherIcon && (
-              <span
-                className={styles.weather}
-                aria-label={weatherLabel ?? undefined}
-              >
-                <WeatherIcon aria-hidden="true" focusable="false" />
-              </span>
-            )}
-          </p>
+          </div>
         </div>
         <div className={styles.runActions} aria-label="Run actions">
           <button

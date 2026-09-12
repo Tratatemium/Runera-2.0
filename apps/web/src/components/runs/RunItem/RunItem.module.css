@@ -11,6 +11,8 @@
   justify-content: space-between;
   gap: var(--gap-lg);
 
+  color: var(--color-secondary);
+
   box-shadow: 0 10px 24px
     color-mix(in srgb, var(--color-primary) 88%, transparent);
   transition:
@@ -76,76 +78,99 @@
 .runInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.9em;
+  gap: var(--gap-sm);
   text-align: left;
   min-width: 0;
 }
 
 .runHeading {
+  width: fit-content;
   display: flex;
-  align-items: baseline;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.6em;
-}
-
-.distanceKm {
-  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-  color: var(--accent-mix-1);
-}
-
-.runTitle {
-  font-size: 0.95rem;
-  color: var(--accent-mix-2);
-  font-style: italic;
-}
-
-.timing {
-  color: var(--accent-mix-2);
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 1em;
+  justify-content: left;
+  gap: var(--gap-sm);
 }
 
-.duration {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.runType {
+  padding: var(--gap-xs) var(--gap-md);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-full);
+  color: var(--color-primary);
+  background: var(--runType-bg);
 }
 
-.pace {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.base {
+  --runType-bg: #b8d8ba;
 }
 
-.circumstances {
-  color: var(--accent-mix-2);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
+.recovery {
+  --runType-bg: #c9d6ea;
 }
 
-.date {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.tempo {
+  --runType-bg: #f4c6a8;
+}
+
+.longRun {
+  --runType-bg: #d8c4e8;
+}
+
+.interval {
+  --runType-bg: #f0b4b4;
+}
+
+.race {
+  --runType-bg: #f0d58a;
 }
 
 .weather {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 1.4em;
-  height: 1.4em;
-  font-size: 1.7em;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent-color-2) 25%, transparent);
+  width: fit-content;
+  height: fit-content;
+  border-radius: var(--border-radius-full);
+  background: var(--color-secondary);
+}
+
+.weatherIcon {
+  width: var(--font-size-heading-lg);
+  height: var(--font-size-heading-lg);
+}
+
+.runTitle {
+  font-style: italic;
+}
+
+.distanceKm {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-display-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.distanceUnit {
+  font-size: var(--font-size-heading-lg);
+  font-weight: var(--font-weight-medium);
+}
+
+.circumstances {
+  color: var(--color-secondary);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-lg);
+}
+
+.duration,
+.pace,
+.date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-xs);
 }
 
 .runActions {
