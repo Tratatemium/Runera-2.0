@@ -12,7 +12,8 @@ interface PanelProps extends ComponentPropsWithoutRef<"div"> {
     | "frostedWarm"
     | "cloudy"
     | "cloudyWarm"
-    | "opaqueAccent";
+    | "opaqueAccent"
+    | "gradient3to1";
 }
 
 function Panel({ children, variant, className, ...divProps }: PanelProps) {

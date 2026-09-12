@@ -46,3 +46,13 @@
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: color-mix(in srgb, var(--accent-mix-2) 20%, transparent);
 }
+
+.gradient3to1 {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--accent-color-3) 30%, transparent) 0%,
+    color-mix(in srgb, var(--color-secondary) 50%, transparent) 55%,
+    color-mix(in srgb, var(--accent-color-1) 50%, transparent) 100%
+  );
+}

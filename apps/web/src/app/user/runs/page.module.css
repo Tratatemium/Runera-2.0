@@ -36,6 +36,7 @@
 .listControls {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 }
@@ -43,12 +44,18 @@
 .filterWrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: var(--gap-xs);
 }
 
 .sortingRow {
   display: flex;
+  max-width: max-content;
   align-items: center;
+  width: fit-content;
+  justify-content: center;
   gap: var(--gap-sm);
 }
 
@@ -56,6 +63,8 @@
 }
 
 .sortingSelect {
+  display: flex;
+  max-width: max-content;
   background-color: color-mix(in srgb, var(--accent-color-1) 25%, transparent);
   border: var(--border-width-thin) solid var(--border-color-primary);
   border-radius: var(--border-radius-lg);
@@ -79,10 +88,11 @@
 }
 
 .runsWrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--gap-lg-plus);
 }
 
 .addRunButton {
@@ -159,5 +169,10 @@
     width: 4.125rem;
     height: 4.125rem;
     font-size: 2.625rem;
+  }
+
+  .listControls {
+    justify-content: center;
+    font-size: var(--font-size-body-sm);
   }
 }

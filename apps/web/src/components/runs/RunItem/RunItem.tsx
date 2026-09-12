@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { icons } from "@/components/icons/icons";
+import { Panel } from "@/components/ui";
 import { useDialogContext } from "@/context/DialogContext";
 
 import styles from "./RunItem.module.css";
@@ -89,68 +90,79 @@ function RunItem({
 
   return (
     <article
-      className={`${styles.runWrapper} ${isEntering ? styles.runWrapperEntering : ""} ${isRemoving ? styles.runWrapperRemoving : ""}`}
+      className={styles.article}
       aria-label={`${run.distanceKm} kilometer run`}
     >
-      <div className={styles.runInfo}>
-        <div className={styles.runHeading}>
-          <h2 className={styles.distanceKm}>{`${run.distanceKm} km`}</h2>
-          {run.title && <p className={styles.runTitle}>{run.title}</p>}
-        </div>
-        <p className={styles.timing}>
-          <span className={styles.duration}>
-            <ClockIcon aria-hidden="true" focusable="false" />
-            {run.formattedDuration}
-          </span>
-          <span aria-hidden="true">•</span>
-          <span className={styles.pace}>
-            <SpeedIcon aria-hidden="true" focusable="false" />
-            {run.formattedPace}
-          </span>
-        </p>
-        <p className={styles.circumstances}>
-          <time className={styles.date} dateTime={run.startTime}>
-            <CalendarIcon aria-hidden="true" focusable="false" />
-            {run.date}
-          </time>
-          {run.weather && WeatherIcon && (
-            <span
-              className={styles.weather}
-              aria-label={weatherLabel ?? undefined}
-            >
-              <WeatherIcon aria-hidden="true" focusable="false" />
+      <Panel
+        variant="gradient3to1"
+        className={[
+          styles.runWrapper,
+          isEntering ? styles.runWrapperEntering : undefined,
+          isRemoving ? styles.runWrapperRemoving : undefined,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <div className={styles.runInfo}>
+          <div className={styles.runHeading}>
+            <h2 className={styles.distanceKm}>{`${run.distanceKm} km`}</h2>
+            {run.title && <p className={styles.runTitle}>{run.title}</p>}
+          </div>
+          <p className={styles.timing}>
+            <span className={styles.duration}>
+              <ClockIcon aria-hidden="true" focusable="false" />
+              {run.formattedDuration}
             </span>
-          )}
-        </p>
-      </div>
-      <div className={styles.runActions} aria-label="Run actions">
-        <button
-          className={styles.actionButton}
-          type="button"
-          onClick={handleDelete}
-          disabled={disableActions}
-          aria-label={`Delete ${run.distanceKm} kilometer run from ${run.date}`}
-          title="Delete run"
-        >
-          {isDeletingCurrentRun ? (
-            <SpinnerIcon aria-hidden="true" focusable="false" />
-          ) : (
-            <DeleteIcon aria-hidden="true" focusable="false" />
-          )}
-        </button>
-        <Link
-          href={`/user/runs/${run.runId}/edit`}
-          className={styles.actionButton}
-          aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
-          title="Edit run"
-        >
-          {loading === "updatingRun" && loadingRunId === run.runId ? (
-            <SpinnerIcon aria-hidden="true" focusable="false" />
-          ) : (
-            <EditIcon aria-hidden="true" focusable="false" />
-          )}
-        </Link>
-      </div>
+            <span aria-hidden="true">•</span>
+            <span className={styles.pace}>
+              <SpeedIcon aria-hidden="true" focusable="false" />
+              {run.formattedPace}
+            </span>
+          </p>
+          <p className={styles.circumstances}>
+            <time className={styles.date} dateTime={run.startTime}>
+              <CalendarIcon aria-hidden="true" focusable="false" />
+              {run.date}
+            </time>
+            {run.weather && WeatherIcon && (
+              <span
+                className={styles.weather}
+                aria-label={weatherLabel ?? undefined}
+              >
+                <WeatherIcon aria-hidden="true" focusable="false" />
+              </span>
+            )}
+          </p>
+        </div>
+        <div className={styles.runActions} aria-label="Run actions">
+          <button
+            className={styles.actionButton}
+            type="button"
+            onClick={handleDelete}
+            disabled={disableActions}
+            aria-label={`Delete ${run.distanceKm} kilometer run from ${run.date}`}
+            title="Delete run"
+          >
+            {isDeletingCurrentRun ? (
+              <SpinnerIcon aria-hidden="true" focusable="false" />
+            ) : (
+              <DeleteIcon aria-hidden="true" focusable="false" />
+            )}
+          </button>
+          <Link
+            href={`/user/runs/${run.runId}/edit`}
+            className={styles.actionButton}
+            aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
+            title="Edit run"
+          >
+            {loading === "updatingRun" && loadingRunId === run.runId ? (
+              <SpinnerIcon aria-hidden="true" focusable="false" />
+            ) : (
+              <EditIcon aria-hidden="true" focusable="false" />
+            )}
+          </Link>
+        </div>
+      </Panel>
     </article>
   );
 }

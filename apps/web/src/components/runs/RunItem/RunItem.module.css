@@ -1,3 +1,7 @@
+.article {
+  width: 100%;
+}
+
 .runWrapper {
   width: 100%;
   min-width: 0;
@@ -5,16 +9,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5em;
-  gap: 1em;
-  background: linear-gradient(
-    130deg,
-    color-mix(in srgb, var(--accent-color-3) 38%, var(--color-secondary)) 0%,
-    color-mix(in srgb, var(--color-secondary) 82%, var(--accent-color-2)) 55%,
-    color-mix(in srgb, var(--color-secondary) 70%, var(--color-primary)) 100%
-  );
-  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
-  border-radius: 1em;
+  gap: var(--gap-lg);
+
   box-shadow: 0 10px 24px
     color-mix(in srgb, var(--color-primary) 88%, transparent);
   transition:
