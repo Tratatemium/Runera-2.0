@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useRuns, useRunSort } from "@/hooks";
+import { useRuns, useRunListControls } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import { icons } from "@/components/icons/icons";
 import { Loading, Panel } from "@/components/ui";
@@ -35,7 +35,8 @@ export default function MyRuns() {
     return Object.values(runs);
   }, [runs]);
 
-  const { sortBy, setSortBy, sortedRuns } = useRunSort(runsArray);
+  const { filterBy, setFilterBy, sortBy, setSortBy, finalRunsArray } =
+    useRunListControls(runsArray);
 
   useEffect(() => {
     const currentRunIds = new Set(runsArray.map((run) => run.runId));
@@ -102,7 +103,7 @@ export default function MyRuns() {
         </div>
 
         <div className={styles.runsWrapper}>
-          {sortedRuns.map((run) => (
+          {finalRunsArray.map((run) => (
             <RunItem
               run={run}
               loading={loading}
