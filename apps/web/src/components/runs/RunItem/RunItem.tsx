@@ -94,7 +94,7 @@ function RunItem({
       aria-label={`${run.distanceKm} kilometer run`}
     >
       <Panel
-        variant="gradient3to1"
+        variant="gradientAccent"
         className={[
           styles.runWrapper,
           isEntering ? styles.runWrapperEntering : undefined,
@@ -108,6 +108,7 @@ function RunItem({
             <h2 className={styles.distanceKm}>{`${run.distanceKm} km`}</h2>
             {run.title && <p className={styles.runTitle}>{run.title}</p>}
           </div>
+
           <p className={styles.timing}>
             <span className={styles.duration}>
               <ClockIcon aria-hidden="true" focusable="false" />
@@ -119,6 +120,7 @@ function RunItem({
               {run.formattedPace}
             </span>
           </p>
+
           <p className={styles.circumstances}>
             <time className={styles.date} dateTime={run.startTime}>
               <CalendarIcon aria-hidden="true" focusable="false" />

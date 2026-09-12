@@ -56,3 +56,13 @@
     color-mix(in srgb, var(--accent-color-1) 50%, transparent) 100%
   );
 }
+
+.gradientAccent {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--accent-color-1) 80%, var(--color-secondary)) 0%,
+    color-mix(in srgb, var(--accent-color-1) 90%, transparent) 55%,
+    color-mix(in srgb, var(--accent-color-1) 60%, transparent) 100%
+  );
+}

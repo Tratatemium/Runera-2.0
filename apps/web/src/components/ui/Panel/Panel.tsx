@@ -13,6 +13,7 @@ interface PanelProps extends ComponentPropsWithoutRef<"div"> {
     | "cloudy"
     | "cloudyWarm"
     | "opaqueAccent"
+    | "gradientAccent"
     | "gradient3to1";
 }
 
