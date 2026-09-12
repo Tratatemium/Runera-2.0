@@ -58,6 +58,8 @@ function useUser(): UseUserReturn {
     try {
       const data = await apiGetMyStats();
       updateUser({ stats: data.stats });
+    } catch (err) {
+      console.error("Failed to update stats:", err);
     } finally {
       setIsFetching(false);
     }

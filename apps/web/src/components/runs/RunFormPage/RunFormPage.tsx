@@ -117,11 +117,11 @@ function RunFormPage({ runId }: Props) {
 
     if (isEdit) {
       if (!runId) return;
-      updateRun(runId, payload);
+      await updateRun(runId, payload);
       return;
     }
 
-    postNewRun(payload);
+    await postNewRun(payload);
   }
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
