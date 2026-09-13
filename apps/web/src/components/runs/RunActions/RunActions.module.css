@@ -1,0 +1,51 @@
+.runActions {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+.actionButton {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1em;
+  height: 2.1em;
+  padding: 0;
+  font-size: 1.1em;
+  color: var(--accent-mix-2);
+  border-radius: 0.6em;
+  background: color-mix(in srgb, var(--color-secondary) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.actionButton:hover {
+  transform: translateY(-1px);
+  color: var(--accent-mix-1);
+  background: color-mix(
+    in srgb,
+    var(--accent-color-2) 18%,
+    var(--color-secondary)
+  );
+  border-color: var(--accent-mix-1);
+}
+
+.actionButton:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, transparent);
+  outline-offset: 2px;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

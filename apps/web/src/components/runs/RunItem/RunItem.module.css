@@ -1,8 +1,26 @@
 .article {
+  position: relative;
   width: 100%;
 }
 
+.link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
+  border-radius: 1.15rem;
+  cursor: pointer;
+}
+
+.link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, transparent);
+  outline-offset: 2px;
+}
+
 .runWrapper {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
   width: 100%;
   min-width: 0;
   display: flex;
@@ -65,7 +83,8 @@
   margin: 0;
 }
 
-.runWrapper:hover {
+.runWrapper:hover,
+.article:hover .runWrapper {
   border-color: color-mix(
     in srgb,
     var(--accent-color-3) 45%,
@@ -225,65 +244,11 @@
   line-height: 1;
 }
 
-.runActions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--gap-md);
-}
-
-.actionButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.1em;
-  height: 2.1em;
-  padding: 0;
-  font-size: 1.1em;
-  color: var(--accent-mix-2);
-  border-radius: 0.6em;
-  background: color-mix(in srgb, var(--color-secondary) 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
-  cursor: pointer;
-  transition:
-    transform 140ms ease,
-    color 140ms ease,
-    background-color 140ms ease,
-    border-color 140ms ease;
-}
-
-.actionButton:hover {
-  transform: translateY(-1px);
-  color: var(--accent-mix-1);
-  background: color-mix(
-    in srgb,
-    var(--accent-color-2) 18%,
-    var(--color-secondary)
-  );
-  border-color: var(--accent-mix-1);
-}
-
-.actionButton:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, transparent);
-  outline-offset: 2px;
-}
-
-.actionButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
 @media (max-width: 768px) {
   .runWrapper {
     align-items: flex-start;
     flex-direction: column;
     padding: 1.1em;
-  }
-
-  .runActions {
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .timing,

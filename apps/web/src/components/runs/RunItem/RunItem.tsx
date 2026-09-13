@@ -3,25 +3,19 @@
 import type { Run } from "@runera/shared";
 import type { LoadingState } from "@/hooks";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 import { icons } from "@/components/icons/icons";
 import { Panel, CircleProgress } from "@/components/ui";
-import { PaceScale } from "../PaceScale/PaceScale";
-import { useDialogContext } from "@/context/DialogContext";
+import { PaceScale, RunActions } from "@/components/runs";
 import { formatDateString } from "@/utils/general.utils";
 import { filterOptions } from "@/hooks";
 
 import styles from "./RunItem.module.css";
 
-const {
-  delete: DeleteIcon,
-  edit: EditIcon,
-  calendar: CalendarIcon,
-} = icons.general;
+const { calendar: CalendarIcon } = icons.general;
 const { clock: ClockIcon, speed: SpeedIcon } = icons.running;
-const SpinnerIcon = icons.spinners.spinner;
 
 interface RunItemProps {
   run: Run;
@@ -30,8 +24,6 @@ interface RunItemProps {
   onDelete: (runId: string) => Promise<void>;
   isEntering: boolean;
 }
-
-const EXIT_ANIMATION_MS = 360;
 
 const weatherLabelMap: Record<NonNullable<Run["weather"]>, string> = {
   sunny: "Sunny",
@@ -51,44 +43,8 @@ function RunItem({
   onDelete,
   isEntering,
 }: RunItemProps) {
-  const { openConfirmDialog } = useDialogContext();
   const [isRemoving, setIsRemoving] = useState(false);
-  const deleteTimeoutRef = useRef<number | null>(null);
   const weatherLabel = run.weather ? weatherLabelMap[run.weather] : null;
-
-  useEffect(
-    () => () => {
-      if (deleteTimeoutRef.current) {
-        window.clearTimeout(deleteTimeoutRef.current);
-      }
-    },
-    [],
-  );
-
-  function handleDelete() {
-    if (isRemoving) {
-      return;
-    }
-
-    openConfirmDialog({
-      title: "Delete Run",
-      text: "Are you sure you want to delete this run?",
-      action1Text: "No",
-      onAction1: () => {},
-      action2Text: "Yes",
-      onAction2: () => {
-        setIsRemoving(true);
-        deleteTimeoutRef.current = window.setTimeout(() => {
-          void onDelete(run.runId);
-        }, EXIT_ANIMATION_MS);
-      },
-    });
-  }
-
-  const isDeletingCurrentRun =
-    loading === "deletingRun" && loadingRunId === run.runId;
-  const disableActions = isRemoving || isDeletingCurrentRun;
-
   const WeatherIcon = run.weather ? icons.weather[run.weather] : null;
 
   return (
@@ -96,6 +52,11 @@ function RunItem({
       className={styles.article}
       aria-label={`${run.distanceKm} kilometer run`}
     >
+      <Link
+        href={`/user/runs/${run.runId}`}
+        className={styles.link}
+        aria-label={`View details for ${run.distanceKm} kilometer run`}
+      />
       <Panel
         variant="gradientAccent"
         className={[
@@ -177,34 +138,15 @@ function RunItem({
 
           <span className={styles.separatorLine} />
 
-          <div className={styles.runActions} aria-label="Run actions">
-            <button
-              className={styles.actionButton}
-              type="button"
-              onClick={handleDelete}
-              disabled={disableActions}
-              aria-label={`Delete ${run.distanceKm} kilometer run from ${run.date}`}
-              title="Delete run"
-            >
-              {isDeletingCurrentRun ? (
-                <SpinnerIcon aria-hidden="true" focusable="false" />
-              ) : (
-                <DeleteIcon aria-hidden="true" focusable="false" />
-              )}
-            </button>
-            <Link
-              href={`/user/runs/${run.runId}/edit`}
-              className={styles.actionButton}
-              aria-label={`Edit ${run.distanceKm} kilometer run from ${run.date}`}
-              title="Edit run"
-            >
-              {loading === "updatingRun" && loadingRunId === run.runId ? (
-                <SpinnerIcon aria-hidden="true" focusable="false" />
-              ) : (
-                <EditIcon aria-hidden="true" focusable="false" />
-              )}
-            </Link>
-          </div>
+          <RunActions
+            run={run}
+            layout="vertical"
+            loading={loading}
+            loadingRunId={loadingRunId}
+            onDelete={onDelete}
+            isRemoving={isRemoving}
+            setIsRemoving={setIsRemoving}
+          />
         </div>
       </Panel>
     </article>
