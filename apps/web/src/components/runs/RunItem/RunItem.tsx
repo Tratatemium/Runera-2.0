@@ -11,6 +11,7 @@ import { Panel, CircleProgress } from "@/components/ui";
 import { PaceScale, RunActions } from "@/components/runs";
 import { formatDateString } from "@/utils/general.utils";
 import { filterOptions } from "@/hooks";
+import { inputFields } from "@/config/inputFields";
 
 import styles from "./RunItem.module.css";
 
@@ -25,16 +26,11 @@ interface RunItemProps {
   isEntering: boolean;
 }
 
-const weatherLabelMap: Record<NonNullable<Run["weather"]>, string> = {
-  sunny: "Sunny",
-  partlyCloudy: "Partly cloudy",
-  cloudy: "Cloudy",
-  rain: "Rain",
-  snow: "Snow",
-  windy: "Windy",
-  hot: "Hot",
-  cold: "Cold",
-};
+const weatherFields = Object.fromEntries(
+  Object.entries(inputFields)
+    .filter(([, field]) => field.name === "weather")
+    .map(([, field]) => [field.value, field]),
+);
 
 function RunItem({
   run,
@@ -44,7 +40,7 @@ function RunItem({
   isEntering,
 }: RunItemProps) {
   const [isRemoving, setIsRemoving] = useState(false);
-  const weatherLabel = run.weather ? weatherLabelMap[run.weather] : null;
+  const weatherLabel = run.weather ? weatherFields[run.weather]?.label : null;
   const WeatherIcon = run.weather ? icons.weather[run.weather] : null;
 
   return (

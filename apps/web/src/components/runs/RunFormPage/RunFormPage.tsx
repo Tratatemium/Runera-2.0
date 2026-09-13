@@ -21,7 +21,6 @@ import {
 } from "@/utils/runs.utils";
 
 import styles from "./RunFormPage.module.css";
-import { Run } from "@runera/shared";
 
 const durationFields = [
   inputFields.durationH,
@@ -29,25 +28,13 @@ const durationFields = [
   inputFields.durationS,
 ];
 
-const runTypeFields = [
-  inputFields.runTypeBase,
-  inputFields.runTypeRecovery,
-  inputFields.runTypeTempo,
-  inputFields.runTypeLongRun,
-  inputFields.runTypeInterval,
-  inputFields.runTypeRace,
-];
+const runTypeFields = Object.values(inputFields).filter(
+  (field) => field.name === "runType",
+);
 
-const weatherFields = [
-  inputFields.weatherSunny,
-  inputFields.weatherPartlyCloudy,
-  inputFields.weatherCloudy,
-  inputFields.weatherRain,
-  inputFields.weatherSnow,
-  inputFields.weatherWindy,
-  inputFields.weatherHot,
-  inputFields.weatherCold,
-];
+const weatherFields = Object.values(inputFields).filter(
+  (field) => field.name === "weather",
+);
 
 const runFields = [
   inputFields.title,
