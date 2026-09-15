@@ -3,6 +3,7 @@
   align-items: stretch;
   gap: 1.6rem;
   padding: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
+  color: var(--color-secondary);
 }
 
 .header {
@@ -14,15 +15,9 @@
 
 .backButton {
   font-size: var(--font-size-heading-sm);
-}
-
-.runInfo {
-  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-sm);
-  text-align: left;
-  min-width: 0;
+  font-family: var(--font-secondary);
+  padding: var(--gap-lg);
+  align-items: center;
 }
 
 .runHeading {
@@ -33,6 +28,7 @@
   align-items: center;
   justify-content: left;
   gap: var(--gap-sm);
+  color: color-mix(in srgb, var(--color-secondary) 90%, transparent);
 }
 
 .runType {
@@ -83,7 +79,8 @@
 }
 
 .runTitle {
-  font-style: italic;
+  margin: 0;
+  font-size: var(--font-size-heading-lg);
 }
 
 .distanceKm {
@@ -98,4 +95,13 @@
   color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
   font-size: var(--font-size-heading-lg);
   font-weight: var(--font-weight-medium);
+}
+
+.runInfo {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  text-align: left;
+  min-width: 0;
 }

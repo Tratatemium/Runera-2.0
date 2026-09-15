@@ -99,7 +99,7 @@ function RunItem({
             <span aria-hidden="true">•</span>
             <time className={styles.date} dateTime={run.startTime}>
               <CalendarIcon aria-hidden="true" focusable="false" />
-              {formatDateString(run.date)}
+              {formatDateString(run.date, "short")}
             </time>
           </div>
         </div>
