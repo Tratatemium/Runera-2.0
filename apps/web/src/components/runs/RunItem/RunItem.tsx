@@ -10,8 +10,7 @@ import { icons } from "@/components/icons/icons";
 import { Panel, CircleProgress } from "@/components/ui";
 import { PaceScale, RunActions } from "@/components/runs";
 import { formatDateString } from "@/utils/general.utils";
-import { getWeatherPresentation } from "@/utils/runs.utils";
-import { filterOptions } from "@/hooks";
+import { getFieldPresentation } from "@/utils/runs.utils";
 
 import styles from "./RunItem.module.css";
 
@@ -34,7 +33,11 @@ function RunItem({
   isEntering,
 }: RunItemProps) {
   const [isRemoving, setIsRemoving] = useState(false);
-  const { weatherLabel, WeatherIcon } = getWeatherPresentation(run);
+  const { label: weatherLabel, Icon: WeatherIcon } = getFieldPresentation(
+    run,
+    "weather",
+  );
+  const { label: runTypeLabel } = getFieldPresentation(run, "runType");
 
   return (
     <article
@@ -60,7 +63,7 @@ function RunItem({
           <div className={styles.runHeading}>
             {run.runType && (
               <span className={`${styles.runType} ${styles[run.runType]}`}>
-                {filterOptions.find((el) => el.name === run.runType)?.label}
+                {runTypeLabel}
               </span>
             )}
             {run.weather && WeatherIcon && (

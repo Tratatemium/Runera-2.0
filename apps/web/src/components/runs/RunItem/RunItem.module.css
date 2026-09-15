@@ -122,27 +122,27 @@
 }
 
 .base {
-  --runType-bg: #b8d8ba;
+  --runType-bg: var(--run-type-base);
 }
 
 .recovery {
-  --runType-bg: #c9d6ea;
+  --runType-bg: var(--run-type-recovery);
 }
 
 .tempo {
-  --runType-bg: #f4c6a8;
+  --runType-bg: var(--run-type-tempo);
 }
 
 .longRun {
-  --runType-bg: #d8c4e8;
+  --runType-bg: var(--run-type-long-run);
 }
 
 .interval {
-  --runType-bg: #f0b4b4;
+  --runType-bg: var(--run-type-interval);
 }
 
 .race {
-  --runType-bg: #f0d58a;
+  --runType-bg: var(--run-type-race);
 }
 
 .weather {

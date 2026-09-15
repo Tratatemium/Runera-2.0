@@ -11,6 +11,7 @@ import type {
 } from "@runera/shared";
 import type { Icon } from "@/components/icons/icons";
 
+import { assertAllowed } from "@runera/shared";
 import {
   formatDuration,
   normalizeDate,
@@ -95,13 +96,13 @@ function getFieldPresentation(
   label: string | null;
   Icon: Icon | null;
 } {
-  const all;
-  if (!["weather", "runType"])
-    const filteredFields: Record<string, InputFieldConfig> = Object.fromEntries(
-      Object.entries(inputFields)
-        .filter(([, field]) => field.name === fieldName)
-        .map(([, field]) => [field.value, field]),
-    );
+  assertAllowed(fieldName, "fieldName", ["weather", "runType"]);
+
+  const filteredFields: Record<string, InputFieldConfig> = Object.fromEntries(
+    Object.entries(inputFields)
+      .filter(([, field]) => field.name === fieldName)
+      .map(([, field]) => [field.value, field]),
+  );
   const label = run[fieldName] ? filteredFields[run[fieldName]]?.label : null;
   const Icon = run[fieldName]
     ? icons[fieldName][run[fieldName] as keyof (typeof icons)[typeof fieldName]]
@@ -116,5 +117,5 @@ export {
   getRunData,
   prepareRunStateValues,
   calculatePace,
-  getWeatherPresentation,
+  getFieldPresentation,
 };

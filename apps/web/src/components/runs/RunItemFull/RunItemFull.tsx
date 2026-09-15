@@ -7,7 +7,7 @@ import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { Panel, ButtonLink } from "@/components/ui";
 import { RunActions } from "../RunActions/RunActions";
-import { getWeatherPresentation } from "@/utils/runs.utils";
+import { getFieldPresentation } from "@/utils/runs.utils";
 
 import styles from "./RunItemFull.module.css";
 
@@ -32,7 +32,11 @@ function RunItemFull({ runId }: RunItemFullProps) {
   const run = runs[runId];
   if (!run) return null;
 
-  const { weatherLabel, WeatherIcon } = getWeatherPresentation(run);
+  const { label: weatherLabel, Icon: WeatherIcon } = getFieldPresentation(
+    run,
+    "weather",
+  );
+  const { label: runTypeLabel } = getFieldPresentation(run, "runType");
 
   return (
     <Panel variant="gradientAccent" className={styles.panel}>
@@ -59,7 +63,7 @@ function RunItemFull({ runId }: RunItemFullProps) {
         <div className={styles.runHeading}>
           {run.runType && (
             <span className={`${styles.runType} ${styles[run.runType]}`}>
-              {filterOptions.find((el) => el.name === run.runType)?.label}
+              {runTypeLabel}
             </span>
           )}
           {run.weather && WeatherIcon && (

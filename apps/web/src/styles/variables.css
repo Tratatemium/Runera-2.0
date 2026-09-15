@@ -71,6 +71,13 @@
   --accent-color-4: var(--burnt-orange);
   --accent-color-5: var(--dark-gold);
 
+  --run-type-base: #b8d8ba;
+  --run-type-recovery: #c9d6ea;
+  --run-type-tempo: #f4c6a8;
+  --run-type-long-run: #d8c4e8;
+  --run-type-interval: #f0b4b4;
+  --run-type-race: #f0d58a;
+
   --accent-mix-1: color-mix(
     in srgb,
     var(--accent-color-1),

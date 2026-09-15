@@ -15,3 +15,87 @@
 .backButton {
   font-size: var(--font-size-heading-sm);
 }
+
+.runInfo {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  text-align: left;
+  min-width: 0;
+}
+
+.runHeading {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  gap: var(--gap-sm);
+}
+
+.runType {
+  padding: var(--gap-xs) var(--gap-md);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-full);
+  color: var(--color-primary);
+  background: var(--runType-bg);
+}
+
+.base {
+  --runType-bg: var(--run-type-base);
+}
+
+.recovery {
+  --runType-bg: var(--run-type-recovery);
+}
+
+.tempo {
+  --runType-bg: var(--run-type-tempo);
+}
+
+.longRun {
+  --runType-bg: var(--run-type-long-run);
+}
+
+.interval {
+  --runType-bg: var(--run-type-interval);
+}
+
+.race {
+  --runType-bg: var(--run-type-race);
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  border-radius: var(--border-radius-full);
+  background: var(--color-secondary);
+}
+
+.weatherIcon {
+  width: var(--font-size-heading-lg);
+  height: var(--font-size-heading-lg);
+}
+
+.runTitle {
+  font-style: italic;
+}
+
+.distanceKm {
+  color: var(--color-secondary);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-display-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.distanceUnit {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  font-size: var(--font-size-heading-lg);
+  font-weight: var(--font-weight-medium);
+}

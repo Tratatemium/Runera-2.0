@@ -6,6 +6,7 @@ export { useLockBodyScroll } from "./useLockBodyScroll";
 export { useUser } from "./useUser";
 
 export { useRuns } from "./useRuns";
+export { useRunById } from "./runs/useRunById";
 export { useRunListControls, filterOptions } from "./runs/useRunListControls";
 
 export { useFormHandlers } from "./form/useFormHandlers";
