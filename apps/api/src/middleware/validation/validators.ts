@@ -1,6 +1,7 @@
 import type { Request } from "express";
 
 import { ValidationError } from "../../errors/errors.js";
+import { assertAllowed } from "@runera/shared";
 
 /* ================================================================================================= */
 /*  HELPER FUNCTIONS                                                                                 */
@@ -326,9 +327,7 @@ function validateEnumField({
   value: unknown;
   type: "weather" | "runType";
 }) {
-  const allowedTypes = ["weather", "runType"];
-  if (!allowedTypes.includes(type))
-    throw new Error(`type must be one of: "${allowedTypes.join(", ")}"`);
+  assertAllowed(type, "type", ["weather", "runType"]);
 
   assertString(value, type);
 
@@ -344,14 +343,9 @@ function validateEnumField({
       "hot",
       "cold",
     ],
-  };
+  } as const;
 
-  if (!enums[type].includes(value)) {
-    throwValidationError({
-      message: `Weather must be one of [${enums[type].join(", ")}]. Received: ${value}.`,
-      field: value,
-    });
-  }
+  assertAllowed(value, type, enums[type]);
 }
 
 /* ================================================================================================= */

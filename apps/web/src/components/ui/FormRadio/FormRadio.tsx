@@ -3,7 +3,7 @@ import type { InputHandlers } from "@/hooks";
 
 import { FormField } from "../FormField/FormField";
 import { icons } from "@/components/icons/icons";
-import { hasKey } from "@/utils/general.utils";
+import { hasKey } from "@runera/shared";
 
 import styles from "./FormRadio.module.css";
 

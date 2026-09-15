@@ -10,8 +10,8 @@ import { icons } from "@/components/icons/icons";
 import { Panel, CircleProgress } from "@/components/ui";
 import { PaceScale, RunActions } from "@/components/runs";
 import { formatDateString } from "@/utils/general.utils";
+import { getWeatherPresentation } from "@/utils/runs.utils";
 import { filterOptions } from "@/hooks";
-import { inputFields } from "@/config/inputFields";
 
 import styles from "./RunItem.module.css";
 
@@ -26,12 +26,6 @@ interface RunItemProps {
   isEntering: boolean;
 }
 
-const weatherFields = Object.fromEntries(
-  Object.entries(inputFields)
-    .filter(([, field]) => field.name === "weather")
-    .map(([, field]) => [field.value, field]),
-);
-
 function RunItem({
   run,
   loading,
@@ -40,8 +34,7 @@ function RunItem({
   isEntering,
 }: RunItemProps) {
   const [isRemoving, setIsRemoving] = useState(false);
-  const weatherLabel = run.weather ? weatherFields[run.weather]?.label : null;
-  const WeatherIcon = run.weather ? icons.weather[run.weather] : null;
+  const { weatherLabel, WeatherIcon } = getWeatherPresentation(run);
 
   return (
     <article

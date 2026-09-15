@@ -1,0 +1,17 @@
+.panel {
+  width: min(100%, 65rem);
+  align-items: stretch;
+  gap: 1.6rem;
+  padding: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  font-size: var(--font-size-heading-sm);
+}

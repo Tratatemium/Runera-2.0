@@ -6,13 +6,6 @@ function isSameDay(date1: Date, date2: Date) {
   );
 }
 
-function hasKey<T extends object, K extends PropertyKey>(
-  obj: T,
-  key: K,
-): key is K & keyof T {
-  return Object.hasOwn(obj, key);
-}
-
 function formatDateString(dateString: string) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
@@ -21,4 +14,4 @@ function formatDateString(dateString: string) {
   }).format(new Date(`${dateString}T12:00:00`));
 }
 
-export { isSameDay, hasKey, formatDateString };
+export { isSameDay, formatDateString };

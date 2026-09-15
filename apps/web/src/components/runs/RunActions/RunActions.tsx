@@ -16,7 +16,7 @@ const SpinnerIcon = icons.spinners.spinner;
 
 interface RunActionsProps {
   run: Run;
-  layout: "vertical" | "horisontal";
+  layout: "vertical" | "horizontal";
   loading: LoadingState;
   loadingRunId: string | null;
   onDelete: (runId: string) => Promise<void>;

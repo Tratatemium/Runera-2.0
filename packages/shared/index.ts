@@ -1,3 +1,7 @@
+/* ================================================================================================= */
+/*  TYPES                                                                                            */
+/* ================================================================================================= */
+
 export type { Run, RunsState, RunsContextValue } from "./types/runs/runs.types";
 export type { RunRequest } from "./types/runs/runs.requests";
 export type {
@@ -35,3 +39,9 @@ export type {
   FormData,
   UseFormHandlersReturn,
 } from "./types/forms.types";
+
+/* ================================================================================================= */
+/*  UTILS                                                                                            */
+/* ================================================================================================= */
+
+export { hasKey, assertAllowed } from "./utils/general.utils";

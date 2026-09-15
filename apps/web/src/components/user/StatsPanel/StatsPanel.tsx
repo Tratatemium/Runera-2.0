@@ -13,7 +13,7 @@ import {
   formatPace,
   normalizeDate,
 } from "@/utils/normalize.utils";
-import { hasKey } from "@/utils/general.utils";
+import { hasKey } from "@runera/shared";
 
 const {
   number1: Icon1k,

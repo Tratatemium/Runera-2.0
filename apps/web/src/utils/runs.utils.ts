@@ -7,7 +7,9 @@ import type {
   RunRequest,
   FormData,
   FormStateValue,
+  InputFieldConfig,
 } from "@runera/shared";
+import type { Icon } from "@/components/icons/icons";
 
 import {
   formatDuration,
@@ -15,6 +17,9 @@ import {
   normalizeFormValue,
   normalizeTime,
 } from "./normalize.utils";
+
+import { inputFields } from "@/config/inputFields";
+import { icons } from "@/components/icons/icons";
 
 function normalizeRun(run: RunApi): Run {
   const { createdAt: _, updatedAt: __, ...rest } = run;
@@ -83,10 +88,33 @@ function calculatePace(formState: FormStateValue) {
   return formatDuration(pace, "compact");
 }
 
+function getFieldPresentation(
+  run: Run,
+  fieldName: "weather" | "runType",
+): {
+  label: string | null;
+  Icon: Icon | null;
+} {
+  const all;
+  if (!["weather", "runType"])
+    const filteredFields: Record<string, InputFieldConfig> = Object.fromEntries(
+      Object.entries(inputFields)
+        .filter(([, field]) => field.name === fieldName)
+        .map(([, field]) => [field.value, field]),
+    );
+  const label = run[fieldName] ? filteredFields[run[fieldName]]?.label : null;
+  const Icon = run[fieldName]
+    ? icons[fieldName][run[fieldName] as keyof (typeof icons)[typeof fieldName]]
+    : null;
+
+  return { label, Icon };
+}
+
 export {
   normalizeMyRuns,
   normalizeRunData,
   getRunData,
   prepareRunStateValues,
   calculatePace,
+  getWeatherPresentation,
 };
