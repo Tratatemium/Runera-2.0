@@ -1,4 +1,9 @@
+"use client";
+
+import { useRunsContext } from "@/context/RunsContext";
+import { useRuns } from "@/hooks";
 import { WindowControls } from "@/components/ui";
+import { RunItem } from "@/components/runs";
 
 import styles from "./DayDetails.module.css";
 
@@ -8,6 +13,10 @@ interface DayDetailsProps {
 }
 
 function DayDetails({ date, onClose }: DayDetailsProps) {
+  const { getRunsByDate } = useRunsContext();
+  const { loading, loadingRunId, deleteRun } = useRuns();
+  const runs = getRunsByDate(date);
+
   return (
     <div
       className={styles.details}
@@ -21,6 +30,21 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         onClick={onClose}
       />
       <span>{`daily details ${date.toDateString()}`}</span>
+      {runs && (
+        <div className={styles.runsWrapper}>
+          {runs.map((run) => (
+            <RunItem
+              run={run}
+              variant="short"
+              loading={loading}
+              loadingRunId={loadingRunId}
+              onDelete={deleteRun}
+              isEntering={false}
+              key={run.runId}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

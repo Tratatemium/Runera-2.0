@@ -5,6 +5,7 @@ import type { LoadingState } from "@/hooks";
 
 import { useState } from "react";
 import Link from "next/link";
+import { assertAllowed } from "@runera/shared";
 
 import { icons } from "@/components/icons/icons";
 import { Panel } from "@/components/ui";
@@ -19,6 +20,7 @@ const { clock: ClockIcon, speed: SpeedIcon } = icons.running;
 
 interface RunItemProps {
   run: Run;
+  variant: "full" | "short";
   loading: LoadingState;
   loadingRunId: string | null;
   onDelete: (runId: string) => Promise<void>;
@@ -27,11 +29,13 @@ interface RunItemProps {
 
 function RunItem({
   run,
+  variant,
   loading,
   loadingRunId,
   onDelete,
   isEntering,
 }: RunItemProps) {
+  assertAllowed(variant, "variant", ["full", "short"]);
   const [isRemoving, setIsRemoving] = useState(false);
   const { label: weatherLabel, Icon: WeatherIcon } = getFieldPresentation(
     run,
@@ -105,20 +109,22 @@ function RunItem({
         </div>
 
         <div className={styles.runGraphs}>
+          {variant === "full" && (
+            <>
+              <span className={styles.separatorLine} />
+
+              <PaceScale
+                className={styles.paceVSAvg}
+                paceSecPerKm={run.paceSecPerKm}
+                variant="short"
+              />
+
+              <span className={styles.separatorLine} />
+
+              <EffortCircle perceivedEffort={run.perceivedEffort} />
+            </>
+          )}
           <span className={styles.separatorLine} />
-
-          <PaceScale
-            className={styles.paceVSAvg}
-            paceSecPerKm={run.paceSecPerKm}
-            variant="short"
-          />
-
-          <span className={styles.separatorLine} />
-
-          <EffortCircle perceivedEffort={run.perceivedEffort} />
-
-          <span className={styles.separatorLine} />
-
           <RunActions
             run={run}
             layout="vertical"

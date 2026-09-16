@@ -114,6 +114,7 @@ export default function MyRuns() {
           {finalRunsArray.map((run) => (
             <RunItem
               run={run}
+              variant="full"
               loading={loading}
               loadingRunId={loadingRunId}
               onDelete={deleteRun}

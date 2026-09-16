@@ -4,7 +4,7 @@
   flex-direction: column;
   width: min(min-content, 90vw);
   min-width: 18rem;
-  max-width: 28rem;
+  max-width: 48rem;
   gap: var(--gap-xl);
   padding: var(--gap-2xl);
 
@@ -15,4 +15,27 @@
   box-shadow:
     0 20px 48px color-mix(in srgb, var(--color-primary) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
+}
+
+.runsWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: var(--gap-lg);
+  gap: var(--gap-lg);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.runsWrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.runsWrapper::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--color-accent-1) 10%, transparent);
+  border-radius: var(--border-radius-full);
+}
+
+.runsWrapper::-webkit-scrollbar-thumb {
+  background: var(--color-accent-1);
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
 }

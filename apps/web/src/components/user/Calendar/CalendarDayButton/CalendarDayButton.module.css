@@ -72,11 +72,6 @@
 }
 
 :global(.rdp-selected) .day {
-  --bg: var(--color-accent-1);
-  --border: var(--color-accent-1);
-  --color: var(--color-secondary);
-  box-shadow: 0 6px 14px
-    color-mix(in srgb, var(--color-accent-1) 40%, transparent);
 }
 
 :global(.rdp-outside) .day {

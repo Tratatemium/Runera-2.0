@@ -31,7 +31,7 @@
 
   color: var(--color-secondary);
 
-  box-shadow: 0 10px 24px
+  box-shadow: 0 5px 12px
     color-mix(in srgb, var(--color-primary) 88%, transparent);
   transition:
     transform 160ms ease,
@@ -90,7 +90,7 @@
     var(--color-accent-3) 45%,
     var(--color-accent-1)
   );
-  box-shadow: 0 14px 28px
+  box-shadow: 0 7px 14px
     color-mix(in srgb, var(--color-primary) 52%, var(--color-accent-1));
 }
 
