@@ -1,10 +1,22 @@
-.panel {
+.mainPanel {
   width: min(100%, 65rem);
   align-items: stretch;
   gap: 1.6rem;
   padding: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
   color: var(--color-secondary);
   background: var(--color-accent-1);
+}
+
+.subTitle {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-sm);
+  text-transform: uppercase;
+}
+
+.panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .header {
@@ -106,11 +118,13 @@
 }
 
 .paceAndEffort {
-  width: 100%;
-  display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+}
+
+.notes {
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 @media (max-width: 920px) {

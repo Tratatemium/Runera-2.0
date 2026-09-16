@@ -5,7 +5,9 @@
 }
 
 .title {
-  font-family: var(--font-family);
+  font-family: var(--title-font);
+  font-size: var(--title-font-size);
+  text-transform: var(--title-text-transform);
 }
 
 .paceTrack {
@@ -39,13 +41,17 @@
 .short {
   --gap: var(--gap-xs);
   --track-wigth: 7rem;
-  --font-family: var(--font-primary);
+  --title-font: var(--font-primary);
+  --title-font-size: var(--font-size-body-sm);
+  --title-text-transform: none;
 }
 
 .stretch {
   --gap: var(--gap-lg);
   --track-wigth: clamp(7rem, calc(70vw - 4 * var(--gap-lg)), 40rem);
-  --font-family: var(--font-secondary);
+  --title-font: var(--font-secondary);
+  --title-font-size: var(--font-size-body-sm);
+  --title-text-transform: uppercase;
 }
 
 @media (max-width: 620px) {

@@ -63,7 +63,7 @@ function RunItemFull({ runId }: RunItemFullProps) {
   ];
 
   return (
-    <Panel variant="gradientAccent" className={styles.panel}>
+    <Panel variant="gradientAccent" className={styles.mainPanel}>
       <header className={styles.header}>
         <ButtonLink
           linkDirection=""
@@ -116,13 +116,20 @@ function RunItemFull({ runId }: RunItemFullProps) {
           />
         ))}
       </div>
-      <Panel variant="onAccent" className={styles.paceAndEffort}>
+      <Panel
+        variant="onAccent"
+        className={`${styles.panel} ${styles.paceAndEffort}`}
+      >
         <PaceScale
           className={styles.paceVSAvg}
           paceSecPerKm={run.paceSecPerKm}
           variant="stretch"
         />
         <EffortCircle perceivedEffort={run.perceivedEffort} />
+      </Panel>
+      <Panel variant="onAccent" className={`${styles.panel} ${styles.notes}`}>
+        <span className={styles.subTitle}>Notes</span>
+        <span className={styles.notesText}>{run.notes ? run.notes : "-"}</span>
       </Panel>
     </Panel>
   );
