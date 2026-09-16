@@ -22,7 +22,7 @@ interface RunItemFullProps {
 
 function RunItemFull({ runId }: RunItemFullProps) {
   const router = useRouter();
-  const { runs, isHydratingRuns } = useRunsContext();
+  const { runs } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
   const [isRemoving, setIsRemoving] = useState(false);
 
@@ -120,12 +120,16 @@ function RunItemFull({ runId }: RunItemFullProps) {
         variant="onAccent"
         className={`${styles.panel} ${styles.paceAndEffort}`}
       >
-        <PaceScale
-          className={styles.paceVSAvg}
-          paceSecPerKm={run.paceSecPerKm}
-          variant="stretch"
-        />
-        <EffortCircle perceivedEffort={run.perceivedEffort} />
+        <div className={styles.paceMetric}>
+          <PaceScale
+            className={styles.paceVSAvg}
+            paceSecPerKm={run.paceSecPerKm}
+            variant="stretch"
+          />
+        </div>
+        <div className={styles.effortMetric}>
+          <EffortCircle perceivedEffort={run.perceivedEffort} />
+        </div>
       </Panel>
       <Panel variant="onAccent" className={`${styles.panel} ${styles.notes}`}>
         <span className={styles.subTitle}>Notes</span>
