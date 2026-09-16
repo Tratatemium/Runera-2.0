@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-xs);
+  gap: var(--gap);
 }
 
 .title {
@@ -11,7 +11,7 @@
   position: relative;
   display: flex;
   align-self: center;
-  width: 7rem;
+  width: var(--track-wigth);
   height: 0.3rem;
   border-radius: var(--border-radius-full);
   background: color-mix(in srgb, var(--color-primary) 30%, transparent);
@@ -35,5 +35,18 @@
   border-radius: var(--border-radius-full);
 }
 
-.label {
+.short {
+  --gap: var(--gap-xs);
+  --track-wigth: 7rem;
+}
+
+.stretch {
+  --gap: var(--gap-lg);
+  --track-wigth: clamp(7rem, calc(70vw - 4 * var(--gap-lg)), 40rem);
+}
+
+@media (max-width: 620px) {
+  .labelExtra {
+    display: none;
+  }
 }

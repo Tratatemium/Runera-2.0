@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { icons } from "@/components/icons/icons";
-import { Panel, ButtonLink } from "@/components/ui";
+import { Panel, ButtonLink, Card } from "@/components/ui";
+import { PaceScale, EffortCircle } from "@/components/runs";
 import { RunActions } from "../RunActions/RunActions";
 import { getFieldPresentation } from "@/utils/runs.utils";
 import { formatDateString } from "@/utils/general.utils";
+import { formatDuration, formatPace } from "@/utils/normalize.utils";
 
 import styles from "./RunItemFull.module.css";
 
@@ -40,6 +42,25 @@ function RunItemFull({ runId }: RunItemFullProps) {
     "weather",
   );
   const { label: runTypeLabel } = getFieldPresentation(run, "runType");
+
+  const cards = [
+    {
+      cardLabel: "Distance",
+      cardValue: run.distanceKm.toString() ?? "—",
+      cardUnit: "km",
+    },
+    {
+      cardLabel: "Duration",
+      cardValue: formatDuration(run.durationSec, "human"),
+      cardUnit: "",
+      type: "duration" as const,
+    },
+    {
+      cardLabel: "Pace",
+      cardValue: formatPace(run.paceSecPerKm),
+      cardUnit: "min/km",
+    },
+  ];
 
   return (
     <Panel variant="gradientAccent" className={styles.panel}>
@@ -85,7 +106,24 @@ function RunItemFull({ runId }: RunItemFullProps) {
         <time>{formatDateString(run.date, "full with time")}</time>
       </div>
       {run.title && <h1 className={styles.runTitle}>{run.title}</h1>}
-      <div className={styles.runMainInfo}></div>
+      <div className={styles.mainStats}>
+        {cards.map((card, i) => (
+          <Card
+            key={card.cardLabel}
+            variant="onAccent"
+            {...card}
+            decorVariant={i}
+          />
+        ))}
+      </div>
+      <Panel variant="onAccent" className={styles.paceAndEffort}>
+        <PaceScale
+          className={styles.paceVSAvg}
+          paceSecPerKm={run.paceSecPerKm}
+          variant="stretch"
+        />
+        <EffortCircle perceivedEffort={run.perceivedEffort} />
+      </Panel>
     </Panel>
   );
 }

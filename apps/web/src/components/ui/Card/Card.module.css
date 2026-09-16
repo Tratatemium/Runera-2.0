@@ -7,9 +7,14 @@
   align-items: center;
   padding: var(--gap-lg-plus);
   border-radius: var(--border-radius-xl);
+
+  color: var(--color);
+  background: var(--color-bg);
+  border: var(--border);
 }
 
-.card::before {
+.decor {
+  display: var(--decor-display);
   content: "";
   position: absolute;
   inset: 0 auto auto 0;
@@ -35,34 +40,33 @@
   justify-content: center;
   width: 5rem;
   height: 5rem;
-  background: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+  background: var(--icon-bg);
   clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%);
 }
 
 .icon {
   height: 2.7rem;
   width: 2.7rem;
-  color: var(--color-secondary);
+  color: var(--icon-color);
 }
 
 .label {
   font-family: var(--font-secondary);
   font-size: var(--font-size-body-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  color: var(--label-color);
 }
 
 .date {
   font-size: var(--font-size-body-xs);
-  color: var(--accent-mix-3);
+  color: var(--date-color);
 }
 
 .value {
-  font-size: var(--font-size-heading-lg);
+  font-size: var(--value-font-size);
   font-weight: var(--font-weight-bold);
-  color: var(--accent-color-1);
   line-height: 1.05;
 }
 
@@ -72,9 +76,38 @@
 }
 
 .light {
-  background: color-mix(in srgb, var(--color-secondary) 50%, white);
+  --border: var(--border-width-thin) solid rgba(12, 22, 24, 0.1);
+  --value-font-size: var(--font-size-heading-lg);
+
+  --color: var(--accent-color-1);
+  --color-bg: color-mix(in srgb, var(--color-secondary) 50%, white);
+
+  --icon-color: var(--color-secondary);
+  --icon-bg: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+
+  --label-color: var(--color-primary);
+  --date-color: var(--accent-mix-3);
+
+  --decor-display: block;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(12, 22, 24, 0.1);
+}
+
+.onAccent {
+  --border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  --value-font-size: var(--font-size-display);
+
+  --color: var(--color-secondary);
+  --color-bg: color-mix(in srgb, var(--color-secondary) 15%, transparent);
+
+  --icon-color: var(--color-secondary);
+  --icon-bg: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+
+  --label-color: var(--color-secondary);
+  --date-color: var(--accent-mix-3);
+
+  --decor-display: none;
+  /* backdrop-filter: blur(8px); */
 }
 
 .variant1 {

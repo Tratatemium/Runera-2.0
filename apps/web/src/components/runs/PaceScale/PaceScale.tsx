@@ -21,15 +21,21 @@ function paceBarConfig(paceDeltaSec: number) {
     color: isFaster ? "#5DCAA5" : "#F0997B",
     direction: isFaster ? "left" : "right",
     widthPercent: deltaToBarPercent(paceDeltaSec),
-    label: `${isFaster ? "-" : "+"}${formatMMSS(Math.abs(paceDeltaSec))}/km ${isFaster ? "faster" : "slower"}`,
+    label: `${isFaster ? "-" : "+"}${formatMMSS(Math.abs(paceDeltaSec))} min/km ${isFaster ? "faster" : "slower"}`,
   };
 }
 
 interface PaceScaleProps extends React.HTMLAttributes<HTMLDivElement> {
   paceSecPerKm: number;
+  variant: "short" | "stretch";
 }
 
-function PaceScale({ paceSecPerKm, ...props }: PaceScaleProps) {
+function PaceScale({
+  paceSecPerKm,
+  variant,
+  className,
+  ...props
+}: PaceScaleProps) {
   const { user } = useAuthContext();
   if (!user?.stats.allTime.avgPaceSecPerKm) return null;
   const avgPaceSecPerKm = user?.stats.allTime.avgPaceSecPerKm;
@@ -38,7 +44,10 @@ function PaceScale({ paceSecPerKm, ...props }: PaceScaleProps) {
   const config = paceBarConfig(paceDeltaSec);
 
   return (
-    <div className={styles.wrapper} {...props}>
+    <div
+      className={`${styles.wrapper} ${styles[variant]}${className ? ` ${className}` : ""}`}
+      {...props}
+    >
       <span className={styles.title}>Pace vs your avg</span>
       <div className={styles.paceTrack}>
         <div
@@ -53,6 +62,11 @@ function PaceScale({ paceSecPerKm, ...props }: PaceScaleProps) {
       </div>
       <span className={styles.label} style={{ color: config.color }}>
         {config.label}
+        <span className={styles.labelExtra}>
+          {variant === "stretch"
+            ? ` than your ${formatMMSS(user.stats.allTime.avgPaceSecPerKm)} average`
+            : ""}
+        </span>
       </span>
     </div>
   );

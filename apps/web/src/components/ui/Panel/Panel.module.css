@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: fit-content;
-  padding: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
+  padding: var(--gap-lg-plus);
   border-radius: 1.15rem;
 
   backdrop-filter: blur(4px);
@@ -15,6 +15,13 @@
 .light {
   border: 1px solid rgba(12, 22, 24, 0.1);
   background: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+}
+
+.onAccent {
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--color-secondary) 15%, transparent);
+
+  background: color-mix(in srgb, var(--color-secondary) 15%, transparent);
 }
 
 .opaqueAccent {

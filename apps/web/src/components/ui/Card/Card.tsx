@@ -9,7 +9,7 @@ interface CardProps extends ComponentPropsWithoutRef<"div"> {
   cardDate?: string;
   cardValue?: string;
   cardUnit?: string;
-  variant?: "light";
+  variant?: "light" | "onAccent";
   decorVariant?: number;
   type?: "duration";
   icon?: Icon;
@@ -41,6 +41,7 @@ function Card({
         .join(" ")}
     >
       {children}
+      <span className={styles.decor} />
       <div className={styles.content}>
         {cardLabel && <span className={styles.label}>{cardLabel}</span>}
         {cardValue &&

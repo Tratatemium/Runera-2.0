@@ -6,6 +6,7 @@ interface PanelProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
   variant:
     | "light"
+    | "onAccent"
     | "frosted"
     | "accent"
     | "frostedAccent"

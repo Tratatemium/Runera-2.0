@@ -7,8 +7,8 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { icons } from "@/components/icons/icons";
-import { Panel, CircleProgress } from "@/components/ui";
-import { PaceScale, RunActions } from "@/components/runs";
+import { Panel } from "@/components/ui";
+import { EffortCircle, PaceScale, RunActions } from "@/components/runs";
 import { formatDateString } from "@/utils/general.utils";
 import { getFieldPresentation } from "@/utils/runs.utils";
 
@@ -110,23 +110,12 @@ function RunItem({
           <PaceScale
             className={styles.paceVSAvg}
             paceSecPerKm={run.paceSecPerKm}
+            variant="short"
           />
 
           <span className={styles.separatorLine} />
 
-          <div className={styles.effortWrapper}>
-            {run.perceivedEffort ? (
-              <CircleProgress
-                className={styles.effortCircle}
-                radius={25}
-                percentage={run.perceivedEffort * 10}
-                showNumber={"decimal"}
-              />
-            ) : (
-              <span className={styles.effortPlaceholder}>-</span>
-            )}
-            <span>Effort</span>
-          </div>
+          <EffortCircle perceivedEffort={run.perceivedEffort} />
 
           <span className={styles.separatorLine} />
 

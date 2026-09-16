@@ -1,0 +1,23 @@
+.effortWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-xs);
+}
+
+.effortPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  font-size: var(--font-size-display-lg);
+}
+
+.effortCircle {
+  position: relative;
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
