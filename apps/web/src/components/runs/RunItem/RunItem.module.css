@@ -13,7 +13,7 @@
 }
 
 .link:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--color-accent-2) 70%, transparent);
   outline-offset: 2px;
 }
 
@@ -87,11 +87,11 @@
 .article:hover .runWrapper {
   border-color: color-mix(
     in srgb,
-    var(--accent-color-3) 45%,
-    var(--accent-color-1)
+    var(--color-accent-3) 45%,
+    var(--color-accent-1)
   );
   box-shadow: 0 14px 28px
-    color-mix(in srgb, var(--color-primary) 52%, var(--accent-color-1));
+    color-mix(in srgb, var(--color-primary) 52%, var(--color-accent-1));
 }
 
 .runInfo {

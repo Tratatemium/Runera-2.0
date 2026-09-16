@@ -20,7 +20,7 @@
   display: inline-block;
   padding: 0;
   border-radius: var(--border-radius-md);
-  border: var(--border-width-thin) solid var(--accent-color-1);
+  border: var(--border-width-thin) solid var(--color-accent-1);
   overflow: hidden;
 }
 
@@ -29,15 +29,15 @@
   font-size: var(--font-size-body-sm);
   cursor: pointer;
 
-  color: var(--accent-color-1);
+  color: var(--color-accent-1);
   background-color: color-mix(in srgb, var(--color-secondary) 50%, white);
   border: var(--border-width-thin) solid var(--color-secondary);
 }
 
 .periodSwitch button.active {
   color: var(--color-secondary);
-  background-color: var(--accent-color-1);
-  border: var(--border-width-thin) solid var(--accent-color-1);
+  background-color: var(--color-accent-1);
+  border: var(--border-width-thin) solid var(--color-accent-1);
 }
 
 .statsWrapper {

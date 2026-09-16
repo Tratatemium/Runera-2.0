@@ -52,8 +52,8 @@
   border-radius: 50%;
   background: linear-gradient(
     150deg,
-    var(--accent-color-1) 0%,
-    color-mix(in srgb, var(--accent-color-1), var(--accent-color-2) 45%) 100%
+    var(--color-accent-1) 0%,
+    color-mix(in srgb, var(--color-accent-1), var(--color-accent-2) 45%) 100%
   );
   color: var(--color-secondary);
   display: flex;
@@ -120,7 +120,7 @@
 .infoLabel {
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--accent-color-1);
+  color: var(--color-accent-1);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }

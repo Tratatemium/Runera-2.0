@@ -26,7 +26,7 @@
 
 .opaqueAccent {
   border: 1px solid rgba(255, 255, 255, 0.45);
-  background: color-mix(in srgb, var(--accent-color-1) 5%, transparent);
+  background: color-mix(in srgb, var(--color-accent-1) 5%, transparent);
 }
 
 .frosted {
@@ -36,12 +36,12 @@
 
 .accent {
   border: 1px solid rgba(255, 255, 255, 0.45);
-  background: color-mix(in srgb, var(--accent-color-1) 90%, transparent);
+  background: color-mix(in srgb, var(--color-accent-1) 90%, transparent);
 }
 
 .frostedAccent {
   border: 1px solid rgba(255, 255, 255, 0.45);
-  background: color-mix(in srgb, var(--accent-color-1) 25%, transparent);
+  background: color-mix(in srgb, var(--color-accent-1) 25%, transparent);
 }
 
 .cloudy {
@@ -58,9 +58,9 @@
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: linear-gradient(
     130deg,
-    color-mix(in srgb, var(--accent-color-3) 30%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-3) 30%, transparent) 0%,
     color-mix(in srgb, var(--color-secondary) 50%, transparent) 55%,
-    color-mix(in srgb, var(--accent-color-1) 50%, transparent) 100%
+    color-mix(in srgb, var(--color-accent-1) 50%, transparent) 100%
   );
 }
 
@@ -68,8 +68,8 @@
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: linear-gradient(
     130deg,
-    color-mix(in srgb, var(--accent-color-1) 80%, var(--color-secondary)) 0%,
-    color-mix(in srgb, var(--accent-color-1) 90%, transparent) 55%,
-    color-mix(in srgb, var(--accent-color-1) 60%, transparent) 100%
+    color-mix(in srgb, var(--color-accent-1) 80%, var(--color-secondary)) 0%,
+    color-mix(in srgb, var(--color-accent-1) 90%, transparent) 55%,
+    color-mix(in srgb, var(--color-accent-1) 60%, transparent) 100%
   );
 }

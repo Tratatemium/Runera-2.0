@@ -23,6 +23,6 @@
 
 .close {
   --color: var(--color-secondary);
-  --color-bg: var(--accent-color-4);
+  --color-bg: var(--color-accent-4);
   --border: var(--border-width-thin) solid var(--border-color-primary);
 }

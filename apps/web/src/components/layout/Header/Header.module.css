@@ -8,7 +8,7 @@
   margin: 0;
   padding: 1em 2em;
   border-bottom: 1px solid rgba(12, 22, 24, 0.1);
-  background: color-mix(in srgb, var(--accent-color-1) 95%, transparent);
+  background: color-mix(in srgb, var(--color-accent-1) 95%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -17,5 +17,3 @@
   align-items: center;
   gap: 0.75em;
 }
-
-

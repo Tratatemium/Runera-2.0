@@ -23,7 +23,7 @@
 }
 
 .userButton:focus-visible {
-  outline: 2px solid var(--accent-color-2);
+  outline: 2px solid var(--color-accent-2);
   outline-offset: 2px;
 }
 
@@ -37,7 +37,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: var(--accent-color-4);
+  background: var(--color-accent-4);
   color: var(--color-secondary);
   display: flex;
   align-items: center;
@@ -100,15 +100,15 @@
 
 .menuItem a:hover,
 .menuItem button:hover {
-  background-color: color-mix(in srgb, var(--accent-color-1) 12%, transparent);
-  color: var(--accent-color-1);
+  background-color: color-mix(in srgb, var(--color-accent-1) 12%, transparent);
+  color: var(--color-accent-1);
 }
 
 .menuItem a:focus-visible,
 .menuItem button:focus-visible {
-  outline: 2px solid var(--accent-color-2);
+  outline: 2px solid var(--color-accent-2);
   outline-offset: -2px;
-  background-color: color-mix(in srgb, var(--accent-color-1) 12%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent-1) 12%, transparent);
 }
 
 .menuItem:last-child {
@@ -117,10 +117,10 @@
 }
 
 .menuItem:last-child button {
-  color: var(--accent-color-4);
+  color: var(--color-accent-4);
 }
 
 .menuItem:last-child button:hover {
-  background-color: color-mix(in srgb, var(--accent-color-4) 10%, transparent);
-  color: var(--accent-color-4);
+  background-color: color-mix(in srgb, var(--color-accent-4) 10%, transparent);
+  color: var(--color-accent-4);
 }

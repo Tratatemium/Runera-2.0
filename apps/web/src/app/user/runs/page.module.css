@@ -29,7 +29,7 @@
 
 .greeting p {
   margin: 0;
-  color: color-mix(in srgb, var(--accent-color-1) 86%, var(--color-primary));
+  color: color-mix(in srgb, var(--color-accent-1) 86%, var(--color-primary));
 }
 
 .listControls {
@@ -64,7 +64,7 @@
 .sortingSelect {
   display: flex;
   max-width: max-content;
-  background-color: color-mix(in srgb, var(--accent-color-1) 25%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent-1) 25%, transparent);
   border: var(--border-width-thin) solid var(--border-color-primary);
   border-radius: var(--border-radius-lg);
   padding: var(--gap-sm);
@@ -74,14 +74,14 @@
 }
 
 .sortingSelect:focus-visible {
-  outline: 2px solid var(--accent-color-1);
+  outline: 2px solid var(--color-accent-1);
   outline-offset: 2px;
 }
 
 .sortingSelect:hover {
   border-color: color-mix(
     in srgb,
-    var(--accent-color-1) 45%,
+    var(--color-accent-1) 45%,
     var(--border-color-primary)
   );
 }
@@ -110,14 +110,14 @@
 
   background: linear-gradient(
     160deg,
-    color-mix(in srgb, var(--accent-color-1) 88%, white),
-    var(--accent-color-1)
+    color-mix(in srgb, var(--color-accent-1) 88%, white),
+    var(--color-accent-1)
   );
   color: var(--color-secondary);
   border: 2px solid var(--accent-mix-2);
   border-radius: 999px;
   box-shadow:
-    0 8px 18px color-mix(in srgb, var(--accent-color-1) 38%, transparent),
+    0 8px 18px color-mix(in srgb, var(--color-accent-1) 38%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 40%, transparent);
 
   font-size: 3em;
@@ -133,7 +133,7 @@
 .addRunButton:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 12px 24px color-mix(in srgb, var(--accent-color-1) 45%, transparent),
+    0 12px 24px color-mix(in srgb, var(--color-accent-1) 45%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 45%, transparent);
   filter: saturate(1.06);
 }
@@ -141,12 +141,12 @@
 .addRunButton:active {
   transform: translateY(0);
   box-shadow:
-    0 4px 10px color-mix(in srgb, var(--accent-color-1) 35%, transparent),
+    0 4px 10px color-mix(in srgb, var(--color-accent-1) 35%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 35%, transparent);
 }
 
 .addRunButton:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, white);
+  outline: 3px solid color-mix(in srgb, var(--color-accent-2) 70%, white);
   outline-offset: 3px;
 }
 

@@ -79,11 +79,11 @@
   --border: var(--border-width-thin) solid rgba(12, 22, 24, 0.1);
   --value-font-size: var(--font-size-heading-lg);
 
-  --color: var(--accent-color-1);
+  --color: var(--color-accent-1);
   --color-bg: color-mix(in srgb, var(--color-secondary) 50%, white);
 
   --icon-color: var(--color-secondary);
-  --icon-bg: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+  --icon-bg: color-mix(in srgb, var(--color-accent-1) 40%, transparent);
 
   --label-color: var(--color-primary);
   --date-color: var(--accent-mix-3);
@@ -101,7 +101,7 @@
   --color-bg: color-mix(in srgb, var(--color-secondary) 15%, transparent);
 
   --icon-color: var(--color-secondary);
-  --icon-bg: color-mix(in srgb, var(--accent-color-1) 40%, transparent);
+  --icon-bg: color-mix(in srgb, var(--color-accent-1) 40%, transparent);
 
   --label-color: var(--color-secondary);
   --date-color: var(--accent-mix-3);

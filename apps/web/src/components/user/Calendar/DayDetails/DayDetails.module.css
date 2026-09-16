@@ -9,7 +9,7 @@
   padding: var(--gap-2xl);
 
   border: var(--border-width-thin) solid
-    color-mix(in srgb, var(--accent-color-3) 70%, transparent);
+    color-mix(in srgb, var(--color-accent-3) 70%, transparent);
   border-radius: var(--border-radius-xl);
   background: var(--color-secondary);
   box-shadow:
