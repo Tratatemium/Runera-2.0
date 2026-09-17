@@ -53,4 +53,8 @@ function formatDateString(
   }
 }
 
-export { isSameDay, formatDateString, toDateOnlyString };
+function pluralize(label: string, count: number): string {
+  return `${label}${count === 1 ? "" : "s"}`;
+}
+
+export { isSameDay, formatDateString, toDateOnlyString, pluralize };

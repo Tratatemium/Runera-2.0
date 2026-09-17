@@ -4,7 +4,11 @@ import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { WindowControls } from "@/components/ui";
 import { RunItem } from "@/components/runs";
-import { formatDateString, toDateOnlyString } from "@/utils/general.utils";
+import {
+  formatDateString,
+  toDateOnlyString,
+  pluralize,
+} from "@/utils/general.utils";
 import { formatDuration, formatDistance } from "@/utils/normalize.utils";
 
 import styles from "./DayDetails.module.css";
@@ -53,11 +57,37 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
             <span className={styles.statLabel}>Total distance</span>
             <span className={styles.statValue}>
               <span>{totalDistance}</span>
-              <span className={styles.statUnit}>km</span>
+              {runs && <span className={styles.statUnit}>km</span>}
             </span>
           </div>
 
           <span className={styles.separatorLine} />
+
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Total duration</span>
+            <span className={styles.statValue}>
+              {totalDuration.split(/(\s?[hms]\b)/).map((part, index) =>
+                /[hms]\b/.test(part) ? (
+                  <span className={styles.statUnit} key={index}>
+                    {` ${part}`}
+                  </span>
+                ) : (
+                  part
+                ),
+              )}
+            </span>
+          </div>
+
+          <span className={styles.separatorLine} />
+
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>
+              {pluralize("Run", runs ? runs.length : 0)}
+            </span>
+            <span className={styles.statValue}>
+              <span>{runsAmount}</span>
+            </span>
+          </div>
         </div>
       </header>
 
