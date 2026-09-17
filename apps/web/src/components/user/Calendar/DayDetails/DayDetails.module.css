@@ -6,15 +6,35 @@
   min-width: 18rem;
   max-width: 48rem;
   gap: var(--gap-xl);
-  padding: var(--gap-2xl);
+  overflow: hidden;
 
   border: var(--border-width-thin) solid
-    color-mix(in srgb, var(--color-accent-3) 70%, transparent);
+    color-mix(in srgb, var(--color-accent-1) 70%, transparent);
   border-radius: var(--border-radius-xl);
   background: var(--color-secondary);
   box-shadow:
     0 20px 48px color-mix(in srgb, var(--color-primary) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 60%, transparent);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  padding: var(--gap-lg);
+  gap: var(--gap-lg);
+  background: var(--color-accent-1);
+  color: var(--color-secondary);
+}
+
+.title {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: var(--font-size-body-lg);
+  color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
+}
+
+.date {
+  font-size: var(--font-size-heading);
 }
 
 .runsWrapper {

@@ -4,6 +4,7 @@ import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { WindowControls } from "@/components/ui";
 import { RunItem } from "@/components/runs";
+import { formatDateString, toDateOnlyString } from "@/utils/general.utils";
 
 import styles from "./DayDetails.module.css";
 
@@ -29,7 +30,12 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         aria-label="Close day details"
         onClick={onClose}
       />
-      <span>{`daily details ${date.toDateString()}`}</span>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Running Day</h1>
+        <time
+          className={styles.date}
+        >{`${formatDateString(toDateOnlyString(date), "full with weekday")}`}</time>
+      </header>
       {runs && (
         <div className={styles.runsWrapper}>
           {runs.map((run) => (
