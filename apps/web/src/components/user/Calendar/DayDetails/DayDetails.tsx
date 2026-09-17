@@ -5,6 +5,7 @@ import { useRuns } from "@/hooks";
 import { WindowControls } from "@/components/ui";
 import { RunItem } from "@/components/runs";
 import { formatDateString, toDateOnlyString } from "@/utils/general.utils";
+import { formatDuration, formatDistance } from "@/utils/normalize.utils";
 
 import styles from "./DayDetails.module.css";
 
@@ -17,6 +18,16 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
   const { getRunsByDate } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
   const runs = getRunsByDate(date);
+  const runsAmount = runs ? runs.length : "—";
+  const totalDistance = runs
+    ? formatDistance(runs?.reduce((acc, run) => acc + run.distanceMeters, 0))
+    : "—";
+  const totalDuration = runs
+    ? formatDuration(
+        runs?.reduce((acc, run) => acc + run.durationSec, 0),
+        "human",
+      )
+    : "—";
 
   return (
     <div
@@ -30,12 +41,26 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         aria-label="Close day details"
         onClick={onClose}
       />
+
       <header className={styles.header}>
         <h1 className={styles.title}>Running Day</h1>
         <time
           className={styles.date}
         >{`${formatDateString(toDateOnlyString(date), "full with weekday")}`}</time>
+
+        <div className={styles.statsWrapper}>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Total distance</span>
+            <span className={styles.statValue}>
+              <span>{totalDistance}</span>
+              <span className={styles.statUnit}>km</span>
+            </span>
+          </div>
+
+          <span className={styles.separatorLine} />
+        </div>
       </header>
+
       {runs && (
         <div className={styles.runsWrapper}>
           {runs.map((run) => (
