@@ -1,15 +1,15 @@
 "use client";
 
-import { useSearchParams, usePathname } from "next/navigation";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useCallback, useRef } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 
-import { useRunsContext } from "@/context/RunsContext";
 import { useDialogContext } from "@/context/DialogContext";
 import { icons } from "@/components/icons/icons";
 import { Panel } from "@/components/ui";
 import { CalendarDayButton } from "./CalendarDayButton/CalendarDayButton";
+import { toDateOnlyString } from "@/utils/general.utils";
 
 import styles from "./Calendar.module.css";
 
@@ -31,29 +31,29 @@ const legendItems = [
 ];
 
 function Calendar() {
-  const { getRunsByDate } = useRunsContext();
+  const router = useRouter();
   const { openDayDetailsDialog } = useDialogContext();
 
-  const [selctedDay, setSelectedDay] = useState<Date | null>(null);
   const handleDayClick = useCallback(
     (date: Date) => {
-      setSelectedDay(date);
+      router.push(`/user/dashboard?date=${toDateOnlyString(date)}`, {
+        scroll: false,
+      });
+
       openDayDetailsDialog({ date });
     },
-    [openDayDetailsDialog],
+    [openDayDetailsDialog, router],
   );
 
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const prevOpenedDate = searchParams.get("date");
   const handledDateRef = useRef<string | null>(null);
   useEffect(() => {
     if (prevOpenedDate && handledDateRef.current !== prevOpenedDate) {
       handledDateRef.current = prevOpenedDate;
       handleDayClick(new Date(prevOpenedDate));
-      window.history.replaceState({}, "", pathname);
     }
-  }, [prevOpenedDate, handleDayClick, pathname]);
+  }, [prevOpenedDate, handleDayClick]);
 
   return (
     <>

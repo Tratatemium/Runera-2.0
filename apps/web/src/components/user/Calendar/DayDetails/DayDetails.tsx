@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useRunsContext } from "@/context/RunsContext";
@@ -26,11 +26,21 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
   const { getRunsByDate } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
 
+  // close dialog when navigating to another page
   const pathname = usePathname();
   const { closeDialog } = useDialogContext();
   useEffect(() => {
     if (pathname !== "/user/dashboard") closeDialog();
   }, [pathname, closeDialog]);
+
+  //remove search params on close
+  const router = useRouter();
+  function handleClose() {
+    router.replace(`/user/dashboard`, {
+      scroll: false,
+    });
+    onClose();
+  }
 
   const [activeTab, setActiveTab] = useState<"runs" | "plans">("runs");
 
@@ -56,7 +66,7 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
       <WindowControls
         variant="close"
         aria-label="Close day details"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       <header className={styles.header}>
@@ -132,8 +142,6 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
               loadingRunId={loadingRunId}
               onDelete={deleteRun}
               isEntering={false}
-              from="day-details"
-              date={toDateOnlyString(date)}
             />
           ))}
         </div>

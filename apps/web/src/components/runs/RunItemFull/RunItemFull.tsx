@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -27,18 +26,7 @@ function RunItemFull({ runId }: RunItemFullProps) {
   const { loading, loadingRunId, deleteRun } = useRuns();
   const [isRemoving, setIsRemoving] = useState(false);
 
-  //Handle back
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
-  const date = searchParams.get("date");
-  const handleBack = () => {
-    if (from === "day-details") {
-      router.push(`/user/dashboard?date=${date}`);
-      return;
-    }
-
-    router.back();
-  };
+  const handleBack = () => router.back();
 
   // Not found
   useEffect(() => {

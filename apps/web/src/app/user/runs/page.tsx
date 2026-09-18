@@ -120,7 +120,6 @@ export default function MyRuns() {
               loadingRunId={loadingRunId}
               onDelete={deleteRun}
               isEntering={Boolean(enteringRunIds[run.runId])}
-              from="runs"
             />
           ))}
         </div>

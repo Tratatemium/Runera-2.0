@@ -25,8 +25,6 @@ interface RunItemProps {
   loadingRunId: string | null;
   onDelete: (runId: string) => Promise<void>;
   isEntering: boolean;
-  from: "runs" | "day-details";
-  date?: string;
 }
 
 function RunItem({
@@ -36,8 +34,6 @@ function RunItem({
   loadingRunId,
   onDelete,
   isEntering,
-  from,
-  date,
 }: RunItemProps) {
   assertAllowed(variant, "variant", ["full", "short"]);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -53,7 +49,7 @@ function RunItem({
       aria-label={`${run.distanceKm} kilometer run`}
     >
       <Link
-        href={`/user/runs/${run.runId}?from=${from}${date ? `&date=${date}` : ""}`}
+        href={`/user/runs/${run.runId}`}
         className={styles.link}
         aria-label={`View details for ${run.distanceKm} kilometer run`}
       />
