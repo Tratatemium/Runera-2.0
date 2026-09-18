@@ -1,12 +1,13 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { icons } from "@/components/icons/icons";
-import { Panel, ButtonLink, Card } from "@/components/ui";
+import { Panel, Button, Card } from "@/components/ui";
 import { PaceScale, EffortCircle } from "@/components/runs";
 import { RunActions } from "../RunActions/RunActions";
 import { getFieldPresentation } from "@/utils/runs.utils";
@@ -26,6 +27,20 @@ function RunItemFull({ runId }: RunItemFullProps) {
   const { loading, loadingRunId, deleteRun } = useRuns();
   const [isRemoving, setIsRemoving] = useState(false);
 
+  //Handle back
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+  const date = searchParams.get("date");
+  const handleBack = () => {
+    if (from === "day-details") {
+      router.push(`/user/dashboard?date=${date}`);
+      return;
+    }
+
+    router.back();
+  };
+
+  // Not found
   useEffect(() => {
     if (!runId || !runs) return;
     if (!runs[runId]) {
@@ -65,15 +80,14 @@ function RunItemFull({ runId }: RunItemFullProps) {
   return (
     <Panel variant="gradientAccent" className={styles.mainPanel}>
       <header className={styles.header}>
-        <ButtonLink
-          linkDirection=""
-          linkText="Go back"
+        <Button
+          buttonText="Go back"
           variant="transparent"
-          goBack={true}
+          onClick={handleBack}
           className={styles.backButton}
         >
           <ArrowBack />
-        </ButtonLink>
+        </Button>
         <RunActions
           run={run}
           layout="horizontal"

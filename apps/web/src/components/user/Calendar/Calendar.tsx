@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams, usePathname } from "next/navigation";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 
@@ -34,10 +35,25 @@ function Calendar() {
   const { openDayDetailsDialog } = useDialogContext();
 
   const [selctedDay, setSelectedDay] = useState<Date | null>(null);
-  function handleDayClick(date: Date) {
-    setSelectedDay(date);
-    openDayDetailsDialog({ date });
-  }
+  const handleDayClick = useCallback(
+    (date: Date) => {
+      setSelectedDay(date);
+      openDayDetailsDialog({ date });
+    },
+    [openDayDetailsDialog],
+  );
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const prevOpenedDate = searchParams.get("date");
+  const handledDateRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (prevOpenedDate && handledDateRef.current !== prevOpenedDate) {
+      handledDateRef.current = prevOpenedDate;
+      handleDayClick(new Date(prevOpenedDate));
+      window.history.replaceState({}, "", pathname);
+    }
+  }, [prevOpenedDate, handleDayClick, pathname]);
 
   return (
     <>

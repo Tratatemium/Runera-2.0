@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { useRunsContext } from "@/context/RunsContext";
+import { useDialogContext } from "@/context/DialogContext";
 import { useRuns } from "@/hooks";
 import { WindowControls, Button } from "@/components/ui";
 import { RunItem } from "@/components/runs";
@@ -23,6 +25,12 @@ interface DayDetailsProps {
 function DayDetails({ date, onClose }: DayDetailsProps) {
   const { getRunsByDate } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
+
+  const pathname = usePathname();
+  const { closeDialog } = useDialogContext();
+  useEffect(() => {
+    if (pathname !== "/user/dashboard") closeDialog();
+  }, [pathname, closeDialog]);
 
   const [activeTab, setActiveTab] = useState<"runs" | "plans">("runs");
 
@@ -117,13 +125,15 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         <div className={styles.runsWrapper}>
           {runs.map((run) => (
             <RunItem
+              key={run.runId}
               run={run}
               variant="short"
               loading={loading}
               loadingRunId={loadingRunId}
               onDelete={deleteRun}
               isEntering={false}
-              key={run.runId}
+              from="day-details"
+              date={toDateOnlyString(date)}
             />
           ))}
         </div>

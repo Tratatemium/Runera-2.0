@@ -25,7 +25,6 @@ function formatDateString(
     "full with time",
     "full with weekday",
   ]);
-  console.log(dateString);
 
   switch (variant) {
     case "short":

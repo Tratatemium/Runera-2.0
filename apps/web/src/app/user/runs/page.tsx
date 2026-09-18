@@ -113,13 +113,14 @@ export default function MyRuns() {
         <div className={styles.runsWrapper}>
           {finalRunsArray.map((run) => (
             <RunItem
+              key={run.runId}
               run={run}
               variant="full"
               loading={loading}
               loadingRunId={loadingRunId}
               onDelete={deleteRun}
               isEntering={Boolean(enteringRunIds[run.runId])}
-              key={run.runId}
+              from="runs"
             />
           ))}
         </div>
