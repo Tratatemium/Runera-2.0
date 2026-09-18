@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useRunsContext } from "@/context/RunsContext";
 import { useDialogContext } from "@/context/DialogContext";
 import { useRuns } from "@/hooks";
+import { NoRuns } from "@/assets/svg/NoRuns";
+import { NoPlans } from "@/assets/svg/NoPlans";
 import { WindowControls, Button } from "@/components/ui";
 import { RunItem } from "@/components/runs";
 import {
@@ -141,21 +143,41 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         />
       </div>
 
-      {activeTab === "runs" && runs && (
-        <div className={styles.runsWrapper}>
-          {runs.map((run) => (
-            <RunItem
-              key={run.runId}
-              run={run}
-              variant="short"
-              loading={loading}
-              loadingRunId={loadingRunId}
-              onDelete={deleteRun}
-              isEntering={false}
-            />
-          ))}
-        </div>
-      )}
+      {activeTab === "runs" &&
+        (runs ? (
+          <div className={styles.runsWrapper}>
+            {runs.map((run) => (
+              <RunItem
+                key={run.runId}
+                run={run}
+                variant="short"
+                loading={loading}
+                loadingRunId={loadingRunId}
+                onDelete={deleteRun}
+                isEntering={false}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className={styles.noItemsWrapper}>
+            <NoRuns className={styles.noItemsSvg} />
+            <span className={styles.noItemsTitle}>
+              No runs recorded for this day yet.
+            </span>
+          </div>
+        ))}
+
+      {activeTab === "plans" &&
+        (false ? (
+          <div className={styles.runsWrapper}></div>
+        ) : (
+          <div className={styles.noItemsWrapper}>
+            <NoPlans className={styles.noItemsSvg} />
+            <span className={styles.noItemsTitle}>
+              No training sessions planned for this day.
+            </span>
+          </div>
+        ))}
     </div>
   );
 }

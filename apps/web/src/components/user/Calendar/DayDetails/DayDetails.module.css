@@ -18,6 +18,11 @@
 
   --color: var(--color-secondary);
   --color-subtle: color-mix(in srgb, var(--color-secondary) 70%, transparent);
+  --color-subtle-accent: color-mix(
+    in srgb,
+    var(--color-accent-1) 70%,
+    transparent
+  );
 }
 
 .header {
@@ -116,6 +121,7 @@
 .tabButton {
   padding: var(--gap-md);
   position: relative;
+  color: var(--color-subtle-accent);
 }
 
 button.tabButton.activeTab::before,
@@ -150,4 +156,24 @@ button.tabButton.activeTab:not(:disabled):not(.disabled)::before {
   background: var(--color-accent-1);
   border-radius: var(--border-radius-full);
   cursor: pointer;
+}
+
+.noItemsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gap-lg);
+  gap: var(--gap-lg);
+  color: var(--color-accent-1);
+}
+
+.noItemsSvg {
+  color: var(--color-primary);
+  width: 12rem;
+  height: 12rem;
+}
+
+.noItemsTitle {
+  font-weight: var(--font-weight-medium);
 }

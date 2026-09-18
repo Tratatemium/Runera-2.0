@@ -86,7 +86,7 @@ function useRuns(): UseRunsReturn {
         const response = await apiUpdateRun(runId, payload);
         updateRunState(normalizeRunData(response));
         await updateStats();
-        router.push("/user/runs");
+        router.back();
       } catch (err) {
         handleApiFormError(err, setFormError);
       } finally {
