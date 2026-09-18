@@ -36,11 +36,21 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
   //remove search params on close
   const router = useRouter();
   function handleClose() {
-    router.replace(`/user/dashboard`, {
-      scroll: false,
-    });
+    router.back();
     onClose();
   }
+
+  useEffect(() => {
+    const handlePopState = () => {
+      onClose();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [onClose]);
 
   const [activeTab, setActiveTab] = useState<"runs" | "plans">("runs");
 

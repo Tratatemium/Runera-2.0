@@ -46,14 +46,15 @@ function Calendar() {
   );
 
   const searchParams = useSearchParams();
-  const prevOpenedDate = searchParams.get("date");
-  const handledDateRef = useRef<string | null>(null);
+  const openedDate = searchParams.get("date");
+
   useEffect(() => {
-    if (prevOpenedDate && handledDateRef.current !== prevOpenedDate) {
-      handledDateRef.current = prevOpenedDate;
-      handleDayClick(new Date(prevOpenedDate));
-    }
-  }, [prevOpenedDate, handleDayClick]);
+    if (!openedDate) return;
+
+    openDayDetailsDialog({
+      date: new Date(`${openedDate}T00:00:00`),
+    });
+  }, [openedDate, openDayDetailsDialog]);
 
   return (
     <>
