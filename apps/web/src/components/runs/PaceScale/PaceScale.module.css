@@ -13,7 +13,7 @@
 .paceTrack {
   position: relative;
   display: flex;
-  align-self: center;
+  align-self: var(--track-align);
   width: var(--track-wigth);
   height: 0.3rem;
   border-radius: var(--border-radius-full);
@@ -41,6 +41,7 @@
 .short {
   --gap: var(--gap-xs);
   --track-wigth: 7rem;
+  --track-align: center;
   --title-font: var(--font-primary);
   --title-font-size: var(--font-size-body-sm);
   --title-text-transform: none;
@@ -49,6 +50,7 @@
 .stretch {
   --gap: var(--gap-lg);
   --track-wigth: clamp(7rem, calc(70vw - 4 * var(--gap-lg)), 40rem);
+  --track-align: flex-start;
   --title-font: var(--font-secondary);
   --title-font-size: var(--font-size-body-sm);
   --title-text-transform: uppercase;
