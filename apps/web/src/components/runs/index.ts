@@ -4,3 +4,4 @@ export { RunActions } from "./RunActions/RunActions";
 export { RunFormPage } from "./RunFormPage/RunFormPage";
 export { PaceScale } from "./PaceScale/PaceScale";
 export { EffortCircle } from "./EffortCircle/EffortCircle";
+export { SplitsChart } from "./SplitsChart/SplitsChart";

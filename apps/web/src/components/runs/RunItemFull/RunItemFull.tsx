@@ -7,8 +7,12 @@ import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
 import { icons } from "@/components/icons/icons";
 import { Panel, Button, Card } from "@/components/ui";
-import { PaceScale, EffortCircle } from "@/components/runs";
-import { RunActions } from "../RunActions/RunActions";
+import {
+  PaceScale,
+  EffortCircle,
+  RunActions,
+  SplitsChart,
+} from "@/components/runs";
 import { getFieldPresentation } from "@/utils/runs.utils";
 import { formatDateString } from "@/utils/general.utils";
 import { formatDuration, formatPace } from "@/utils/normalize.utils";
@@ -132,6 +136,9 @@ function RunItemFull({ runId }: RunItemFullProps) {
         <div className={styles.effortMetric}>
           <EffortCircle perceivedEffort={run.perceivedEffort} />
         </div>
+      </Panel>
+      <Panel variant="onAccent" className={`${styles.panel} ${styles.splits}`}>
+        <SplitsChart />
       </Panel>
       <Panel variant="onAccent" className={`${styles.panel} ${styles.notes}`}>
         <span className={styles.subTitle}>Notes</span>
