@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
 import { useRunsContext } from "@/context/RunsContext";
 import { useRuns } from "@/hooks";
-import { WindowControls } from "@/components/ui";
+import { WindowControls, Button } from "@/components/ui";
 import { RunItem } from "@/components/runs";
 import {
   formatDateString,
@@ -21,6 +23,9 @@ interface DayDetailsProps {
 function DayDetails({ date, onClose }: DayDetailsProps) {
   const { getRunsByDate } = useRunsContext();
   const { loading, loadingRunId, deleteRun } = useRuns();
+
+  const [activeTab, setActiveTab] = useState<"runs" | "plans">("runs");
+
   const runs = getRunsByDate(date);
   const runsAmount = runs ? runs.length : "—";
   const totalDistance = runs
@@ -91,7 +96,24 @@ function DayDetails({ date, onClose }: DayDetailsProps) {
         </div>
       </header>
 
-      {runs && (
+      <div role="tablist" className={styles.tabs}>
+        <Button
+          className={`${styles.tabButton} ${activeTab === "runs" ? styles.activeTab : ""}`}
+          variant="transparentAccent"
+          buttonText={`Runs (${runs ? runs.length : 0})`}
+          onClick={() => setActiveTab("runs")}
+          active={activeTab === "runs"}
+        />
+        <Button
+          className={`${styles.tabButton} ${activeTab === "plans" ? styles.activeTab : ""}`}
+          variant="transparentAccent"
+          buttonText={`Plans (${0})`}
+          onClick={() => setActiveTab("plans")}
+          active={activeTab === "plans"}
+        />
+      </div>
+
+      {activeTab === "runs" && runs && (
         <div className={styles.runsWrapper}>
           {runs.map((run) => (
             <RunItem

@@ -2,7 +2,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(min-content, 90vw);
+  width: clamp(35rem, 45vw, 70rem);
+  height: 80vh;
   min-width: 18rem;
   max-width: 48rem;
   overflow: hidden;
@@ -89,6 +90,42 @@
   width: 1px;
   min-height: 3rem;
   background-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  border-radius: var(--border-radius-full);
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  padding: 0 var(--gap-lg);
+  margin-bottom: var(--gap-sm);
+}
+
+.tabs::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 2 * var(--gap-lg));
+  height: 1px;
+  background-color: color-mix(in srgb, var(--color-accent-1) 30%, transparent);
+  border-radius: var(--border-radius-full);
+}
+
+.tabButton {
+  padding: var(--gap-md);
+  position: relative;
+}
+
+button.tabButton.activeTab::before,
+button.tabButton.activeTab:not(:disabled):not(.disabled)::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-accent-1);
   border-radius: var(--border-radius-full);
 }
 

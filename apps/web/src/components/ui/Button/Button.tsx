@@ -24,6 +24,7 @@ function Button({
   isSubmitting = false,
   active = false,
   size,
+  className,
   ...props
 }: ButtonProps) {
   const SpinnerIcon = icons.spinners.spinner;
@@ -34,6 +35,7 @@ function Button({
         styles[variant],
         size ? styles[size] : undefined,
         active ? styles.active : undefined,
+        className,
       ]
         .filter(Boolean)
         .join(" ")}
