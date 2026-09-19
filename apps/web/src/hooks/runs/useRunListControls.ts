@@ -18,7 +18,7 @@ const sortOptions = [
   { name: "startTimeNewest", label: "Newest first" },
   { name: "startTimeOldest", label: "Oldest first" },
   { name: "distanceLongest", label: "Longest first" },
-  { name: "distanceShortest", label: "Shortestt first" },
+  { name: "distanceShortest", label: "Shortest first" },
   { name: "paceBest", label: "Best pace" },
 ] as const;
 
