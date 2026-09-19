@@ -138,7 +138,7 @@ function RunItemFull({ runId }: RunItemFullProps) {
         </div>
       </Panel>
       <Panel variant="onAccent" className={`${styles.panel} ${styles.splits}`}>
-        <SplitsChart />
+        <SplitsChart run={run} />
       </Panel>
       <Panel variant="onAccent" className={`${styles.panel} ${styles.notes}`}>
         <span className={styles.subTitle}>Notes</span>

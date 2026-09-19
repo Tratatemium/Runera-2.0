@@ -63,8 +63,8 @@ function formatDistance(m: number) {
 
 function formatPace(secPerKm: number) {
   const min = Math.trunc(secPerKm / 60);
-  const sec = secPerKm % 60;
-  return `${min}.${sec}`;
+  const sec = Math.trunc(secPerKm % 60);
+  return `${min}:${sec < 10 ? `0${sec}` : sec}`;
 }
 
 /* ────────────────────────────── */
