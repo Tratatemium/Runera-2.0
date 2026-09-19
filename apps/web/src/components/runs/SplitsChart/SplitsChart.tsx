@@ -9,22 +9,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import { generateSplits, colorizeSplits } from "@/utils/runs.utils";
+
 import styles from "./SplitsChart.module.css";
 
-const splits = [
-  { split: "1", pace: 5.2, color: "#5dcaa5" },
-  { split: "2", pace: 5.0, color: "#5dcaa5" },
-  { split: "3", pace: 5.4, color: "#9dddc9" },
-  { split: "4", pace: 4.9, color: "#9dddc9" },
-  { split: "5", pace: 5.1, color: "#f9c56d" },
-  { split: "6", pace: 5.15, color: "#f9c56d" },
-  { split: "7", pace: 5.12, color: "#f9c56d" },
-  { split: "8", pace: 5.32, color: "#f0997b" },
-  { split: "9", pace: 5.36, color: "#f0997b" },
-  { split: "10", pace: 5.3, color: "#f0997b" },
-  { split: "11", pace: 5.44, color: "#ed4848" },
-  { split: "12", pace: 5.42, color: "#ed4848" },
-];
+// const splits = [
+//   { split: "1", pace: 5.2, color: "#5dcaa5" },
+//   { split: "2", pace: 5.0, color: "#5dcaa5" },
+//   { split: "3", pace: 5.4, color: "#9dddc9" },
+//   { split: "4", pace: 4.9, color: "#9dddc9" },
+//   { split: "5", pace: 5.1, color: "#f9c56d" },
+//   { split: "6", pace: 5.15, color: "#f9c56d" },
+//   { split: "7", pace: 5.12, color: "#f9c56d" },
+//   { split: "8", pace: 5.32, color: "#f0997b" },
+//   { split: "9", pace: 5.36, color: "#f0997b" },
+//   { split: "10", pace: 5.3, color: "#f0997b" },
+//   { split: "11", pace: 5.44, color: "#ed4848" },
+//   { split: "12", pace: 5.42, color: "#ed4848" },
+// ];
+
+const rawSplits = generateSplits(12, 5.5, 1);
+const splits = colorizeSplits(rawSplits);
 
 const slowestPace = Math.max(...splits.map(({ pace }) => pace));
 const chartData = splits.map((split) => ({

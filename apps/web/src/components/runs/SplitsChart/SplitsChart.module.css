@@ -26,7 +26,6 @@
   font-family: var(--font-secondary);
   font-size: var(--font-size-body-sm);
   text-transform: uppercase;
-  color: red;
 }
 
 .unit {

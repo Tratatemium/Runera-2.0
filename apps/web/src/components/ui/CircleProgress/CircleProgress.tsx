@@ -1,3 +1,5 @@
+import { getScaleColor } from "@/utils/general.utils";
+
 import styles from "./CircleProgress.module.css";
 
 interface CircleProgressProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,12 +29,6 @@ function CircleProgress({
   const dashOffset = calculateDashoffset(percentage, dashArray);
   const size = radius * 2 + 10;
   const center = size / 2;
-
-  function getScaleColor(value: number): string {
-    const hue = 120 - (value / 100) * 120;
-
-    return `hsl(${hue}, 80%, 55%)`;
-  }
 
   return (
     <div className={styles.wrapper} {...props}>

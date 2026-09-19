@@ -19,6 +19,7 @@ import {
   normalizeTime,
 } from "./normalize.utils";
 
+import { getScaleColor } from "./general.utils";
 import { inputFields } from "@/config/inputFields";
 import { icons } from "@/components/icons/icons";
 
@@ -77,6 +78,7 @@ function prepareRunStateValues(run: Run) {
     Object.entries(updated).map(([k, v]) => [k, normalizeFormValue(v)]),
   );
 }
+
 function calculatePace(formState: FormStateValue) {
   const durationSec =
     Number(formState.durationH.value) * 3600 +
@@ -111,6 +113,55 @@ function getFieldPresentation(
   return { label, Icon };
 }
 
+type Splits = {
+  split: string;
+  pace: number;
+}[];
+
+function generateSplits(n: number, avg: number, div: number): Splits {
+  if (n < 1) throw new Error("n must be at least 1");
+
+  const min = avg - div;
+  const max = avg + div;
+
+  const values = Array.from(
+    { length: n - 1 },
+    () => Math.random() * (max - min) + min,
+  ).map((value) => Number(value.toFixed(2)));
+
+  const last = Number(
+    (n * avg - values.reduce((sum, value) => sum + value, 0)).toFixed(2),
+  );
+
+  if (last < min || last > max) {
+    return generateSplits(n, avg, div);
+  }
+
+  const finalSplits = [...values, last];
+
+  return finalSplits.map((split, i) => {
+    return { split: (i + 1).toString(), pace: split };
+  });
+}
+
+function colorizeSplits(splits: Splits) {
+  const min = splits.reduce(
+    (min, split) => Math.min(min, split.pace),
+    splits[0].pace,
+  );
+  const max = splits.reduce(
+    (max, split) => Math.max(max, split.pace),
+    splits[0].pace,
+  );
+  const step = (max - min) / 100;
+
+  const getsScale = (pace: number) => Math.floor((pace - min) / step);
+
+  return splits.map((split) => {
+    return { ...split, color: getScaleColor(getsScale(split.pace)) };
+  });
+}
+
 export {
   normalizeMyRuns,
   normalizeRunData,
@@ -118,4 +169,6 @@ export {
   prepareRunStateValues,
   calculatePace,
   getFieldPresentation,
+  generateSplits,
+  colorizeSplits,
 };

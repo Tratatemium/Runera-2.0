@@ -56,4 +56,28 @@ function pluralize(label: string, count: number): string {
   return `${label}${count === 1 ? "" : "s"}`;
 }
 
-export { isSameDay, formatDateString, toDateOnlyString, pluralize };
+function getScaleColor(value: number): string {
+  const clamped = Math.max(0, Math.min(100, value));
+
+  const start = [0x5d, 0xca, 0xa5]; // #5dcaa5
+  const middle = [0xf9, 0xc5, 0x6d]; // #f9c56d
+  const end = [0xed, 0x48, 0x48]; // #ed4848
+
+  const interpolate = (a: number[], b: number[], t: number) =>
+    a.map((channel, i) => Math.round(channel + (b[i] - channel) * t));
+
+  const rgb =
+    clamped <= 50
+      ? interpolate(start, middle, clamped / 50)
+      : interpolate(middle, end, (clamped - 50) / 50);
+
+  return `rgb(${rgb.join(", ")})`;
+}
+
+export {
+  isSameDay,
+  formatDateString,
+  toDateOnlyString,
+  pluralize,
+  getScaleColor,
+};
