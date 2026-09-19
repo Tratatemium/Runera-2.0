@@ -98,7 +98,7 @@ function validateDuration(_value: string, formState: FormStateValue) {
 function validateRunType(_value: string, formState: FormStateValue) {
   const isRunTypeEmpty = !formState["runType"]?.value;
   if (isRunTypeEmpty) {
-    return "You must chooose run type.";
+    return "You must choose a run type.";
   }
 }
 
