@@ -6,7 +6,7 @@ import type { DayDetailsProps } from "@/components/user";
 import { useEffect, useRef } from "react";
 
 import { useDialogContext } from "@/context/DialogContext";
-import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import { useLockBodyScroll } from "@/hooks";
 import { ConfirmDialog } from "./ConfirmDialog/ConfirmDialog";
 import { DayDetails } from "@/components/user/";
 

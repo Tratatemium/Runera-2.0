@@ -6,13 +6,16 @@ interface PanelProps extends ComponentPropsWithoutRef<"div"> {
   children?: ReactNode;
   variant:
     | "light"
+    | "onAccent"
     | "frosted"
     | "accent"
     | "frostedAccent"
     | "frostedWarm"
     | "cloudy"
     | "cloudyWarm"
-    | "opaqueAccent";
+    | "opaqueAccent"
+    | "gradientAccent"
+    | "gradient3to1";
 }
 
 function Panel({ children, variant, className, ...divProps }: PanelProps) {

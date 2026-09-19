@@ -1,0 +1,53 @@
+.radioWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--gap-sm);
+}
+
+.radioLabel {
+  display: block;
+  font-weight: var(--font-weight-bold);
+  align-self: flex-start;
+  margin-left: 1em;
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.buttonsWrapper > * {
+  flex: 0 1 auto;
+}
+
+.radioOptionLabel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  min-width: 4.75rem;
+}
+
+.radioIcon {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex-shrink: 0;
+}
+
+.radioOptionText {
+  font-size: 0.72rem;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.1em;
+  text-align: left;
+  color: var(--error-color);
+}

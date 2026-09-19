@@ -44,7 +44,7 @@
   --border-radius-2xl: 1.25rem; /* 20px */
   --border-radius-full: 9999px;
 
-  --border-color-primary: color-mix(in srgb, var(--accent-color-1) 25%, white);
+  --border-color-primary: color-mix(in srgb, var(--color-accent-1) 25%, white);
 
   --form-label-width: 8rem;
 
@@ -65,25 +65,32 @@
   --error-color: #c62828;
   --warning-color: #ed6c02;
 
-  --accent-color-1: var(--pine-teal);
-  --accent-color-2: var(--metallic-gold);
-  --accent-color-3: var(--peach-glow);
-  --accent-color-4: var(--burnt-orange);
-  --accent-color-5: var(--dark-gold);
+  --color-accent-1: var(--pine-teal);
+  --color-accent-2: var(--metallic-gold);
+  --color-accent-3: var(--peach-glow);
+  --color-accent-4: var(--burnt-orange);
+  --color-accent-5: var(--dark-gold);
+
+  --run-type-base: #b8d8ba;
+  --run-type-recovery: #c9d6ea;
+  --run-type-tempo: #f4c6a8;
+  --run-type-long-run: #d8c4e8;
+  --run-type-interval: #f0b4b4;
+  --run-type-race: #f0d58a;
 
   --accent-mix-1: color-mix(
     in srgb,
-    var(--accent-color-1),
+    var(--color-accent-1),
     var(--color-primary) 20%
   );
   --accent-mix-2: color-mix(
     in srgb,
-    var(--accent-color-2),
+    var(--color-accent-2),
     var(--color-primary) 70%
   );
   --accent-mix-3: color-mix(
     in srgb,
-    var(--accent-color-3),
+    var(--color-accent-3),
     var(--color-primary) 60%
   );
 

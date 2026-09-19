@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 interface DBRun {
   runId: string;
   userId: string;
+  runType: "base" | "recovery" | "tempo" | "longRun" | "interval" | "race";
   startTime: Date;
   date: Date;
   durationSec: number;
@@ -13,7 +14,7 @@ interface DBRun {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"
@@ -33,6 +34,12 @@ const RunSchema = new mongoose.Schema<DBRun>(
   {
     runId: { type: String, required: true },
     userId: { type: String, required: true },
+
+    runType: {
+      type: String,
+      required: true,
+      enum: ["base", "recovery", "tempo", "longRun", "interval", "race"],
+    },
 
     startTime: { type: Date, required: true, default: Date.now },
     date: { type: Date, required: true },
@@ -55,7 +62,7 @@ const RunSchema = new mongoose.Schema<DBRun>(
       type: String,
       enum: [
         "sunny",
-        "partly_cloudy",
+        "partlyCloudy",
         "cloudy",
         "rain",
         "snow",

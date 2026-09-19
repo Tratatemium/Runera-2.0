@@ -1,0 +1,63 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.title {
+  font-family: var(--title-font);
+  font-size: var(--title-font-size);
+  text-transform: var(--title-text-transform);
+}
+
+.paceTrack {
+  position: relative;
+  display: flex;
+  align-self: var(--track-align);
+  width: var(--track-wigth);
+  height: 0.3rem;
+  border-radius: var(--border-radius-full);
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.centerTick {
+  display: flex;
+  width: 1.5px;
+  height: 0.6rem;
+  background: var(--color-secondary);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.paceFill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: var(--border-radius-full);
+}
+
+.short {
+  --gap: var(--gap-xs);
+  --track-wigth: 7rem;
+  --track-align: center;
+  --title-font: var(--font-primary);
+  --title-font-size: var(--font-size-body-sm);
+  --title-text-transform: none;
+}
+
+.stretch {
+  --gap: var(--gap-lg);
+  --track-wigth: clamp(7rem, calc(70vw - 4 * var(--gap-lg)), 40rem);
+  --track-align: flex-start;
+  --title-font: var(--font-secondary);
+  --title-font-size: var(--font-size-body-sm);
+  --title-text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+  .labelExtra {
+    display: none;
+  }
+}

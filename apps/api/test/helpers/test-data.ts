@@ -26,6 +26,7 @@ const TEST_USERS = {
 
 // Valid run data template
 const VALID_RUN_DATA = {
+  runType: "base",
   startTime: "2026-01-19T12:25:44.822Z",
   durationSec: 1800,
   distanceMeters: 5000,

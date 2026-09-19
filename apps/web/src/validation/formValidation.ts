@@ -14,7 +14,7 @@ function validateForm(
   formState: FormStateValue,
 ): Record<string, string | undefined> {
   const entries = fields.map((field) => [
-    field.id,
+    field.name,
     validateField(field, formState),
   ]);
   return Object.fromEntries(entries);

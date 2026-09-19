@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useCallback, useRef } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { FaCircle } from "react-icons/fa";
 
-import { useRunsContext } from "@/context/RunsContext";
 import { useDialogContext } from "@/context/DialogContext";
+import { icons } from "@/components/icons/icons";
 import { Panel } from "@/components/ui";
 import { CalendarDayButton } from "./CalendarDayButton/CalendarDayButton";
+import { toDateOnlyString } from "@/utils/general.utils";
 
 import styles from "./Calendar.module.css";
+
+const CircleIcon = icons.general.circle;
 
 const legendItems = [
   {
@@ -28,14 +31,30 @@ const legendItems = [
 ];
 
 function Calendar() {
-  const { getRunsByDate } = useRunsContext();
+  const router = useRouter();
   const { openDayDetailsDialog } = useDialogContext();
 
-  const [selctedDay, setSelectedDay] = useState<Date | null>(null);
-  function handleDayClick(date: Date) {
-    setSelectedDay(date);
-    openDayDetailsDialog({ date });
-  }
+  const handleDayClick = useCallback(
+    (date: Date) => {
+      router.push(`/user/dashboard?date=${toDateOnlyString(date)}`, {
+        scroll: false,
+      });
+
+      openDayDetailsDialog({ date });
+    },
+    [openDayDetailsDialog, router],
+  );
+
+  const searchParams = useSearchParams();
+  const openedDate = searchParams.get("date");
+
+  useEffect(() => {
+    if (!openedDate) return;
+
+    openDayDetailsDialog({
+      date: new Date(`${openedDate}T00:00:00`),
+    });
+  }, [openedDate, openDayDetailsDialog]);
 
   return (
     <>
@@ -53,7 +72,7 @@ function Calendar() {
               className={`${styles.legendItem} ${styles[item.class]}`}
               key={item.class}
             >
-              <FaCircle className={styles.legendIcon} />
+              <CircleIcon className={styles.legendIcon} />
               {item.text}
             </span>
           ))}

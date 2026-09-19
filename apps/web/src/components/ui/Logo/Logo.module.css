@@ -1,7 +1,7 @@
 .logoLockup {
-  --bg-logo: var(--accent-color-1);
+  --bg-logo: var(--color-accent-1);
   --color-logo: var(--color-secondary);
-  --color-name: var(--accent-color-1);
+  --color-name: var(--color-accent-1);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,13 +48,13 @@
 }
 
 .primary {
-  --bg-logo: var(--accent-color-1);
+  --bg-logo: var(--color-accent-1);
   --color-logo: var(--color-secondary);
-  --color-name: var(--accent-color-1);
+  --color-name: var(--color-accent-1);
 }
 
 .secondary {
   --bg-logo: var(--color-secondary);
-  --color-logo: var(--accent-color-1);
+  --color-logo: var(--color-accent-1);
   --color-name: var(--color-secondary);
 }

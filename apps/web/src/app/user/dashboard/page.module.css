@@ -32,7 +32,7 @@
 
 .greeting p {
   margin: 0;
-  color: color-mix(in srgb, var(--accent-color-1) 86%, var(--color-primary));
+  color: color-mix(in srgb, var(--color-accent-1) 86%, var(--color-primary));
 }
 
 .ctaPanel,
@@ -66,7 +66,7 @@
 
 .planningText h2 {
   margin: 0;
-  color: color-mix(in srgb, var(--accent-color-1) 30%, var(--color-secondary));
+  color: color-mix(in srgb, var(--color-accent-1) 30%, var(--color-secondary));
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
@@ -80,7 +80,7 @@
 .planningText p {
   margin: 0;
   font-size: var(--font-size-body-sm);
-  color: color-mix(in srgb, var(--accent-color-1) 30%, var(--color-secondary));
+  color: color-mix(in srgb, var(--color-accent-1) 30%, var(--color-secondary));
 }
 
 @media (max-width: 920px) {

@@ -1,6 +1,7 @@
 interface RunApi {
   runId: string;
   userId: string;
+  runType: "base" | "recovery" | "tempo" | "longRun" | "interval" | "race";
   startTime: string;
   date: string;
   durationSec: number;
@@ -13,7 +14,7 @@ interface RunApi {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"

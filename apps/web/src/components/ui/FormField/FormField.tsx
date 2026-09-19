@@ -46,7 +46,7 @@ function FormField({
   inputError,
 }: FormFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const EyeIcon = showPassword ? icons.eyeOff : icons.eye;
+  const EyeIcon = showPassword ? icons.general.eyeOff : icons.general.eye;
 
   const isPassword = type === "password";
   const isChoice = type === "radio" || type === "checkbox";

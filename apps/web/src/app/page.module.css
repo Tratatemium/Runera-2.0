@@ -78,7 +78,7 @@
 
   padding: 1.5em;
 
-  background: color-mix(in srgb, var(--accent-color-3) 30%, transparent);
+  background: color-mix(in srgb, var(--color-accent-3) 30%, transparent);
   border: 1px solid rgba(246, 190, 154, 0.9);
   border-top-width: 3px;
   border-radius: 1em;
@@ -90,11 +90,11 @@
 }
 
 .feature.chart {
-  border-top-color: var(--accent-color-4);
+  border-top-color: var(--color-accent-4);
 }
 
 .feature.medal {
-  border-top-color: var(--accent-color-5);
+  border-top-color: var(--color-accent-5);
 }
 
 .feature h3 {
@@ -116,15 +116,15 @@
 }
 
 .graph {
-  color: var(--accent-color-1);
+  color: var(--color-accent-1);
 }
 
 .chart {
-  color: var(--accent-color-4);
+  color: var(--color-accent-4);
 }
 
 .medal {
-  color: var(--accent-color-5);
+  color: var(--color-accent-5);
 }
 
 .signupCta {

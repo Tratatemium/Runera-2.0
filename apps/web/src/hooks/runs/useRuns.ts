@@ -10,8 +10,9 @@ import {
   apiUpdateRun,
   apiDeleteRun,
 } from "@/api/runs.api";
-import { useUser } from "./useUser";
+import { useUser } from "@/hooks";
 import { normalizeRunData, normalizeMyRuns } from "@/utils/runs.utils";
+import { handleApiFormError } from "@/utils/api.utils";
 
 interface UseRunsReturn {
   loading: LoadingState;
@@ -23,7 +24,7 @@ interface UseRunsReturn {
   deleteRun: (runId: string) => Promise<void>;
 }
 
-export type LoadingState =
+type LoadingState =
   | "idle"
   | "fetchingRuns"
   | "creatingRun"
@@ -51,7 +52,7 @@ function useRuns(): UseRunsReturn {
       const response = await apiGetMyRuns();
       hydrateRunsState(normalizeMyRuns(response));
     } catch (err) {
-      console.error(err);
+      handleApiFormError(err, setFormError);
     } finally {
       setLoading("idle");
       setIsHydratingRuns(false);
@@ -65,11 +66,11 @@ function useRuns(): UseRunsReturn {
       try {
         const response = await apiPostNewRun(payload);
         postNewRunState(normalizeRunData(response));
+        await updateStats();
         router.push("/user/runs");
       } catch (err) {
-        console.error(err);
+        handleApiFormError(err, setFormError);
       } finally {
-        await updateStats();
         setLoading("idle");
       }
     },
@@ -84,11 +85,11 @@ function useRuns(): UseRunsReturn {
       try {
         const response = await apiUpdateRun(runId, payload);
         updateRunState(normalizeRunData(response));
-        router.push("/user/runs");
-      } catch (err) {
-        console.error(err);
-      } finally {
         await updateStats();
+        router.back();
+      } catch (err) {
+        handleApiFormError(err, setFormError);
+      } finally {
         setLoading("idle");
         setLoadingRunId(null);
       }
@@ -104,10 +105,10 @@ function useRuns(): UseRunsReturn {
       try {
         await apiDeleteRun(runId);
         deleteRunState(runId);
-      } catch (err) {
-        console.error(err);
-      } finally {
         await updateStats();
+      } catch (err) {
+        handleApiFormError(err, setFormError);
+      } finally {
         setLoading("idle");
         setLoadingRunId(null);
       }
@@ -127,3 +128,4 @@ function useRuns(): UseRunsReturn {
 }
 
 export { useRuns };
+export type { LoadingState };

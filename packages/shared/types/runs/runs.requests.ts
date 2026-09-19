@@ -1,4 +1,5 @@
 interface RunRequest {
+  runType: "base" | "recovery" | "tempo" | "longRun" | "interval" | "race";
   startTime: string;
   durationSec: number;
   distanceMeters: number;
@@ -7,7 +8,7 @@ interface RunRequest {
   perceivedEffort?: number;
   weather?:
     | "sunny"
-    | "partly_cloudy"
+    | "partlyCloudy"
     | "cloudy"
     | "rain"
     | "snow"

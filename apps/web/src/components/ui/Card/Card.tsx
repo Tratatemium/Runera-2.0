@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import type { IconType } from "react-icons";
+import type { Icon } from "@/components/icons/icons";
 
 import styles from "./Card.module.css";
 
@@ -9,10 +9,10 @@ interface CardProps extends ComponentPropsWithoutRef<"div"> {
   cardDate?: string;
   cardValue?: string;
   cardUnit?: string;
-  variant?: "light";
+  variant?: "light" | "onAccent";
   decorVariant?: number;
   type?: "duration";
-  icon?: IconType;
+  icon?: Icon;
 }
 
 function Card({
@@ -41,6 +41,7 @@ function Card({
         .join(" ")}
     >
       {children}
+      <span className={styles.decor} />
       <div className={styles.content}>
         {cardLabel && <span className={styles.label}>{cardLabel}</span>}
         {cardValue &&

@@ -12,7 +12,8 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const { user } = useAuthContext();
-  const { graph: GraphIcon, chart: ChartIcon, medal: MedalIcon } = icons;
+  const { graph: GraphIcon, chart: ChartIcon } = icons.general;
+  const MedalIcon = icons.running.medal;
 
   return (
     <main>

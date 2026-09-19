@@ -2,11 +2,12 @@
 
 import type { DayButtonProps } from "react-day-picker";
 
-import { FaRunning } from "react-icons/fa";
-
+import { icons } from "@/components/icons/icons";
 import { useRunsContext } from "@/context/RunsContext";
 
 import styles from "./CalendarDayButton.module.css";
+
+const RunIcon = icons.running.run;
 
 function CalendarDayButton(props: DayButtonProps) {
   const { day, modifiers: _, ...buttonProps } = props;
@@ -25,7 +26,7 @@ function CalendarDayButton(props: DayButtonProps) {
       {runs && (
         <span className={styles.infoWrapper}>
           <span className={styles.info}>{`${totalDistance} km`}</span>
-          <FaRunning className={styles.icon} />
+          <RunIcon className={styles.icon} />
         </span>
       )}
     </button>

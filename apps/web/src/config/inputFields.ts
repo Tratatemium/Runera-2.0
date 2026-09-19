@@ -8,6 +8,7 @@ import {
   normalizeLogin,
   normalizeLocalTime,
   normalizeWeather,
+  normalizeRunType,
 } from "@/utils/normalize.utils";
 
 const inputFields: Record<string, InputFieldConfig> = {
@@ -196,7 +197,7 @@ const inputFields: Record<string, InputFieldConfig> = {
   weatherPartlyCloudy: {
     id: "weatherPartlyCloudy",
     name: "weather",
-    value: "partly_cloudy",
+    value: "partlyCloudy",
     label: "Partly cloudy",
     type: "radio",
     normalizator: normalizeWeather,
@@ -248,6 +249,61 @@ const inputFields: Record<string, InputFieldConfig> = {
     label: "Cold",
     type: "radio",
     normalizator: normalizeWeather,
+  },
+
+  runTypeBase: {
+    id: "runTypeBase",
+    name: "runType",
+    value: "base",
+    label: "Base",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
+  },
+  runTypeRecovery: {
+    id: "runTypeRecovery",
+    name: "runType",
+    value: "recovery",
+    label: "Recovery",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
+  },
+  runTypeTempo: {
+    id: "runTypeTempo",
+    name: "runType",
+    value: "tempo",
+    label: "Tempo",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
+  },
+  runTypeLongRun: {
+    id: "runTypeLongRun",
+    name: "runType",
+    value: "longRun",
+    label: "Long Run",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
+  },
+  runTypeInterval: {
+    id: "runTypeInterval",
+    name: "runType",
+    value: "interval",
+    label: "Interval",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
+  },
+  runTypeRace: {
+    id: "runTypeRace",
+    name: "runType",
+    value: "race",
+    label: "Race",
+    type: "radio",
+    validator: validators.validateRunType,
+    normalizator: normalizeRunType,
   },
 };
 

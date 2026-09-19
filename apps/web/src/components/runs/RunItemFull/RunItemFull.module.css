@@ -1,0 +1,243 @@
+.mainPanel {
+  width: min(100%, 65rem);
+  align-items: stretch;
+  gap: 1.6rem;
+  padding: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
+  color: var(--color-secondary);
+  background: var(--color-accent-1);
+  animation: detailReveal 420ms ease-out both;
+}
+
+.subTitle {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-sm);
+  text-transform: uppercase;
+}
+
+.panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+.backButton {
+  font-size: var(--font-size-heading-sm);
+  font-family: var(--font-secondary);
+  padding: var(--gap-lg);
+  align-items: center;
+}
+
+.runHeading {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  gap: var(--gap-sm);
+  color: color-mix(in srgb, var(--color-secondary) 90%, transparent);
+  animation: detailReveal 420ms 70ms ease-out both;
+}
+
+.runType {
+  padding: var(--gap-xs) var(--gap-md);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-full);
+  color: var(--color-primary);
+  background: var(--runType-bg);
+}
+
+.base {
+  --runType-bg: var(--run-type-base);
+}
+
+.recovery {
+  --runType-bg: var(--run-type-recovery);
+}
+
+.tempo {
+  --runType-bg: var(--run-type-tempo);
+}
+
+.longRun {
+  --runType-bg: var(--run-type-long-run);
+}
+
+.interval {
+  --runType-bg: var(--run-type-interval);
+}
+
+.race {
+  --runType-bg: var(--run-type-race);
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  padding: var(--gap-xs);
+  border-radius: var(--border-radius-full);
+  background: var(--color-secondary);
+}
+
+.weatherIcon {
+  width: var(--font-size-heading-lg);
+  height: var(--font-size-heading-lg);
+}
+
+.runTitle {
+  margin: 0;
+  font-size: var(--font-size-heading-lg);
+  line-height: 1.1;
+  text-wrap: balance;
+  animation: detailReveal 420ms 110ms ease-out both;
+}
+
+.distanceKm {
+  color: var(--color-secondary);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-display-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.distanceUnit {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  font-size: var(--font-size-heading-lg);
+  font-weight: var(--font-weight-medium);
+}
+
+.mainStats {
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-lg);
+}
+
+.mainStats > * {
+  animation: detailReveal 420ms 160ms ease-out both;
+}
+
+.mainStats > *:nth-child(2) {
+  animation-delay: 210ms;
+}
+
+.mainStats > *:nth-child(3) {
+  animation-delay: 260ms;
+}
+
+.paceAndEffort {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--gap-xl);
+  padding: var(--gap-lg-plus);
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 9%, transparent);
+}
+
+.paceMetric {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.paceVSAvg {
+  width: 100%;
+}
+
+.effortMetric {
+  min-width: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: var(--gap-xl);
+  border-left: var(--border-width-thin) solid
+    color-mix(in srgb, var(--color-secondary) 15%, transparent);
+}
+
+.notes {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-sm);
+  padding: var(--gap-lg-plus);
+  border: var(--border-width-thin) solid
+    color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 9%, transparent);
+}
+
+.notesText {
+  max-width: 68ch;
+  min-height: 1.6em;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-secondary) 88%, transparent);
+  overflow-wrap: anywhere;
+}
+
+@keyframes detailReveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 920px) {
+  .mainStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .backButton {
+    padding: var(--gap-md);
+  }
+
+  .runTitle {
+    font-size: var(--font-size-heading-md);
+  }
+
+  .mainStats {
+    grid-template-columns: 1fr;
+  }
+
+  .paceAndEffort {
+    grid-template-columns: 1fr;
+    gap: var(--gap-lg);
+  }
+
+  .effortMetric {
+    min-height: 7rem;
+    padding-top: var(--gap-lg);
+    padding-left: 0;
+    border-top: var(--border-width-thin) solid
+      color-mix(in srgb, var(--color-secondary) 15%, transparent);
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mainPanel,
+  .runHeading,
+  .runTitle,
+  .mainStats > * {
+    animation: none;
+  }
+}

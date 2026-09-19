@@ -57,26 +57,21 @@
 }
 
 .day:hover {
-  /* --bg: color-mix(in srgb, var(--accent-color-1) 18%, transparent); */
+  /* --bg: color-mix(in srgb, var(--color-accent-1) 18%, transparent); */
   transform: translateY(-2px);
 }
 
 .day.hasRuns {
-  --bg: color-mix(in srgb, var(--accent-color-1) 20%, transparent);
+  --bg: color-mix(in srgb, var(--color-accent-1) 20%, transparent);
 }
 
 :global(.rdp-today) .day {
-  --bg: var(--accent-color-1);
-  --border: var(--accent-color-1);
+  --bg: var(--color-accent-1);
+  --border: var(--color-accent-1);
   --color: var(--color-secondary);
 }
 
 :global(.rdp-selected) .day {
-  --bg: var(--accent-color-1);
-  --border: var(--accent-color-1);
-  --color: var(--color-secondary);
-  box-shadow: 0 6px 14px
-    color-mix(in srgb, var(--accent-color-1) 40%, transparent);
 }
 
 :global(.rdp-outside) .day {

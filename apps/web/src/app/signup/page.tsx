@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 
-import { useAuth } from "@/hooks/useAuth";
-import { useFormState } from "@/hooks/form/useFormState";
-import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { useAuth, useFormState, useFormHandlers } from "@/hooks";
 import { inputFields } from "@/config/inputFields";
 import { FormField } from "@/components/ui";
 import { AuthCard } from "@/components/auth";

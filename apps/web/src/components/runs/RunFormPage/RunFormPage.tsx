@@ -4,11 +4,15 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { icons } from "@/components/icons/icons";
-import { Button, ButtonLink, FormField, Panel } from "@/components/ui";
+import {
+  Button,
+  ButtonLink,
+  FormField,
+  FormRadio,
+  Panel,
+} from "@/components/ui";
 import { inputFields } from "@/config/inputFields";
-import { useFormState } from "@/hooks/form/useFormState";
-import { useFormHandlers } from "@/hooks/form/useFormHandlers";
-import { useRuns } from "@/hooks/useRuns";
+import { useFormState, useFormHandlers, useRuns } from "@/hooks";
 import { useRunsContext } from "@/context/RunsContext";
 import {
   calculatePace,
@@ -24,19 +28,17 @@ const durationFields = [
   inputFields.durationS,
 ];
 
-const weatherFields = [
-  inputFields.weatherSunny,
-  inputFields.weatherPartlyCloudy,
-  inputFields.weatherCloudy,
-  inputFields.weatherRain,
-  inputFields.weatherSnow,
-  inputFields.weatherWindy,
-  inputFields.weatherHot,
-  inputFields.weatherCold,
-];
+const runTypeFields = Object.values(inputFields).filter(
+  (field) => field.name === "runType",
+);
+
+const weatherFields = Object.values(inputFields).filter(
+  (field) => field.name === "weather",
+);
 
 const runFields = [
   inputFields.title,
+  ...runTypeFields,
   inputFields.distanceKm,
   ...durationFields,
   inputFields.startTime,
@@ -52,18 +54,7 @@ const fieldOptionsMap = Object.fromEntries(
   }),
 );
 
-const ArrowBack = icons.arrowBack;
-
-const weatherIconsMap = {
-  sunny: icons.sunny,
-  partly_cloudy: icons.partlyCloudy,
-  cloudy: icons.cloudy,
-  rain: icons.rain,
-  snow: icons.snow,
-  windy: icons.windy,
-  hot: icons.hot,
-  cold: icons.cold,
-} as const;
+const ArrowBack = icons.general.arrowBack;
 
 interface Props {
   runId?: string;
@@ -113,11 +104,11 @@ function RunFormPage({ runId }: Props) {
 
     if (isEdit) {
       if (!runId) return;
-      updateRun(runId, payload);
+      await updateRun(runId, payload);
       return;
     }
 
-    postNewRun(payload);
+    await postNewRun(payload);
   }
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
@@ -146,6 +137,14 @@ function RunFormPage({ runId }: Props) {
             {...fieldOptionsMap.title}
             value={formState[fieldOptionsMap.title.id].value}
             {...inputHandlers}
+          />
+
+          <FormRadio
+            label="Run Type *"
+            name="runType"
+            fieldsArray={runTypeFields}
+            formState={formState}
+            inputHandlers={inputHandlers}
           />
 
           <FormField
@@ -180,31 +179,13 @@ function RunFormPage({ runId }: Props) {
             {...inputHandlers}
           />
 
-          <span className={styles.weatherLabel}>Weather</span>
-          <div className={styles.weatherWrapper}>
-            {weatherFields.map((field) => {
-              const value = field.value as keyof typeof weatherIconsMap;
-              const WeatherIcon = weatherIconsMap[value];
-
-              return (
-                <FormField
-                  key={field.id}
-                  {...field}
-                  label={
-                    <span className={styles.weatherOptionLabel}>
-                      <WeatherIcon className={styles.weatherIcon} />
-                      <span className={styles.weatherOptionText}>
-                        {field.label}
-                      </span>
-                    </span>
-                  }
-                  value={value}
-                  checked={formState["weather"].value === value}
-                  {...inputHandlers}
-                />
-              );
-            })}
-          </div>
+          <FormRadio
+            label="Weather"
+            name="weather"
+            fieldsArray={weatherFields}
+            formState={formState}
+            inputHandlers={inputHandlers}
+          />
 
           <FormField
             {...fieldOptionsMap.perceivedEffort}

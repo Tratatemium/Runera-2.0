@@ -1,21 +1,37 @@
+.article {
+  position: relative;
+  width: 100%;
+}
+
+.link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
+  border-radius: 1.15rem;
+  cursor: pointer;
+}
+
+.link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-accent-2) 70%, transparent);
+  outline-offset: 2px;
+}
+
 .runWrapper {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
   width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5em;
-  gap: 1em;
-  background: linear-gradient(
-    130deg,
-    color-mix(in srgb, var(--accent-color-3) 38%, var(--color-secondary)) 0%,
-    color-mix(in srgb, var(--color-secondary) 82%, var(--accent-color-2)) 55%,
-    color-mix(in srgb, var(--color-secondary) 70%, var(--color-primary)) 100%
-  );
-  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
-  border-radius: 1em;
-  box-shadow: 0 10px 24px
+  gap: var(--gap-lg);
+
+  color: var(--color-secondary);
+
+  box-shadow: 0 5px 12px
     color-mix(in srgb, var(--color-primary) 88%, transparent);
   transition:
     transform 160ms ease,
@@ -67,146 +83,141 @@
   margin: 0;
 }
 
-.runWrapper:hover {
+.runWrapper:hover,
+.article:hover .runWrapper {
   border-color: color-mix(
     in srgb,
-    var(--accent-color-2) 45%,
-    var(--accent-color-3)
+    var(--color-accent-3) 45%,
+    var(--color-accent-1)
   );
-  box-shadow: 0 14px 28px
-    color-mix(in srgb, var(--color-primary) 82%, transparent);
+  box-shadow: 0 7px 14px
+    color-mix(in srgb, var(--color-primary) 52%, var(--color-accent-1));
 }
 
 .runInfo {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
   display: flex;
   flex-direction: column;
-  gap: 0.9em;
+  gap: var(--gap-sm);
   text-align: left;
   min-width: 0;
 }
 
 .runHeading {
+  width: fit-content;
   display: flex;
-  align-items: baseline;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.6em;
-}
-
-.distanceKm {
-  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-  color: var(--accent-mix-1);
-}
-
-.runTitle {
-  font-size: 0.95rem;
-  color: var(--accent-mix-2);
-  font-style: italic;
-}
-
-.timing {
-  color: var(--accent-mix-2);
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 1em;
+  justify-content: left;
+  gap: var(--gap-sm);
 }
 
-.duration {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.runType {
+  padding: var(--gap-xs) var(--gap-md);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--border-radius-full);
+  color: var(--color-primary);
+  background: var(--runType-bg);
 }
 
-.pace {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.base {
+  --runType-bg: var(--run-type-base);
 }
 
-.circumstances {
-  color: var(--accent-mix-2);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
+.recovery {
+  --runType-bg: var(--run-type-recovery);
 }
 
-.date {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4em;
+.tempo {
+  --runType-bg: var(--run-type-tempo);
+}
+
+.longRun {
+  --runType-bg: var(--run-type-long-run);
+}
+
+.interval {
+  --runType-bg: var(--run-type-interval);
+}
+
+.race {
+  --runType-bg: var(--run-type-race);
 }
 
 .weather {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 1.4em;
-  height: 1.4em;
-  font-size: 1.7em;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent-color-2) 25%, transparent);
+  width: fit-content;
+  height: fit-content;
+  border-radius: var(--border-radius-full);
+  background: var(--color-secondary);
 }
 
-.runActions {
-  align-self: center;
+.weatherIcon {
+  width: var(--font-size-heading-lg);
+  height: var(--font-size-heading-lg);
+}
+
+.runTitle {
+  font-style: italic;
+}
+
+.distanceKm {
+  color: var(--color-secondary);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-display-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.distanceUnit {
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  font-size: var(--font-size-heading-lg);
+  font-weight: var(--font-weight-medium);
+}
+
+.circumstances {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-lg);
+}
+
+.duration,
+.pace,
+.date {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.7em;
+  gap: var(--gap-xs);
 }
 
-.actionButton {
+.runGraphs {
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.1em;
-  height: 2.1em;
-  padding: 0;
-  font-size: 1.1em;
-  color: var(--accent-mix-2);
-  border-radius: 0.6em;
-  background: color-mix(in srgb, var(--color-secondary) 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent-color-3) 70%, transparent);
-  cursor: pointer;
-  transition:
-    transform 140ms ease,
-    color 140ms ease,
-    background-color 140ms ease,
-    border-color 140ms ease;
+  flex-direction: row;
+  gap: var(--gap-xl);
 }
 
-.actionButton:hover {
-  transform: translateY(-1px);
-  color: var(--accent-mix-1);
-  background: color-mix(
-    in srgb,
-    var(--accent-color-2) 18%,
-    var(--color-secondary)
-  );
-  border-color: var(--accent-mix-1);
+.separatorLine {
+  display: block;
+  width: 1px;
+  min-height: 5rem;
+  background-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  border-radius: var(--border-radius-full);
 }
 
-.actionButton:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent-color-2) 70%, transparent);
-  outline-offset: 2px;
-}
-
-.actionButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-@media (min-width: 1024px) {
-  .runWrapper {
-    min-width: min(56rem, 60vw);
-  }
+.paceVSAvg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  font-size: var(--font-size-body-sm);
 }
 
 @media (max-width: 768px) {
@@ -214,11 +225,6 @@
     align-items: flex-start;
     flex-direction: column;
     padding: 1.1em;
-  }
-
-  .runActions {
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .timing,

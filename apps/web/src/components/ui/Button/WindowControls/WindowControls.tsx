@@ -1,6 +1,7 @@
-import { MdClose, MdMinimize } from "react-icons/md";
-
+import { icons } from "@/components/icons/icons";
 import styles from "./WindowControls.module.css";
+
+const { close: CloseIcon, minimize: MinimizeIcon } = icons.general;
 
 interface WindowControlsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant: "close" | "minimize";
@@ -17,8 +18,8 @@ function WindowControls({
       type={type}
       {...props}
     >
-      {variant === "close" && <MdClose className={styles.icon} />}
-      {variant === "minimize" && <MdMinimize className={styles.icon} />}
+      {variant === "close" && <CloseIcon className={styles.icon} />}
+      {variant === "minimize" && <MinimizeIcon className={styles.icon} />}
     </button>
   );
 }

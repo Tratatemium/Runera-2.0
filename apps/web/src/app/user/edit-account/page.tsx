@@ -3,8 +3,7 @@
 import { useState } from "react";
 
 import { useAuthContext } from "@/context/AuthContext";
-import { useFormState } from "@/hooks/form/useFormState";
-import { useFormHandlers } from "@/hooks/form/useFormHandlers";
+import { useFormState, useFormHandlers } from "@/hooks";
 import { inputFields } from "@/config/inputFields";
 import { getUserData } from "@/utils/user.utils";
 import { Button, ButtonLink, FormField, Panel } from "@/components/ui";

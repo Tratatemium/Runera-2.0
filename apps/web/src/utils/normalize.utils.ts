@@ -62,8 +62,9 @@ function formatDistance(m: number) {
 }
 
 function formatPace(secPerKm: number) {
-  const minPerKm = secPerKm / 60;
-  return String(minPerKm.toFixed(2));
+  const min = Math.trunc(secPerKm / 60);
+  const sec = Math.trunc(secPerKm % 60);
+  return `${min}:${sec < 10 ? `0${sec}` : sec}`;
 }
 
 /* ────────────────────────────── */
@@ -111,6 +112,13 @@ function normalizeWeather(
   return value === "" ? undefined : value;
 }
 
+function normalizeRunType(
+  value: string,
+  _field: InputFieldConfig,
+): string | undefined {
+  return value === "" ? undefined : value;
+}
+
 export {
   normalizeFormValue,
   clampNumber,
@@ -125,4 +133,5 @@ export {
   normalizeLogin,
   normalizeLocalTime,
   normalizeWeather,
+  normalizeRunType,
 };

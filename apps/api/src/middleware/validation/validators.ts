@@ -1,6 +1,7 @@
 import type { Request } from "express";
 
 import { ValidationError } from "../../errors/errors.js";
+import { assertAllowed } from "@runera/shared";
 
 /* ================================================================================================= */
 /*  HELPER FUNCTIONS                                                                                 */
@@ -319,23 +320,37 @@ function validatePerceivedEffort(perceivedEffort: unknown) {
   }
 }
 
-function validateWeather(weather: unknown) {
-  assertString(weather, "weather");
+function validateEnumField({
+  value,
+  type,
+}: {
+  value: unknown;
+  type: "weather" | "runType";
+}) {
+  assertAllowed(type, "type", ["weather", "runType"]);
 
-  const weatherEnum = [
-    "sunny",
-    "partly_cloudy",
-    "cloudy",
-    "rain",
-    "snow",
-    "windy",
-    "hot",
-    "cold",
-  ];
-  if (!weatherEnum.includes(weather)) {
+  assertString(value, type);
+
+  const enums = {
+    runType: ["base", "recovery", "tempo", "longRun", "interval", "race"],
+    weather: [
+      "sunny",
+      "partlyCloudy",
+      "cloudy",
+      "rain",
+      "snow",
+      "windy",
+      "hot",
+      "cold",
+    ],
+  } as const;
+
+  try {
+    assertAllowed(value, type, enums[type]);
+  } catch (err) {
     throwValidationError({
-      message: `Weather must be one of ["sunny", "partly_cloudy", "cloudy", "rain", "snow", "windy", "hot", "cold"]. Received: ${weather}.`,
-      field: "weather",
+      message: err instanceof Error ? err.message : String(err),
+      field: type,
     });
   }
 }
@@ -357,5 +372,5 @@ export {
   validatePassword,
   validateName,
   validatePerceivedEffort,
-  validateWeather,
+  validateEnumField,
 };
