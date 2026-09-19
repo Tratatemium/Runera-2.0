@@ -107,7 +107,7 @@ function SplitsChart({ run }: { run: Run }) {
   return (
     <section className={styles.panel} aria-label="Splits per kilometer">
       <header className={styles.header}>
-        <span className={styles.title}>Splits per km</span>
+        <span className={styles.title}>Splits pace (fake)</span>
         <span className={styles.unit}>min/km</span>
       </header>
 
