@@ -14,10 +14,9 @@ function useRunById(
   const run = runId && runs ? runs[runId] : undefined;
 
   useEffect(() => {
-    if (!run || !runId || !run) {
-      router.replace("/not-found");
-    }
-  }, [router, runId, runs, run]);
+    if (!runId || !runs) return;
+    if (!runs[runId]) router.replace("/not-found");
+  }, [router, runId, runs]);
 
   return run ?? null;
 }

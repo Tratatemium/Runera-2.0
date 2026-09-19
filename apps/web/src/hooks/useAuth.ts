@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { apiSignup, apiLogin, apiLogout } from "@/api/auth.api";
 import { useAuthContext } from "@/context/AuthContext";
-import { useRuns } from "./useRuns";
-import { useUser } from "./useUser";
+import { useRuns, useUser } from "@/hooks";
 import { mapUserResponseToState } from "@/utils/user.utils";
 import { handleApiFormError } from "@/utils/api.utils";
 

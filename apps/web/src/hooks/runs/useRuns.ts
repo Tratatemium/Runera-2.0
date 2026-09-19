@@ -10,7 +10,7 @@ import {
   apiUpdateRun,
   apiDeleteRun,
 } from "@/api/runs.api";
-import { useUser } from "./useUser";
+import { useUser } from "@/hooks";
 import { normalizeRunData, normalizeMyRuns } from "@/utils/runs.utils";
 import { handleApiFormError } from "@/utils/api.utils";
 
