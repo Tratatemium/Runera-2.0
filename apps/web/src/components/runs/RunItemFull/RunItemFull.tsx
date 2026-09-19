@@ -109,7 +109,9 @@ function RunItemFull({ runId }: RunItemFullProps) {
             />
           </span>
         )}
-        <time>{formatDateString(run.date, "full with time")}</time>
+        <time dateTime={run.startTime}>
+          {formatDateString(run.startTime, "full with time")}
+        </time>
       </div>
       {run.title && <h1 className={styles.runTitle}>{run.title}</h1>}
       <div className={styles.mainStats}>

@@ -26,29 +26,36 @@ function formatDateString(
     "full with weekday",
   ]);
 
+  const date = new Date(
+    /^\d{4}-\d{2}-\d{2}$/.test(dateString)
+      ? `${dateString}T12:00:00`
+      : dateString,
+  );
+
   switch (variant) {
     case "short":
       return new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
         month: "short",
         year: "numeric",
-      }).format(new Date(`${dateString}T12:00:00`));
+      }).format(date);
     case "full with time":
       return new Intl.DateTimeFormat("en-GB", {
+        weekday: "long",
         day: "numeric",
         month: "long",
         year: "numeric",
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
-      }).format(new Date(`${dateString}T12:00:00`));
+      }).format(date);
     case "full with weekday":
       return new Intl.DateTimeFormat("en-GB", {
         weekday: "long",
         day: "numeric",
         month: "long",
         year: "numeric",
-      }).format(new Date(`${dateString}T12:00:00`));
+      }).format(date);
   }
 }
 
