@@ -345,7 +345,14 @@ function validateEnumField({
     ],
   } as const;
 
-  assertAllowed(value, type, enums[type]);
+  try {
+    assertAllowed(value, type, enums[type]);
+  } catch (err) {
+    throwValidationError({
+      message: err instanceof Error ? err.message : String(err),
+      field: type,
+    });
+  }
 }
 
 /* ================================================================================================= */
