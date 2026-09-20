@@ -171,6 +171,13 @@
   background-color: var(--color-accent-1);
 }
 
+.otherPrefsWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-lg);
+}
+
 @media (max-width: 700px) {
   .main {
     width: 94%;
@@ -187,6 +194,18 @@
   }
 
   .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .otherPrefsWrapper {
+    grid-template-columns: repeat(2, minmax(10.2rem, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .otherPrefsWrapper {
     grid-template-columns: 1fr;
   }
 }

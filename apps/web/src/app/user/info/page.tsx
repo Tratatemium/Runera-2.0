@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthContext } from "@/context/AuthContext";
-import { ButtonLink, Panel } from "@/components/ui";
+import { ButtonLink, Panel, Card } from "@/components/ui";
 import { formatLabel } from "@/utils/normalize.utils";
 
 import styles from "./page.module.css";
@@ -61,6 +61,28 @@ export default function UserInfo() {
   const checkIfAvalible = (weekday: (typeof WEEKDAYS)[number]) =>
     user.runningPreferences?.constraints?.availableDays?.includes(weekday);
 
+  const cards = [
+    {
+      cardLabel: "Runs / week",
+      cardValue:
+        user.runningPreferences?.preferences?.runsPerWeek?.toString() ?? "—",
+      cardUnit: "",
+    },
+    {
+      cardLabel: "Long run day",
+      cardValue: user.runningPreferences?.preferences?.longRunDay ?? "—",
+      cardUnit: "",
+    },
+    {
+      cardLabel: "Max run",
+      cardValue:
+        user.runningPreferences?.constraints?.maxRunMinutes?.toString() ?? "—",
+      cardUnit: user.runningPreferences?.constraints?.maxRunMinutes
+        ? "min"
+        : "",
+    },
+  ];
+
   return (
     <main className={styles.main}>
       <Panel variant="opaqueAccent" className={styles.panel}>
@@ -119,6 +141,12 @@ export default function UserInfo() {
                 </span>
               ))}
             </div>
+          </div>
+
+          <div className={styles.otherPrefsWrapper}>
+            {cards.map((card) => (
+              <Card key={card.cardLabel} variant="userPref" {...card} />
+            ))}
           </div>
 
           <div className={styles.infoGrid}>

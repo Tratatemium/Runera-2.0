@@ -9,7 +9,7 @@ interface CardProps extends ComponentPropsWithoutRef<"div"> {
   cardDate?: string;
   cardValue?: string;
   cardUnit?: string;
-  variant?: "light" | "onAccent";
+  variant?: "light" | "onAccent" | "userPref";
   decorVariant?: number;
   type?: "duration";
   icon?: Icon;
