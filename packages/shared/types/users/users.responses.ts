@@ -1,3 +1,9 @@
+import type {
+  UserProfile,
+  RunningPreferences,
+  HealthConsiderations,
+} from "./users.types";
+
 interface UserResponse {
   userData: {
     userId: string;
@@ -6,13 +12,9 @@ interface UserResponse {
       lastLogin: string;
       username: string;
     };
-    profile: {
-      firstName?: string;
-      lastName?: string;
-      dateOfBirth?: string;
-      heightCm?: number;
-      weightKg?: number;
-    };
+    profile: UserProfile;
+    runningPreferences: RunningPreferences;
+    health?: HealthConsiderations;
     role: "user" | "admin";
     createdAt: string;
     updatedAt: string;
@@ -43,14 +45,6 @@ interface RecordRun {
   distanceMeters: number;
   paceSecPerKm: number;
   date: string;
-}
-
-interface FastestRuns {
-  "1k": RecordRun | null;
-  "5k": RecordRun | null;
-  "10k": RecordRun | null;
-  halfMarathon: RecordRun | null;
-  marathon: RecordRun | null;
 }
 
 interface Records {
