@@ -1,3 +1,5 @@
+import type { ChangeEvent, FocusEvent, SubmitEvent } from "react";
+
 interface InputFieldConfig {
   id: string;
   label: string;
@@ -62,18 +64,12 @@ type FormData = Record<string, NormalizedFormValue>;
 
 interface UseFormHandlersReturn {
   inputHandlers: {
-    onChange: (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => void;
-    onBlur: (
-      e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => void;
-    onFocus: (
-      e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onBlur: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onFocus: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   };
   handleSubmit: <T>(
-    e: React.SubmitEvent<HTMLFormElement>,
+    e: SubmitEvent<HTMLFormElement>,
     callback: (data: T) => void,
   ) => void;
 }

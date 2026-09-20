@@ -1,3 +1,5 @@
+import type { HealthConsiderations, UserProfile } from "@runera/shared";
+
 import mongoose from "mongoose";
 
 /* ================================================================================================= */
@@ -94,13 +96,27 @@ const AccountSchema = new mongoose.Schema<DBAccount>(
   { _id: false },
 );
 
-interface DBProfile {
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: Date;
-  heightCm?: number;
-  weightKg?: number;
-}
+/* ================================================================================================= */
+/*  PROFILE SCHEMA                                                                                 */
+/* ================================================================================================= */
+
+type DBProfile = Prettify<
+  UserProfile & {
+    _id: string;
+  }
+>;
+// interface DBProfile  {
+
+//   firstName?: string;
+//   lastName?: string;
+//   dateOfBirth?: Date;
+//   heightCm?: number;
+//   weightKg?: number;
+//   gender?: "female" | "male" | "non_binary" | "prefer_not_to_say";
+//   runningExperience?: "beginner" | "some" | "experienced" | "competitive";
+// }
+
+// interface DBProfile extends UserProfile
 
 const ProfileSchema = new mongoose.Schema<DBProfile>(
   {
@@ -122,6 +138,35 @@ const ProfileSchema = new mongoose.Schema<DBProfile>(
     weightKg: {
       type: Number,
       min: 0,
+    },
+    gender: {
+      type: String,
+      enum: ["female", "male", "non_binary", "prefer_not_to_say"],
+    },
+    runningExperience: {
+      type: String,
+      enum: ["beginner", "some", "experienced", "competitive"],
+    },
+  },
+  { _id: false },
+);
+
+const HealthConsiderationsSchema = new mongoose.Schema<HealthConsiderations>(
+  {
+    items: [
+      {
+        type: String,
+        enum: [
+          "previous_injury",
+          "current_injury",
+          "breathing",
+          "joint_mobility",
+          "other",
+        ],
+      },
+    ],
+    notes: {
+      type: String,
     },
   },
   { _id: false },

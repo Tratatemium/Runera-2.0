@@ -1,4 +1,4 @@
-import type { UserState } from "./users/users.types";
+import type { UserState } from "./users/users.types.js";
 
 interface SignupRequest {
   username: string;

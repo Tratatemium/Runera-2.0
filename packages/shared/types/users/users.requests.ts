@@ -1,4 +1,4 @@
-import type { UserState } from "./users.types";
+import type { UserState } from "./users.types.js";
 
 type UpdateProfileRequest = Pick<UserState, "profile">;
 type UpdateRunningProfileRequest = Pick<

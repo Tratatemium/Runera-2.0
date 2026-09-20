@@ -1,4 +1,4 @@
-import type { UserStatsResponse } from "./users.responses";
+import type { UserStatsResponse } from "./users.responses.js";
 
 const WEEKDAYS = [
   "monday",

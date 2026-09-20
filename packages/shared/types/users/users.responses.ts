@@ -2,7 +2,7 @@ import type {
   UserProfile,
   RunningPreferences,
   HealthConsiderations,
-} from "./users.types";
+} from "./users.types.js";
 
 interface UserResponse {
   userData: {
