@@ -67,6 +67,10 @@ function formatPace(secPerKm: number) {
   return `${min}:${sec < 10 ? `0${sec}` : sec}`;
 }
 
+function formatLabel(value: string) {
+  return value.replace(/_/g, " ").replace(/^\w/, (char) => char.toUpperCase());
+}
+
 /* ────────────────────────────── */
 /* normalizers                    */
 /* ────────────────────────────── */
@@ -127,6 +131,7 @@ export {
   formatDuration,
   formatDistance,
   formatPace,
+  formatLabel,
   normalizeString,
   normalizeNumber,
   normalizeEmail,

@@ -1,7 +1,7 @@
 .main {
   position: relative;
   isolation: isolate;
-  width: min(1120px, 94%);
+  width: 100%;
   margin: 0 auto;
   padding: clamp(2rem, 1.2rem + 2.2vw, 3.5rem) 0 4.5rem;
   display: flex;

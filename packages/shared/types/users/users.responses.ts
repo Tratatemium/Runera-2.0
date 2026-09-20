@@ -25,7 +25,7 @@ interface UserUpdateResponse {
   savedProfile: Pick<UserResponse["userData"], "profile">;
 }
 
-interface RunningProfileUpdateResponse {
+interface UpdateRunningProfileResponse {
   savedRunningProfile: Pick<
     UserResponse["userData"],
     "runningPreferences" | "health"
@@ -108,6 +108,6 @@ export { nullUserStats };
 export type {
   UserResponse,
   UserUpdateResponse,
-  RunningProfileUpdateResponse,
+  UpdateRunningProfileResponse,
   UserStatsResponse,
 };

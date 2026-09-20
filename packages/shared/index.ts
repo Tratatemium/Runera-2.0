@@ -29,9 +29,10 @@ export type {
 export type {
   UserResponse,
   UserUpdateResponse,
+  UpdateRunningProfileResponse,
   UserStatsResponse,
 } from "./types/users/users.responses.js";
-export { nullUserStats } from "./types/users/users.responses.js";
+export { nullUserStats } from "./types/users/users.responses";
 
 export type { ApiResponse } from "./types/api.types.js";
 export type {
@@ -55,4 +56,4 @@ export type {
 /*  UTILS                                                                                            */
 /* ================================================================================================= */
 
-export { hasKey, assertAllowed } from "./utils/general.utils.js";
+export { hasKey, assertAllowed } from "./utils/general.utils";
