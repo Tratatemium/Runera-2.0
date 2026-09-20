@@ -39,6 +39,18 @@ const profileFields = [
     validate: (input: unknown) =>
       validators.validatePositiveNumber(input, "weightKg"),
   },
+  {
+    key: "gender",
+    input: null,
+    validate: (input: unknown) =>
+      validators.validateEnumField({ value: input, type: "gender" }),
+  },
+  {
+    key: "runningExperience",
+    input: null,
+    validate: (input: unknown) =>
+      validators.validateEnumField({ value: input, type: "runningExperience" }),
+  },
 ];
 
 function validateProfileUpdate(
@@ -48,26 +60,36 @@ function validateProfileUpdate(
 ) {
   validators.validateJsonContentType(req);
   const profile = req.body.profile;
+  validators.validateObject(profile, profileFields, "require_some");
 
-  const fieldKeys = profileFields.map((f) => f.key);
-  validators.assertRequestFields({
-    object: profile,
-    objectName: "profile",
-    requiredFields: fieldKeys,
-    allowedFields: fieldKeys,
-    mode: "require_some",
-  });
+  // const fieldKeys = profileFields.map((f) => f.key);
+  // validators.assertRequestFields({
+  //   object: profile,
+  //   objectName: "profile",
+  //   requiredFields: fieldKeys,
+  //   allowedFields: fieldKeys,
+  //   mode: "require_some",
+  // });
 
-  const boundProfileFields = profileFields.map((field) => ({
-    ...field,
-    input: profile[field.key],
-  }));
+  // const boundProfileFields = profileFields.map((field) => ({
+  //   ...field,
+  //   input: profile[field.key],
+  // }));
 
-  boundProfileFields
-    .filter((field) => field.input != null)
-    .forEach((field) => field.validate(field.input));
+  // boundProfileFields
+  //   .filter((field) => field.input != null)
+  //   .forEach((field) => field.validate(field.input));
 
   next();
+}
+
+function validateRunningProfileUpdate(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  validators.validateJsonContentType(req);
+  const { runningPreferences, health } = req.body.profile;
 }
 
 function validateAccountUpdate(

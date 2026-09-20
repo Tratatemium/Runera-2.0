@@ -23,6 +23,7 @@ export type {
 } from "./types/users/users.types.js";
 export type {
   UpdateProfileRequest,
+  UpdateRunningProfileRequest,
   UpdateAccountRequest,
 } from "./types/users/users.requests.js";
 export type {

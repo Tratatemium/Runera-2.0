@@ -31,6 +31,13 @@ usersRouter.patch(
 );
 
 usersRouter.patch(
+  "/me/running-profile",
+  usersValidation.validateRunningProfileUpdate,
+  authMiddleware.checkAuth,
+  usersController.updateRunningProfile,
+);
+
+usersRouter.patch(
   "/me/account",
   usersValidation.validateAccountUpdate,
   authMiddleware.checkAuth,

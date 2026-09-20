@@ -1,4 +1,9 @@
-import type { HealthConsiderations, UserProfile } from "@runera/shared";
+import type {
+  Prettify,
+  HealthConsiderations,
+  RunningPreferences,
+  UserProfile,
+} from "@runera/shared";
 
 import mongoose from "mongoose";
 
@@ -100,23 +105,7 @@ const AccountSchema = new mongoose.Schema<DBAccount>(
 /*  PROFILE SCHEMA                                                                                 */
 /* ================================================================================================= */
 
-type DBProfile = Prettify<
-  UserProfile & {
-    _id: string;
-  }
->;
-// interface DBProfile  {
-
-//   firstName?: string;
-//   lastName?: string;
-//   dateOfBirth?: Date;
-//   heightCm?: number;
-//   weightKg?: number;
-//   gender?: "female" | "male" | "non_binary" | "prefer_not_to_say";
-//   runningExperience?: "beginner" | "some" | "experienced" | "competitive";
-// }
-
-// interface DBProfile extends UserProfile
+type DBProfile = Prettify<UserProfile>;
 
 const ProfileSchema = new mongoose.Schema<DBProfile>(
   {
@@ -151,7 +140,9 @@ const ProfileSchema = new mongoose.Schema<DBProfile>(
   { _id: false },
 );
 
-const HealthConsiderationsSchema = new mongoose.Schema<HealthConsiderations>(
+type DBHealthConsiderations = Prettify<HealthConsiderations>;
+
+const HealthConsiderationsSchema = new mongoose.Schema<DBHealthConsiderations>(
   {
     items: [
       {
@@ -172,6 +163,63 @@ const HealthConsiderationsSchema = new mongoose.Schema<HealthConsiderations>(
   { _id: false },
 );
 
+type DBRunningPreferences = Prettify<RunningPreferences>;
+
+const RunningPreferencesSchema = new mongoose.Schema<DBRunningPreferences>(
+  {
+    constraints: {
+      availableDays: [
+        {
+          type: String,
+          enum: [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+          ],
+        },
+      ],
+      maxRunMinutes: {
+        type: Number,
+        min: 0,
+      },
+    },
+
+    preferences: {
+      runsPerWeek: {
+        type: mongoose.Schema.Types.Mixed,
+        enum: ["flexible"],
+      },
+      longRunDay: {
+        type: String,
+        enum: [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday",
+        ],
+      },
+      runTypes: [
+        {
+          type: String,
+          enum: ["easy", "long", "tempo", "intervals"],
+        },
+      ],
+    },
+
+    notes: {
+      type: String,
+    },
+  },
+  { _id: false },
+);
+
 /* ================================================================================================= */
 /*  MAIN USER SCHEMA                                                                                 */
 /* ================================================================================================= */
@@ -183,6 +231,8 @@ interface DBUser {
   auth: DBAuth;
   account: DBAccount;
   profile: DBProfile;
+  runningPreferences: DBRunningPreferences;
+  health?: DBHealthConsiderations;
   _id: string;
   __v: number;
 }
@@ -218,6 +268,14 @@ const UserSchema = new mongoose.Schema<DBUser>(
 
     profile: {
       type: ProfileSchema,
+      default: {},
+    },
+    runningPreferences: {
+      type: RunningPreferencesSchema,
+      default: {},
+    },
+    health: {
+      type: HealthConsiderationsSchema,
       default: {},
     },
   },

@@ -98,6 +98,36 @@ function assertRequestFields({
   }
 }
 
+type FieldConfig = {
+  key: string;
+  input: null;
+  validate: (input: unknown) => void;
+}[];
+
+function validateObject(
+  object: Record<string, unknown>,
+  fieldConfig: FieldConfig,
+  mode: "require_all" | "require_some",
+) {
+  const fieldKeys = fieldConfig.map((f) => f.key);
+  assertRequestFields({
+    object: object,
+    objectName: "profile",
+    requiredFields: fieldKeys,
+    allowedFields: fieldKeys,
+    mode: mode,
+  });
+
+  const boundFieldConfig = fieldConfig.map((field) => ({
+    ...field,
+    input: object[field.key],
+  }));
+
+  boundFieldConfig
+    .filter((field) => field.input != null)
+    .forEach((field) => field.validate(field.input));
+}
+
 function assertString(
   value: unknown,
   fieldName: string,
@@ -325,9 +355,14 @@ function validateEnumField({
   type,
 }: {
   value: unknown;
-  type: "weather" | "runType";
+  type: "weather" | "runType" | "gender" | "runningExperience";
 }) {
-  assertAllowed(type, "type", ["weather", "runType"]);
+  assertAllowed(type, "type", [
+    "weather",
+    "runType",
+    "gender",
+    "runningExperience",
+  ]);
 
   assertString(value, type);
 
@@ -343,6 +378,8 @@ function validateEnumField({
       "hot",
       "cold",
     ],
+    gender: ["female", "male", "non_binary", "prefer_not_to_say"],
+    runningExperience: ["beginner", "some", "experienced", "competitive"],
   } as const;
 
   try {
@@ -363,6 +400,7 @@ export {
   throwValidationError,
   validateJsonContentType,
   assertRequestFields,
+  validateObject,
   assertString,
   validateUUID,
   validateISO,
