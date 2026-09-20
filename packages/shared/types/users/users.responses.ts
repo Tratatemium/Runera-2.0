@@ -22,7 +22,14 @@ interface UserResponse {
 }
 
 interface UserUpdateResponse {
-  savedProfile: UserResponse["userData"]["profile"];
+  savedProfile: Pick<UserResponse["userData"], "profile">;
+}
+
+interface RunningProfileUpdateResponse {
+  savedRunningProfile: Pick<
+    UserResponse["userData"],
+    "runningPreferences" | "health"
+  >;
 }
 
 type PeriodStats =
@@ -98,4 +105,9 @@ const nullUserStats: UserStatsResponse = {
 
 export { nullUserStats };
 
-export type { UserResponse, UserUpdateResponse, UserStatsResponse };
+export type {
+  UserResponse,
+  UserUpdateResponse,
+  RunningProfileUpdateResponse,
+  UserStatsResponse,
+};
