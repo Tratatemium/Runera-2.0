@@ -20,6 +20,10 @@ async function signup(email: string, username: string, password: string) {
       lastLogin: undefined,
     },
     profile: {},
+    runningPreferences: {
+      constraints: {},
+      preferences: {},
+    },
   };
 
   const newUserId = await userRepo.addNewUser(newUser);

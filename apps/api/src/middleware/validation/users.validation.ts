@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import type { FieldConfig } from "./validators.js";
 
 import * as validators from "./validators.js";
 
@@ -10,44 +11,37 @@ function validateUUID(param = "id") {
   };
 }
 
-const profileFields = [
+const profileFields: FieldConfig = [
   {
     key: "firstName",
-    input: null,
     validate: (input: unknown) => validators.validateName(input, "firstName"),
   },
   {
     key: "lastName",
-    input: null,
     validate: (input: unknown) => validators.validateName(input, "lastName"),
   },
   {
     key: "dateOfBirth",
-    input: null,
     validate: (input: unknown) =>
       validators.validateISO(input, "dateOfBirth", "date"),
   },
   {
     key: "heightCm",
-    input: null,
     validate: (input: unknown) =>
       validators.validatePositiveNumber(input, "heightCm"),
   },
   {
     key: "weightKg",
-    input: null,
     validate: (input: unknown) =>
       validators.validatePositiveNumber(input, "weightKg"),
   },
   {
     key: "gender",
-    input: null,
     validate: (input: unknown) =>
       validators.validateEnumField({ value: input, type: "gender" }),
   },
   {
     key: "runningExperience",
-    input: null,
     validate: (input: unknown) =>
       validators.validateEnumField({ value: input, type: "runningExperience" }),
   },
@@ -60,28 +54,93 @@ function validateProfileUpdate(
 ) {
   validators.validateJsonContentType(req);
   const profile = req.body.profile;
-  validators.validateObject(profile, profileFields, "require_some");
-
-  // const fieldKeys = profileFields.map((f) => f.key);
-  // validators.assertRequestFields({
-  //   object: profile,
-  //   objectName: "profile",
-  //   requiredFields: fieldKeys,
-  //   allowedFields: fieldKeys,
-  //   mode: "require_some",
-  // });
-
-  // const boundProfileFields = profileFields.map((field) => ({
-  //   ...field,
-  //   input: profile[field.key],
-  // }));
-
-  // boundProfileFields
-  //   .filter((field) => field.input != null)
-  //   .forEach((field) => field.validate(field.input));
-
+  validators.validateObject({
+    object: profile,
+    objectName: "profile",
+    fieldConfig: profileFields,
+    mode: "require_some",
+  });
   next();
 }
+
+const runningProfileFields: FieldConfig = [
+  {
+    key: "runningPreferences",
+    fields: [
+      {
+        key: "constraints",
+        fields: [
+          {
+            key: "availableDays",
+            validate: (input: unknown) =>
+              validators.validateEnumArray({
+                value: input,
+                type: "runningPreferences.constraints.availableDays",
+              }),
+          },
+          {
+            key: "maxRunMinutes",
+            validate: (input: unknown) =>
+              validators.validatePositiveNumber(
+                input,
+                "runningPreferences.constraints.maxRunMinutes",
+              ),
+          },
+        ],
+      },
+      {
+        key: "preferences",
+        fields: [
+          {
+            key: "runsPerWeek",
+            validate: (input: unknown) =>
+              validators.validateRunsPerWeek(
+                input,
+                "runningPreferences.preferences.runsPerWeek",
+              ),
+          },
+
+          {
+            key: "longRunDay",
+            validate: (input: unknown) =>
+              validators.validateEnumField({
+                value: input,
+                type: "runningPreferences.preferences.longRunDay",
+              }),
+          },
+          {
+            key: "runTypes",
+            validate: (input: unknown) =>
+              validators.validateEnumArray({
+                value: input,
+                type: "runningPreferences.preferences.runTypes",
+              }),
+          },
+        ],
+      },
+      {
+        key: "notes",
+        validate: (input: unknown) =>
+          validators.assertString(input, "runningPreferences.notes"),
+      },
+    ],
+  },
+  {
+    key: "health",
+    fields: [
+      {
+        key: "items",
+        validate: (input: unknown) =>
+          validators.validateEnumArray({ value: input, type: "health.items" }),
+      },
+      {
+        key: "notes",
+        validate: (input: unknown) =>
+          validators.assertString(input, "health.notes"),
+      },
+    ],
+  },
+];
 
 function validateRunningProfileUpdate(
   req: Request,
@@ -89,7 +148,14 @@ function validateRunningProfileUpdate(
   next: NextFunction,
 ) {
   validators.validateJsonContentType(req);
-  const { runningPreferences, health } = req.body.profile;
+  const runningProfile = req.body;
+  validators.validateObject({
+    object: runningProfile,
+    objectName: "runningProfile",
+    fieldConfig: runningProfileFields,
+    mode: "require_some",
+  });
+  next();
 }
 
 function validateAccountUpdate(
@@ -147,4 +213,9 @@ function validateAccountUpdate(
 /*  EXPORTS                                                                                          */
 /* ================================================================================================= */
 
-export { validateUUID, validateProfileUpdate, validateAccountUpdate };
+export {
+  validateUUID,
+  validateProfileUpdate,
+  validateRunningProfileUpdate,
+  validateAccountUpdate,
+};
