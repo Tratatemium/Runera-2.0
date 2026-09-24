@@ -22,6 +22,9 @@ interface FormFieldProps {
   checked?: boolean;
   placeholder?: string;
   value: string;
+  className?: string;
+  inputClassName?: string;
+  labelClassName?: string;
   onChange: (e: React.ChangeEvent<FormFieldElement>) => void;
   onFocus?: (e: React.FocusEvent<FormFieldElement>) => void;
   onBlur?: (e: React.FocusEvent<FormFieldElement>) => void;
@@ -40,6 +43,9 @@ function FormField({
   checked,
   placeholder,
   value,
+  className,
+  inputClassName,
+  labelClassName,
   onChange,
   onFocus,
   onBlur,
@@ -71,7 +77,7 @@ function FormField({
 
   return (
     <div
-      className={`${styles.formRow} ${inputError ? styles.error : ""} ${isChoice ? styles.choiceRow : ""}`}
+      className={`${styles.formRow} ${inputError ? styles.error : ""} ${isChoice ? styles.choiceRow : ""} ${className ?? ""}`.trim()}
     >
       <div
         className={`${styles.formWrapper} ${styles[layout]} ${isChoice ? styles.choiceField : ""}`}
@@ -99,13 +105,16 @@ function FormField({
           </label>
         ) : (
           <>
-            <label htmlFor={id} className={styles.formLabel}>
+            <label
+              htmlFor={id}
+              className={`${styles.formLabel} ${labelClassName ?? ""}`.trim()}
+            >
               {label}
             </label>
             <div className={styles.inputWrapper}>
               {isTextArea ? (
                 <textarea
-                  className={`${styles.formInput} ${styles.textAreaInput}`}
+                  className={`${styles.formInput} ${styles.textAreaInput} ${inputClassName ?? ""}`.trim()}
                   aria-invalid={!!inputError}
                   aria-describedby={inputError ? `${id}-error` : undefined}
                   id={id}
@@ -120,7 +129,7 @@ function FormField({
               ) : (
                 <input
                   ref={inputRef}
-                  className={styles.formInput}
+                  className={`${styles.formInput} ${inputClassName ?? ""}`.trim()}
                   style={inputStyle}
                   aria-invalid={!!inputError}
                   aria-describedby={inputError ? `${id}-error` : undefined}
