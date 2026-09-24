@@ -245,6 +245,43 @@ function Program({ data }: ProgramProps) {
 
   return (
     <div className={styles.wrapper}>
+      {!isLoading && !program && (
+        <section className={styles.promptPreview}>
+          <p className={styles.eyebrow}>Plan inputs</p>
+          <h2>{data.goal}</h2>
+          <div className={styles.promptDetails}>
+            <span>
+              {data.startDate} to {data.endDate}
+            </span>
+            <span>
+              {data.runningPreferences.preferences.runsPerWeek ?? "Flexible"}{" "}
+              runs/week
+            </span>
+            <span>
+              Max {data.runningPreferences.constraints.maxRunMinutes ?? "-"}{" "}
+              min/run
+            </span>
+            <span>
+              Days:{" "}
+              {(data.runningPreferences.constraints.availableDays ?? [])
+                .length > 0
+                ? data.runningPreferences.constraints.availableDays
+                    ?.map((day) => day.slice(0, 3))
+                    .join(", ")
+                : "None"}
+            </span>
+            <span>{data.lastRuns.length} recent runs</span>
+            {data.profile.runningExperience && (
+              <span>Experience: {data.profile.runningExperience}</span>
+            )}
+            {data.healthConsiderations && (
+              <span>
+                Health notes: {data.healthConsiderations.items.length || "None"}
+              </span>
+            )}
+          </div>
+        </section>
+      )}
       <Button
         buttonText="Get training program"
         variant="primary"
