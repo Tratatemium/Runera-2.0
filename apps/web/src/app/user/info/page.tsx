@@ -83,6 +83,9 @@ export default function UserInfo() {
     },
   ];
 
+  const runTypes = user.runningPreferences?.preferences?.runTypes ?? [];
+  const healthItems = user.health?.items ?? [];
+
   return (
     <main className={styles.main}>
       <Panel variant="opaqueAccent" className={styles.panel}>
@@ -111,6 +114,7 @@ export default function UserInfo() {
             <span className={styles.panelLabel}>Profile</span>
             <span>Edit</span>
           </header>
+
           <div className={styles.infoGrid}>
             {profileMap.map((item) => (
               <div className={styles.infoItem} key={item.label}>
@@ -127,7 +131,11 @@ export default function UserInfo() {
         >
           <header className={styles.panelHeader}>
             <span className={styles.panelLabel}>Training Preferences</span>
-            <span>Edit</span>
+            <ButtonLink
+              linkDirection="/user/edit-running-profile"
+              linkText="Edit"
+              variant="transparentAccent"
+            />
           </header>
           <div className={styles.avalibleDays}>
             <span className={styles.prefLabel}>AvalibleDays</span>
@@ -149,13 +157,50 @@ export default function UserInfo() {
             ))}
           </div>
 
-          <div className={styles.infoGrid}>
-            {profileMap.map((item) => (
-              <div className={styles.infoItem} key={item.label}>
-                <span className={styles.infoLabel}>{item.label}</span>
-                <span className={styles.infoValue}>{item.value}</span>
+          <div className={styles.preferenceDetails}>
+            <div className={styles.detailBlock}>
+              <span className={styles.infoLabel}>Run types</span>
+              <div className={styles.detailTags}>
+                {runTypes.length > 0 ? (
+                  runTypes.map((runType) => (
+                    <span className={styles.detailTag} key={runType}>
+                      {formatLabel(runType)}
+                    </span>
+                  ))
+                ) : (
+                  <span className={styles.infoValue}>None added</span>
+                )}
               </div>
-            ))}
+            </div>
+
+            <div className={styles.detailBlock}>
+              <span className={styles.infoLabel}>Training notes</span>
+              <span className={styles.infoValue}>
+                {user.runningPreferences?.notes || "None added"}
+              </span>
+            </div>
+
+            <div className={styles.detailBlock}>
+              <span className={styles.infoLabel}>Health considerations</span>
+              <div className={styles.detailTags}>
+                {healthItems.length > 0 ? (
+                  healthItems.map((item) => (
+                    <span className={styles.detailTag} key={item}>
+                      {formatLabel(item)}
+                    </span>
+                  ))
+                ) : (
+                  <span className={styles.infoValue}>None reported</span>
+                )}
+              </div>
+            </div>
+
+            {user.health?.notes && (
+              <div className={styles.detailBlock}>
+                <span className={styles.infoLabel}>Health notes</span>
+                <span className={styles.infoValue}>{user.health.notes}</span>
+              </div>
+            )}
           </div>
         </Panel>
       </Panel>

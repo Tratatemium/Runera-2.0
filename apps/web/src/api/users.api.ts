@@ -2,6 +2,8 @@ import type {
   UserState,
   UserResponse,
   UserUpdateResponse,
+  UpdateRunningProfileRequest,
+  UpdateRunningProfileResponse,
   UserStatsResponse,
 } from "@runera/shared";
 
@@ -26,6 +28,14 @@ function apiUpdateProfile(data: { profile: UserState["profile"] }) {
   });
 }
 
+function apiUpdateRunningProfile(data: UpdateRunningProfileRequest) {
+  return apiRequest<UpdateRunningProfileResponse>({
+    path: API.users.runningProfile,
+    assertData: true,
+    options: jsonOptions("PATCH", data),
+  });
+}
+
 function apiGetMyStats() {
   return apiRequest<{ stats: UserStatsResponse }>({
     path: API.users.stats,
@@ -34,4 +44,4 @@ function apiGetMyStats() {
   });
 }
 
-export { apiGetMe, apiUpdateProfile, apiGetMyStats };
+export { apiGetMe, apiUpdateProfile, apiUpdateRunningProfile, apiGetMyStats };

@@ -22,7 +22,7 @@ interface UserResponse {
 }
 
 interface UserUpdateResponse {
-  savedProfile: Pick<UserResponse["userData"], "profile">;
+  savedProfile: UserResponse["userData"]["profile"];
 }
 
 interface UpdateRunningProfileResponse {

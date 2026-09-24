@@ -57,6 +57,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--label-color);
+  text-align: left;
 }
 
 .date {
@@ -117,7 +118,7 @@
 
 .userPref {
   --border: var(--border-width-thin) solid rgba(12, 22, 24, 0.1);
-  --value-font-size: var(--font-size-heading-lg);
+  --value-font-size: var(--font-size-heading-sm);
 
   --color: var(--color-accent-1);
   --color-bg: color-mix(
