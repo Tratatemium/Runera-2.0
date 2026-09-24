@@ -31,7 +31,7 @@ export default function Dashboard() {
               <FaPlus />
             </ButtonLink>
             <ButtonLink
-              linkDirection="/user/runs/new"
+              linkDirection="/user/training-program"
               linkText="Plan Training"
               variant="tertiary"
             >
@@ -52,7 +52,7 @@ export default function Dashboard() {
             </p>
           </div>
           <ButtonLink
-            linkDirection="/user/runs/new"
+            linkDirection="/user/training-program"
             linkText="Start Planning →"
             variant="tertiary"
           />
