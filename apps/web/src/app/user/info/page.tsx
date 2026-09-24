@@ -3,8 +3,11 @@
 import { useAuthContext } from "@/context/AuthContext";
 import { ButtonLink, Panel, Card } from "@/components/ui";
 import { formatLabel } from "@/utils/normalize.utils";
+import { icons } from "@/components/icons/icons";
 
 import styles from "./page.module.css";
+
+const EditIcon = icons.general.edit;
 
 export default function UserInfo() {
   const { user } = useAuthContext();
@@ -112,7 +115,14 @@ export default function UserInfo() {
         <Panel variant="accent" className={`${styles.panel} ${styles.profile}`}>
           <header className={styles.panelHeader}>
             <span className={styles.panelLabel}>Profile</span>
-            <span>Edit</span>
+            <ButtonLink
+              size="small"
+              linkDirection="/user/edit-profile"
+              linkText="Edit"
+              variant="transparent"
+            >
+              <EditIcon />
+            </ButtonLink>
           </header>
 
           <div className={styles.infoGrid}>
@@ -132,10 +142,13 @@ export default function UserInfo() {
           <header className={styles.panelHeader}>
             <span className={styles.panelLabel}>Training Preferences</span>
             <ButtonLink
+              size="small"
               linkDirection="/user/edit-running-profile"
               linkText="Edit"
               variant="transparentAccent"
-            />
+            >
+              <EditIcon />
+            </ButtonLink>
           </header>
           <div className={styles.avalibleDays}>
             <span className={styles.prefLabel}>AvalibleDays</span>
