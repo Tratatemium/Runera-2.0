@@ -71,9 +71,6 @@ export default function EditProfile() {
       <Panel variant="frosted" className={styles.panel}>
         <div className={styles.header}>
           <h1 className={styles.title}>Edit Profile</h1>
-          <p className={styles.subtitle}>
-            Personal information that changes rarely.
-          </p>
         </div>
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -142,31 +139,20 @@ export default function EditProfile() {
           </section>
 
           <section className={styles.section}>
-            <div className={styles.optionHeader}>
-              <span className={styles.sectionLabel}>Gender</span>
-              <span className={styles.optionHint}>Optional</span>
-            </div>
-            <div className={styles.radioGrid}>
-              {genderFields.map((field) => (
-                <label key={field.id} className={styles.radioOption}>
-                  <input
-                    type="radio"
-                    name={field.name}
-                    value={field.value}
-                    checked={formState[field.name]?.value === field.value}
-                    onChange={inputHandlers.onChange}
-                    onFocus={inputHandlers.onFocus}
-                    onBlur={inputHandlers.onBlur}
-                  />
-                  <span>{field.label}</span>
-                </label>
-              ))}
-            </div>
+            <span className={styles.sectionLabel}>Gender</span>
+            <FormRadio
+              variant="profile"
+              name="gender"
+              fieldsArray={[...genderFields]}
+              formState={formState}
+              inputHandlers={inputHandlers}
+            />
           </section>
 
           <section className={styles.section}>
+            <span className={styles.sectionLabel}>Running Experience</span>
             <FormRadio
-              label="Running Experience"
+              variant="profile"
               name="runningExperience"
               fieldsArray={[...runningExperienceFields]}
               formState={formState}

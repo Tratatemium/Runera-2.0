@@ -18,6 +18,7 @@ const mapUserResponseToState = (data: UserResponse): UserState => ({
     runningExperience: data.userData.profile.runningExperience,
   },
   stats: nullUserStats,
+  runningPreferences: data.userData.runningPreferences,
   role: data.userData.role,
 });
 

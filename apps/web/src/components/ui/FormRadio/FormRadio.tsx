@@ -8,8 +8,9 @@ import { hasKey } from "@runera/shared";
 import styles from "./FormRadio.module.css";
 
 interface FormRadioProps extends React.HTMLAttributes<HTMLDivElement> {
-  label: string;
+  label?: string;
   name: string;
+  variant: "withIcon" | "profile";
   fieldsArray: InputFieldConfig[];
   formState: FormStateValue;
   inputHandlers: InputHandlers;
@@ -17,15 +18,15 @@ interface FormRadioProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function FormRadio({
   label,
+  variant,
   name,
   fieldsArray,
   formState,
   inputHandlers,
 }: FormRadioProps) {
-  if (!hasKey(icons, name)) throw new Error(`No icons set for ${name}`);
   return (
-    <div className={styles.radioWrapper}>
-      <span className={styles.radioLabel}>{label}</span>
+    <div className={`${styles.radioWrapper} ${styles[variant]}`}>
+      {label && <span className={styles.radioLabel}>{label}</span>}
       <div className={styles.buttonsWrapper}>
         {fieldsArray.map((field) => {
           const value = field.value;
@@ -37,20 +38,24 @@ function FormRadio({
           }
 
           const iconsSet = icons[name];
+          let Icon;
 
-          if (!hasKey(iconsSet, value)) {
-            throw new Error(`No icon set for ${value}`);
+          if (iconsSet) {
+            if (!hasKey(iconsSet, value)) {
+              throw new Error(`No icon set for ${value}`);
+            }
+
+            Icon = iconsSet[value];
           }
-
-          const Icon = iconsSet[value];
 
           return (
             <FormField
               key={field.id}
+              className={styles.button}
               {...field}
               label={
                 <span className={styles.radioOptionLabel}>
-                  <Icon className={styles.radioIcon} />
+                  {Icon && <Icon className={styles.radioIcon} />}
                   <span className={styles.radioOptionText}>{field.label}</span>
                 </span>
               }
