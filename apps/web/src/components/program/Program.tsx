@@ -87,7 +87,7 @@ async function getTrainingProgram(
   data: ProgramRequestData,
 ): Promise<TrainingProgram> {
   const ai = new GoogleGenAI({
-    apiKey: process.env["GEMINI_API_KEY"],
+    apiKey: process.env["NEXT_PUBLIC_GEMINI_API_KEY"],
   });
   const config = {
     thinkingConfig: {
