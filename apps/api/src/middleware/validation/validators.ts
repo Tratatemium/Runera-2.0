@@ -17,8 +17,12 @@ function throwValidationError({
   message,
   field = undefined,
   status = 400,
-}: ValidationErrorType) {
+}: ValidationErrorType): never {
   throw new ValidationError(message, status, field ?? "");
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /* ================================================================================================= */
@@ -98,6 +102,59 @@ function assertRequestFields({
   }
 }
 
+type FieldConfig = {
+  key: string;
+  validate?: (input: unknown) => void;
+  fields?: FieldConfig;
+}[];
+
+function validateObject({
+  object,
+  fieldConfig,
+  objectName,
+  mode,
+}: {
+  object: Record<string, unknown>;
+  fieldConfig: FieldConfig;
+  objectName: string;
+  mode: "require_all" | "require_some";
+}) {
+  const fieldKeys = fieldConfig.map((field) => field.key);
+
+  assertRequestFields({
+    object,
+    objectName,
+    requiredFields: fieldKeys,
+    allowedFields: fieldKeys,
+    mode,
+  });
+
+  fieldConfig.forEach((field) => {
+    const input = object[field.key];
+    if (input == null) return;
+
+    if (field.fields) {
+      if (!isObject(input)) {
+        throwValidationError({
+          message: `${objectName}.${field.key} must be an object`,
+          field: `${objectName}.${field.key}`,
+        });
+      }
+
+      validateObject({
+        object: input,
+        fieldConfig: field.fields,
+        objectName: `${objectName}.${field.key}`,
+        mode: "require_some",
+      });
+
+      return;
+    }
+
+    field.validate?.(input);
+  });
+}
+
 function assertString(
   value: unknown,
   fieldName: string,
@@ -105,6 +162,21 @@ function assertString(
   if (typeof value !== "string") {
     throwValidationError({
       message: `${fieldName} must be a string.`,
+      field: fieldName,
+    });
+  }
+}
+
+function assertStringArray(
+  value: unknown,
+  fieldName: string,
+): asserts value is string[] {
+  if (
+    !Array.isArray(value) ||
+    !value.every((item) => typeof item === "string")
+  ) {
+    throwValidationError({
+      message: `${fieldName} must be a array of strings.`,
       field: fieldName,
     });
   }
@@ -320,39 +392,133 @@ function validatePerceivedEffort(perceivedEffort: unknown) {
   }
 }
 
+function validateRunsPerWeek(value: unknown, fieldName: string) {
+  if (typeof value === "number") {
+    validatePositiveNumber(value, fieldName);
+  } else if (value !== "flexible") {
+    throwValidationError({
+      message: `${fieldName} must be "flexible" or a positive number.`,
+      field: fieldName,
+    });
+  }
+}
+
+const enums = {
+  runType: ["base", "recovery", "tempo", "longRun", "interval", "race"],
+  weather: [
+    "sunny",
+    "partlyCloudy",
+    "cloudy",
+    "rain",
+    "snow",
+    "windy",
+    "hot",
+    "cold",
+  ],
+  gender: ["female", "male", "non_binary", "prefer_not_to_say"],
+  runningExperience: ["beginner", "some", "experienced", "competitive"],
+  weekday: [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ],
+  "health.items": [
+    "previous_injury",
+    "current_injury",
+    "breathing",
+    "joint_mobility",
+    "other",
+  ],
+  "runningPreferences.preferences.runTypes": [
+    "easy",
+    "long",
+    "tempo",
+    "intervals",
+  ],
+} as const;
+
 function validateEnumField({
   value,
   type,
 }: {
   value: unknown;
-  type: "weather" | "runType";
+  type:
+    | "weather"
+    | "runType"
+    | "gender"
+    | "runningExperience"
+    | "runningPreferences.preferences.longRunDay";
 }) {
-  assertAllowed(type, "type", ["weather", "runType"]);
+  assertAllowed(type, "type", [
+    "weather",
+    "runType",
+    "gender",
+    "runningExperience",
+    "runningPreferences.preferences.longRunDay",
+  ]);
 
   assertString(value, type);
-
-  const enums = {
-    runType: ["base", "recovery", "tempo", "longRun", "interval", "race"],
-    weather: [
-      "sunny",
-      "partlyCloudy",
-      "cloudy",
-      "rain",
-      "snow",
-      "windy",
-      "hot",
-      "cold",
-    ],
-  } as const;
+  const getTypeEnum = () => {
+    if (type === "runningPreferences.preferences.longRunDay")
+      return enums["weekday"];
+    return enums[type];
+  };
 
   try {
-    assertAllowed(value, type, enums[type]);
+    assertAllowed(value, type, getTypeEnum());
   } catch (err) {
     throwValidationError({
       message: err instanceof Error ? err.message : String(err),
       field: type,
     });
   }
+}
+
+function validateEnumArray({
+  value,
+  type,
+}: {
+  value: unknown;
+  type:
+    | "health.items"
+    | "runningPreferences.constraints.availableDays"
+    | "runningPreferences.preferences.runTypes";
+}) {
+  assertAllowed(type, "type", [
+    "health.items",
+    "runningPreferences.constraints.availableDays",
+    "runningPreferences.preferences.runTypes",
+  ]);
+
+  const getTypeEnum = () => {
+    if (type === "runningPreferences.constraints.availableDays")
+      return enums["weekday"];
+    return enums[type];
+  };
+
+  assertStringArray(value, type);
+
+  const isUnique = new Set(value).size === value.length;
+  if (!isUnique)
+    throwValidationError({
+      message: `Recived duplicated values in ${type}: [ ${value.join(", ")}]`,
+      field: type,
+    });
+
+  value.forEach((str) => {
+    try {
+      assertAllowed(str, type, getTypeEnum());
+    } catch (err) {
+      throwValidationError({
+        message: err instanceof Error ? err.message : String(err),
+        field: type,
+      });
+    }
+  });
 }
 
 /* ================================================================================================= */
@@ -363,7 +529,9 @@ export {
   throwValidationError,
   validateJsonContentType,
   assertRequestFields,
+  validateObject,
   assertString,
+  assertStringArray,
   validateUUID,
   validateISO,
   validatePositiveNumber,
@@ -372,5 +540,9 @@ export {
   validatePassword,
   validateName,
   validatePerceivedEffort,
+  validateRunsPerWeek,
   validateEnumField,
+  validateEnumArray,
 };
+
+export type { FieldConfig };

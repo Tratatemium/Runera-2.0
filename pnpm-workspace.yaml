@@ -2,7 +2,9 @@ packages:
   - "apps/*"
   - "packages/*"
 allowBuilds:
+  '@google/genai': false
   bcrypt: false
   esbuild: false
   mongodb-memory-server: false
+  protobufjs: false
   unrs-resolver: false

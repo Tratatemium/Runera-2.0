@@ -1,0 +1,241 @@
+.main {
+  width: min(100%, 56rem);
+  margin: 0 auto;
+  padding: clamp(2rem, 1.2rem + 2.2vw, 3.5rem) 0 4.5rem;
+}
+
+.panel {
+  width: min(100%, 42rem);
+  margin: 0 auto;
+  padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+}
+
+.header {
+  width: 100%;
+  margin-bottom: var(--gap-xl);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: var(--font-size-heading-xl);
+  line-height: 1;
+  font-weight: var(--font-weight-bold);
+}
+
+.subtitle {
+  margin: var(--gap-sm) 0 0;
+  color: color-mix(in srgb, var(--color-primary) 68%, transparent);
+  font-size: var(--font-size-body-sm);
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  gap: var(--gap-xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-md);
+}
+
+.sectionLabel {
+  color: color-mix(in srgb, var(--color-accent-1) 82%, var(--color-primary));
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hint {
+  color: color-mix(in srgb, var(--color-primary) 52%, transparent);
+  font-size: var(--font-size-body-xs);
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-sm);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: var(--gap-sm) var(--gap-md);
+  border: 1px solid color-mix(in srgb, var(--color-accent-1) 22%, white);
+  border-radius: var(--border-radius-md);
+  background: color-mix(in srgb, var(--color-secondary) 82%, white);
+  color: var(--color-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: 140ms ease;
+}
+
+.choice:hover,
+.choice.selected {
+  border-color: var(--color-accent-1);
+  background: color-mix(in srgb, var(--color-accent-1) 14%, white);
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--color-accent-1) 12%, transparent);
+  transform: translateY(-1px);
+}
+
+.choice input,
+.checkItem input {
+  accent-color: var(--color-accent-1);
+  margin: 0 var(--gap-sm) 0 0;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+}
+
+.choice input:focus-visible + span {
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 4px;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.numberInput {
+  width: 5rem;
+  padding: 0.7em 0.8em;
+  border: 1px solid color-mix(in srgb, var(--color-accent-1) 25%, white);
+  border-radius: var(--border-radius-md);
+  background: color-mix(in srgb, var(--color-secondary) 85%, white);
+  color: var(--color-primary);
+  font: inherit;
+  text-align: center;
+}
+
+.numberInput:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-1);
+  background: white;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-1) 20%, white);
+}
+
+.numberInput:disabled {
+  opacity: 0.55;
+}
+
+.unit {
+  color: color-mix(in srgb, var(--color-primary) 68%, transparent);
+  font-size: var(--font-size-body-sm);
+}
+
+.toggleButton {
+  margin-left: var(--gap-md);
+  padding: var(--gap-sm) var(--gap-md);
+  border: 1px solid color-mix(in srgb, var(--color-accent-1) 25%, white);
+  border-radius: var(--border-radius-md);
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.toggleButton.active {
+  border-color: var(--color-accent-1);
+  background: color-mix(in srgb, var(--color-accent-1) 14%, white);
+}
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  color: var(--color-primary);
+  font-size: var(--font-size-body-sm);
+  cursor: pointer;
+}
+
+.healthChoiceRow {
+  display: flex;
+  gap: var(--gap-sm);
+}
+
+.healthChoiceRow .choice {
+  justify-content: flex-start;
+  width: 5rem;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 5rem;
+  padding: 0.8em 0.9em;
+  border: 1px solid color-mix(in srgb, var(--color-accent-1) 25%, white);
+  border-radius: var(--border-radius-md);
+  background: color-mix(in srgb, var(--color-secondary) 85%, white);
+  color: var(--color-primary);
+  font: inherit;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.submitWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  margin-top: var(--gap-sm);
+}
+
+.errorText {
+  margin: 0;
+  color: var(--error-color);
+  font-size: var(--font-size-body-sm);
+}
+
+.submit {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--gap-md);
+}
+
+@media (max-width: 760px) {
+  .main {
+    width: 94%;
+    padding-top: 2rem;
+  }
+
+  .panel {
+    width: min(100%, 560px);
+  }
+
+  .choiceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .submit {
+    flex-direction: column;
+  }
+
+  .submit > * {
+    width: 100%;
+  }
+}

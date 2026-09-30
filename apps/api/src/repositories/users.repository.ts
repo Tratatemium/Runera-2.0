@@ -1,6 +1,9 @@
 import type { DBUser, DBCredentials } from "../models/users.models.js";
 import type { DBRun } from "../models/runs.models.js";
-import type { UpdateProfileRequest } from "@runera/shared";
+import type {
+  UpdateProfileRequest,
+  UpdateRunningProfileRequest,
+} from "@runera/shared";
 
 import { randomUUID } from "crypto";
 
@@ -34,7 +37,7 @@ async function findAllUsers() {
 
 async function updateLastLogin(foundUser: DBUser) {
   const email = foundUser.account.email;
-  const result = await User.updateOne(
+  const result = await User.findOneAndUpdate(
     { "account.email": email },
     { $set: { "account.lastLogin": new Date() } },
   );
@@ -67,14 +70,29 @@ async function updateProfile(
   return result?.profile ?? null;
 }
 
+async function updateRunningProfile(
+  userId: string,
+  runningProfilePatch: UpdateRunningProfileRequest,
+) {
+  const result = await User.findOneAndUpdate(
+    { userId },
+    { $set: runningProfilePatch },
+    { returnDocument: "after" },
+  );
+  return result
+    ? { runningPreferences: result.runningPreferences, health: result.health }
+    : null;
+}
+
 async function updateAccount(
   userId: string,
   identifierName: string,
   newValue: string,
 ) {
-  const result = await User.updateOne(
+  const result = await User.findOneAndUpdate(
     { userId },
     { $set: { [`account.${identifierName}`]: newValue } },
+    { returnDocument: "after" },
   );
   return result;
 }
@@ -83,9 +101,10 @@ async function updateCredentials(
   userId: string,
   newCredentials: DBCredentials,
 ) {
-  const result = await User.updateOne(
+  const result = await User.findOneAndUpdate(
     { userId },
     { $set: { credentials: newCredentials } },
+    { returnDocument: "after" },
   );
   return result;
 }
@@ -276,6 +295,7 @@ export {
   updateLastLogin,
   addNewUser,
   updateProfile,
+  updateRunningProfile,
   updateAccount,
   updateCredentials,
   incrementAccessTokenVersion,

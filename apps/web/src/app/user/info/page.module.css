@@ -1,7 +1,7 @@
 .main {
-  width: min(760px, 92%);
+  width: min(40rem, 100%);
   margin: 0 auto;
-  padding: 2.4rem 0 4rem;
+  padding: var(--gap-xl);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,57 +11,46 @@
   isolation: isolate;
 }
 
-.main::before,
-.main::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
+.panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--gap-xl);
+  gap: var(--gap-xl);
 }
 
-.main::before {
-  width: min(40rem, 80vw);
-  height: min(40rem, 80vw);
-  top: -9rem;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(246, 190, 154, 0.28) 0%,
-    transparent 62%
-  );
+.panelHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.main::after {
-  width: min(34rem, 70vw);
-  height: min(24rem, 56vw);
-  bottom: 0;
-  right: 2%;
-  border-radius: 45% 55% 60% 40%;
-  background: radial-gradient(
-    circle at 65% 40%,
-    rgba(209, 172, 0, 0.18) 0%,
-    transparent 70%
-  );
+.panelLabel {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 5.6rem;
   height: 5.6rem;
+  margin-top: var(--gap-md);
+  font-size: 2.15rem;
+  color: var(--color-secondary);
   border-radius: 50%;
   background: linear-gradient(
     150deg,
     var(--color-accent-1) 0%,
     color-mix(in srgb, var(--color-accent-1), var(--color-accent-2) 45%) 100%
   );
-  color: var(--color-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.15rem;
   font-weight: var(--font-weight-bold);
-  margin-bottom: 0.5rem;
   box-shadow:
     0 12px 24px rgba(0, 70, 67, 0.2),
     0 0 0 4px rgba(255, 255, 255, 0.55);
@@ -71,65 +60,154 @@
   margin: 0;
   font-size: var(--font-size-heading-xl);
   font-weight: var(--font-weight-bold);
-  line-height: 1.2;
+  color: var(--color-secondary);
+  line-height: 1;
 }
 
 .username {
-  margin: 0 0 1.05rem;
+  margin-bottom: var(--gap-lg);
   font-size: var(--font-size-body-sm);
-  color: color-mix(in srgb, var(--color-primary) 72%, white);
+  color: var(--color-secondary);
 }
 
 .actions {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 0.8rem;
-  margin: 0.1rem 0 1.25rem;
+  gap: var(--gap-lg);
+}
+
+.profile {
+  color: color-mix(in srgb, var(--color-secondary) 75%, transparent);
 }
 
 .infoGrid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
+  padding: var(--gap-md);
+  padding-top: 0;
+}
+
+.infoGrid > * {
+  border-right: 1px solid
+    color-mix(in srgb, var(--color-secondary) 25%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-secondary) 25%, transparent);
+}
+
+.infoGrid > *:nth-child(2n) {
+  border-right: none;
+}
+
+.infoGrid > *:nth-last-child(-n + 2) {
+  border-bottom: none;
 }
 
 .infoItem {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.8rem;
-  padding: 1.05rem 1.2rem;
-  background: linear-gradient(
-    155deg,
-    rgba(250, 244, 211, 0.9) 0%,
-    rgba(255, 255, 255, 0.8) 100%
-  );
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(12, 22, 24, 0.1);
-  border-radius: 0.9rem;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.55) inset,
-    0 8px 18px rgba(12, 22, 24, 0.06);
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.16s ease;
+  padding: var(--gap-md);
 }
 
 .infoLabel {
-  font-size: var(--font-size-body-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-accent-1);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-regular);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .infoValue {
+  font-size: var(--font-size-body-md);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
+  color: var(--color-secondary);
   text-align: left;
   word-break: break-word;
+}
+
+.preferences {
+  color: color-mix(in srgb, var(--color-accent-1) 70%, transparent);
+}
+
+.prefLabel {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-regular);
+}
+
+.avalibleDays {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-sm);
+  text-align: left;
+}
+
+.daysWrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-sm);
+}
+
+.weekday {
+  padding: var(--gap-sm) var(--gap-lg);
+  border-radius: var(--border-radius-lg);
+  background-color: color-mix(in srgb, var(--color-accent-4) 10%, transparent);
+  color: var(--color-secondary);
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.avalible {
+  background-color: var(--color-accent-1);
+}
+
+.otherPrefsWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-lg);
+}
+
+.preferenceDetails {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+  padding: var(--gap-md);
+  border-top: 1px solid
+    color-mix(in srgb, var(--color-secondary) 25%, transparent);
+  text-align: left;
+}
+
+.detailBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.detailTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+}
+
+.detailTag {
+  padding: var(--gap-sm) var(--gap-md);
+  border-radius: var(--border-radius-md);
+  background: color-mix(in srgb, var(--color-accent-1) 35%, transparent);
+  color: var(--color-secondary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 @media (max-width: 700px) {
@@ -148,6 +226,18 @@
   }
 
   .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .otherPrefsWrapper {
+    grid-template-columns: repeat(2, minmax(10.2rem, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .otherPrefsWrapper {
     grid-template-columns: 1fr;
   }
 }

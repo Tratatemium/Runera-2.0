@@ -54,10 +54,31 @@ const VALID_PROFILE_DATA = {
   weightKg: 75,
 };
 
+// Common running profile data template
+const VALID_RUNNING_PROFILE_DATA = {
+  runningPreferences: {
+    constraints: {
+      availableDays: ["monday", "wednesday", "saturday"],
+      maxRunMinutes: 90,
+    },
+    preferences: {
+      runsPerWeek: 3,
+      longRunDay: "saturday",
+      runTypes: ["easy", "long"],
+    },
+    notes: "Prefer routes with minimal traffic.",
+  },
+  health: {
+    items: ["previous_injury"],
+    notes: "Occasional knee discomfort after long runs.",
+  },
+};
+
 export {
   TEST_USERS,
   VALID_RUN_DATA,
   TEST_RUN_IDS,
   VALID_USER_DATA,
   VALID_PROFILE_DATA,
+  VALID_RUNNING_PROFILE_DATA,
 };

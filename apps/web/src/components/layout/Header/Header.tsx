@@ -14,7 +14,11 @@ function Header() {
   const pathname = usePathname();
   const { user } = useAuthContext();
 
-  const { list: ListIcon, dashboard: DashboardIcon } = icons.general;
+  const {
+    list: ListIcon,
+    dashboard: DashboardIcon,
+    calendar: CalendarIcon,
+  } = icons.general;
 
   return (
     <header className={styles.header}>
@@ -24,6 +28,16 @@ function Header() {
       <div className={styles.headerContent}>
         {user ? (
           <>
+            <ButtonLink
+              linkDirection="/user/training-program"
+              active={pathname === "/training-program"}
+              linkText="Program"
+              variant="transparent"
+              size="small"
+            >
+              <CalendarIcon />
+            </ButtonLink>
+
             <ButtonLink
               linkDirection="/user/dashboard"
               active={pathname === "/user/dashboard"}

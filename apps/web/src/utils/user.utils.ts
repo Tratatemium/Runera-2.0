@@ -14,8 +14,11 @@ const mapUserResponseToState = (data: UserResponse): UserState => ({
     dateOfBirth: data.userData.profile.dateOfBirth,
     heightCm: data.userData.profile.heightCm,
     weightKg: data.userData.profile.weightKg,
+    gender: data.userData.profile.gender,
+    runningExperience: data.userData.profile.runningExperience,
   },
   stats: nullUserStats,
+  runningPreferences: data.userData.runningPreferences,
   role: data.userData.role,
 });
 
@@ -26,6 +29,8 @@ const profileKeys = [
   "dateOfBirth",
   "heightCm",
   "weightKg",
+  "gender",
+  "runningExperience",
 ] as const;
 
 type UserAccountKey = (typeof accountKeys)[number];

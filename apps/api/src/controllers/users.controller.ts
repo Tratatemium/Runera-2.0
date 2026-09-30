@@ -33,6 +33,16 @@ async function updateProfile(req: Request, res: Response) {
   sendSuccess(res, { statusCode: 200, data: { savedProfile } });
 }
 
+async function updateRunningProfile(req: Request, res: Response) {
+  const userId = req.user.userId;
+  const runningProfile = req.body;
+  const savedRunningProfile = await usersService.updateRunningProfile(
+    userId,
+    runningProfile,
+  );
+  sendSuccess(res, { statusCode: 200, data: { savedRunningProfile } });
+}
+
 async function updateAccount(req: Request, res: Response) {
   const { userId, email: currentEmail } = req.user;
   const currentPassword = req.body.currentPassword;
@@ -58,6 +68,7 @@ export {
   getAllUsers,
   getMe,
   updateProfile,
+  updateRunningProfile,
   updateAccount,
   getUserStats,
 };

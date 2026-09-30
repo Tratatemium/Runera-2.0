@@ -51,3 +51,31 @@
   text-align: left;
   color: var(--error-color);
 }
+
+.withIcon {
+}
+
+.profile {
+}
+
+.profile .buttonsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: fit-content;
+}
+
+.profile .button {
+  margin: 0;
+}
+
+.profile .button > * {
+  width: 100%;
+}
+
+.profile .button > * > * {
+  border-radius: var(--border-radius-lg);
+}
+
+.profile .radioOptionText {
+  font-size: var(--font-size-body-sm);
+}

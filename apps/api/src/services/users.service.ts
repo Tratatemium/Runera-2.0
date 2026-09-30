@@ -1,5 +1,6 @@
 import type {
   UpdateProfileRequest,
+  UpdateRunningProfileRequest,
   UpdateAccountRequest,
   UserStatsResponse,
 } from "@runera/shared";
@@ -33,6 +34,18 @@ async function updateProfile(
   return savedProfile;
 }
 
+async function updateRunningProfile(
+  userId: string,
+  runningProfilePatch: UpdateRunningProfileRequest,
+) {
+  const savedRunningProfile = await usersRepo.updateRunningProfile(
+    userId,
+    runningProfilePatch,
+  );
+  if (!savedRunningProfile) throwUserNotFoundError(userId);
+  return savedRunningProfile;
+}
+
 async function updateAccount(
   userId: string,
   fieldToUpdate: "password" | "email" | "username",
@@ -60,7 +73,7 @@ async function updateAccount(
       break;
   }
 
-  if (result?.matchedCount === 0) throwUserNotFoundError(userId);
+  if (!result) throwUserNotFoundError(userId);
 }
 
 async function getUserStats(userId: string): Promise<UserStatsResponse> {
@@ -71,4 +84,11 @@ async function getUserStats(userId: string): Promise<UserStatsResponse> {
   return normalizedStats;
 }
 
-export { getUser, getAllUsers, updateProfile, updateAccount, getUserStats };
+export {
+  getUser,
+  getAllUsers,
+  updateProfile,
+  updateRunningProfile,
+  updateAccount,
+  getUserStats,
+};

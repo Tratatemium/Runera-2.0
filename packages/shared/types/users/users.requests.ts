@@ -1,8 +1,10 @@
-import type { UserState } from "./users.types";
+import type { UserState } from "./users.types.js";
 
-interface UpdateProfileRequest {
-  profile: UserState["profile"];
-}
+type UpdateProfileRequest = Pick<UserState, "profile">;
+type UpdateRunningProfileRequest = Pick<
+  UserState,
+  "runningPreferences" | "health"
+>;
 
 type UpdateAccountRequest =
   | {
@@ -24,4 +26,8 @@ type UpdateAccountRequest =
       newUsername: string;
     };
 
-export type { UpdateProfileRequest, UpdateAccountRequest };
+export type {
+  UpdateProfileRequest,
+  UpdateAccountRequest,
+  UpdateRunningProfileRequest,
+};

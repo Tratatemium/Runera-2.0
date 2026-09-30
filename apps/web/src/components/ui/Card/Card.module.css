@@ -5,7 +5,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: var(--gap-lg-plus);
+  padding: var(--padding);
   border-radius: var(--border-radius-xl);
 
   color: var(--color);
@@ -57,6 +57,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--label-color);
+  text-align: left;
 }
 
 .date {
@@ -68,6 +69,7 @@
   font-size: var(--value-font-size);
   font-weight: var(--font-weight-bold);
   line-height: 1.05;
+  text-align: left;
 }
 
 .unit {
@@ -88,6 +90,8 @@
   --label-color: var(--color-primary);
   --date-color: var(--accent-mix-3);
 
+  --padding: var(--gap-lg-plus);
+
   --decor-display: block;
   backdrop-filter: blur(8px);
 }
@@ -105,6 +109,31 @@
 
   --label-color: var(--color-secondary);
   --date-color: var(--accent-mix-3);
+
+  --padding: var(--gap-lg-plus);
+
+  --decor-display: none;
+  /* backdrop-filter: blur(8px); */
+}
+
+.userPref {
+  --border: var(--border-width-thin) solid rgba(12, 22, 24, 0.1);
+  --value-font-size: var(--font-size-heading-sm);
+
+  --color: var(--color-accent-1);
+  --color-bg: color-mix(
+    in srgb,
+    var(--color-accent-1) 5%,
+    rgba(255, 255, 255, 0.823)
+  );
+
+  --icon-color: var(--color-secondary);
+  --icon-bg: color-mix(in srgb, var(--color-accent-1) 40%, transparent);
+
+  --label-color: color-mix(in srgb, var(--color-accent-1) 75%, transparent);
+  --date-color: var(--accent-mix-3);
+
+  --padding: var(--gap-md);
 
   --decor-display: none;
   /* backdrop-filter: blur(8px); */
